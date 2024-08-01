@@ -19,6 +19,8 @@ namespace Hamtory_WPF
         public MainWindow()
         {
             InitializeComponent();
+
+            //윤대희
         }
     }
 }
