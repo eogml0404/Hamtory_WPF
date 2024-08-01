@@ -19,6 +19,8 @@ namespace Hamtory_WPF
         public MainWindow()
         {
             InitializeComponent();
+
+            MessageBox.Show("연동연습1");
         }
     }
 }
