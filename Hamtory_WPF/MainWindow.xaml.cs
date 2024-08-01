@@ -20,11 +20,8 @@ namespace Hamtory_WPF
         {
             InitializeComponent();
 
-
-            MessageBox.Show("연동연습1");
-
-            //윤대희
-
+            // 손현진
+      
         }
     }
 }
