@@ -11,20 +11,24 @@
 
     <Grid>
         <Grid>
-
-            <Grid HorizontalAlignment="Left" Height="240"  Margin="451,22,0,0" VerticalAlignment="Top" Width="200">
-                <lvc:Gauge  Margin="0,60,0,0"
+            <Border HorizontalAlignment="Left" Height="240" Margin="451,22,0,0" VerticalAlignment="Top" Width="200" CornerRadius="20">
+                <Border.Background>
+                    <SolidColorBrush Color="White" Opacity="0.1"/>
+                </Border.Background>
+                <Grid>
+                    <Label Margin="0,38,0,146" Foreground="White" HorizontalAlignment="Center" FontSize="20" FontFamily="Segoe UI Variable Small Semibold">Melt Temp</Label>
+                    <lvc:Gauge  Margin="10,60,10,0"
                    From="0" To="100" Value="50"
                    LabelsVisibility="Collapsed" Foreground="White">
-                    <lvc:Gauge.GaugeActiveFill>
-                        <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
-                            <GradientStop Color="#FFFF1515" Offset="0"/>
-                            <GradientStop Color="#FFFFF000" Offset="1"/>
-                        </LinearGradientBrush>
-                    </lvc:Gauge.GaugeActiveFill>
-                </lvc:Gauge>
-
-            </Grid>
+                        <lvc:Gauge.GaugeActiveFill>
+                            <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
+                                <GradientStop Color="#FFFF1515" Offset="0"/>
+                                <GradientStop Color="#FFFFF000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </lvc:Gauge.GaugeActiveFill>
+                    </lvc:Gauge>
+                </Grid>
+            </Border>
             <Grid HorizontalAlignment="Left" Height="240" Margin="665,20,0,0" VerticalAlignment="Top" Width="225" Background="#FFFFD400" Opacity="0.5"></Grid>
             <Grid HorizontalAlignment="Left" Height="240" Margin="435,268,0,0" VerticalAlignment="Top" Width="225" Background="#FF00FF3D" Opacity="0.5"></Grid>
             <Grid HorizontalAlignment="Left" Height="240" Margin="665,268,0,0" VerticalAlignment="Top" Width="225" Background="#FF00F6FF" Opacity="0.5"></Grid>
