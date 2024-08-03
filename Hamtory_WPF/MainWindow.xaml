@@ -1,31 +1,40 @@
 ﻿<Window x:Class="Hamtory_WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="CSV Reader" Height="450" Width="800">
+        Title="History Data Reader" Height="600" Width="800">
     <Grid>
-        <!-- 날짜 선택: 시작 날짜 -->
-        <Label Content="Start Date:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,0,0,0"/>
-        <DatePicker Name="datePickerStart" Width="120" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="200,5,0,0"/>
-        <TextBox Name="txtStartTime" Width="50" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="330,5,0,0" Text="00:00"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0">
+            <!-- 날짜 선택: 시작 날짜 -->
+            <Label Content="Start Date:" VerticalAlignment="Center" Margin="5"/>
+            <DatePicker Name="datePickerStart" Width="120" Height="25" VerticalAlignment="Center" Margin="5"/>
+            <TextBox Name="txtStartTime" Width="50" Height="25" VerticalAlignment="Center" Margin="5" Text="00:00"/>
 
-        <!-- 날짜 선택: 종료 날짜 -->
-        <Label Content="End Date:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="400,0,0,0"/>
-        <DatePicker Name="datePickerEnd" Width="120" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="480,5,0,0"/>
-        <TextBox Name="txtEndTime" Width="50" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="610,5,0,0" Text="23:59"/>
-
-        <!-- 필터 버튼 -->
-        <Button Name="btnFilter" Content="Filter" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="680,0,0,0" Click="BtnFilter_Click"/>
+            <!-- 날짜 선택: 종료 날짜 -->
+            <Label Content="End Date:" VerticalAlignment="Center" Margin="15,0,5,0"/>
+            <DatePicker Name="datePickerEnd" Width="120" Height="25" VerticalAlignment="Center" Margin="5"/>
+            <TextBox Name="txtEndTime" Width="50" Height="25" VerticalAlignment="Center" Margin="5" Text="23:59"/>
+            <Button x:Name="btnFilter" Content="Filter" Width="100" Height="30" Click="BtnFilter_Click" RenderTransformOrigin="1.213,0.658"/>
+        </StackPanel>
 
         <!-- 데이터 그리드 -->
-        <DataGrid Name="dataGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,50,0,0" AutoGenerateColumns="False" Width="780" Height="350">
+        <DataGrid Name="dataGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,60,10,0" AutoGenerateColumns="False" Width="760" Height="400">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Date" Binding="{Binding STD_DT}" Width="*"/>
                 <DataGridTextColumn Header="Num" Binding="{Binding NUM}" Width="*"/>
                 <DataGridTextColumn Header="Melt Temp" Binding="{Binding MELT_TEMP}" Width="*"/>
                 <DataGridTextColumn Header="Motor Speed" Binding="{Binding MOTORSPEED}" Width="*"/>
                 <DataGridTextColumn Header="Melt Weight" Binding="{Binding MELT_WEIGHT}" Width="*"/>
-                <DataGridTextColumn Header="Insp" Binding="{Binding INSP}" Width="*"/>
+                <DataGridTextColumn Header="INSP" Binding="{Binding INSP}" Width="*"/>
+                <DataGridTextColumn Header="TAG" Binding="{Binding TAG}" Width="*"/>
+                <!-- TAG 열 추가 -->
             </DataGrid.Columns>
         </DataGrid>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,10,0,10">
+            <!-- 통계 버튼 -->
+            <Button Name="btnShowStatistics" Content="Show Statistics" Width="150" Height="30" Margin="10,0,0,0" Click="BtnShowStatistics_Click"/>
+            <!-- NG 분포도 버튼 -->
+            <Button Name="btnShowNGDistribution" Content="Show NG분포도" Width="150" Height="30" Margin="10,0,0,0" Click="BtnShowNGDistribution_Click"/>
+        </StackPanel>
     </Grid>
 </Window>

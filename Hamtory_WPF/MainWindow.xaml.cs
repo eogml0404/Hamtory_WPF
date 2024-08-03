@@ -1,10 +1,10 @@
 ﻿using CsvHelper;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -17,15 +17,14 @@ namespace Hamtory_WPF
         public MainWindow()
         {
             InitializeComponent();
-            LoadCsvFile(); // 윈도우가 초기화될 때 CSV 파일을 자동으로 로드
+            LoadCsvFile();
         }
 
         private void LoadCsvFile()
         {
             try
             {
-                // CSV 파일의 절대 경로를 설정합니다.
-                string relativePath = "melting_tank.csv"; // CSV 파일의 이름
+                string relativePath = @"C:\Users\dksje\source\repos\Hamtory_WPF\Hamtory_WPF\bin\Debug\melting_tank.csv"; // 실행 디렉토리 기준 상대 경로 설정
                 string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativePath);
 
                 if (File.Exists(fullPath))
@@ -68,7 +67,7 @@ namespace Hamtory_WPF
             }
         }
 
-        private void BtnFilter_Click(object sender, RoutedEventArgs e)
+        private async void BtnFilter_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -83,41 +82,137 @@ namespace Hamtory_WPF
                     if (DateTime.TryParseExact(startDate.ToString("yyyy-MM-dd") + " " + startTime, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime startDateTime) &&
                         DateTime.TryParseExact(endDate.ToString("yyyy-MM-dd") + " " + endTime, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime endDateTime))
                     {
-                        var filteredRows = dataTable.AsEnumerable()
-                            .Where(row =>
+                        var filteredRows = await Task.Run(() =>
+                        {
+                            var filteredDataTable = dataTable.Clone();
+                            foreach (DataRow row in dataTable.Rows)
                             {
                                 if (DateTime.TryParse(row["STD_DT"].ToString(), out DateTime rowDateTime))
                                 {
-                                    // 날짜와 시간 비교
-                                    return rowDateTime >= startDateTime && rowDateTime <= endDateTime;
+                                    if (rowDateTime >= startDateTime && rowDateTime <= endDateTime)
+                                    {
+                                        filteredDataTable.ImportRow(row);
+                                    }
                                 }
-                                return false;
-                            });
+                            }
+                            return filteredDataTable;
+                        });
 
-                        if (filteredRows.Any())
+                        if (filteredRows.Rows.Count > 0)
                         {
-                            DataTable filteredTable = filteredRows.CopyToDataTable();
-                            dataGrid.ItemsSource = filteredTable.DefaultView;
+                            Dispatcher.Invoke(() => dataGrid.ItemsSource = filteredRows.DefaultView);
                         }
                         else
                         {
-                            dataGrid.ItemsSource = null;
+                            Dispatcher.Invoke(() => dataGrid.ItemsSource = null);
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Please enter valid times in HH:mm format.");
+                        MessageBox.Show("유효한 시간을 HH:mm 형식으로 입력하세요.");
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Please select valid dates.");
+                    MessageBox.Show("유효한 날짜를 선택하세요.");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error filtering data: {ex.Message}");
+                MessageBox.Show($"데이터 필터링 중 오류 발생: {ex.Message}");
             }
+        }
+
+        private void BtnShowStatistics_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataGrid.ItemsSource != null)
+            {
+                var filteredDataTable = ((DataView)dataGrid.ItemsSource).ToTable();
+                var statisticsTable = CalculateStatistics(filteredDataTable);
+                var statisticsWindow = new StatisticsWindow(statisticsTable);
+                statisticsWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("필터링된 데이터가 없습니다.");
+            }
+        }
+
+        private void BtnShowNGDistribution_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataGrid.ItemsSource != null)
+            {
+                var filteredDataTable = ((DataView)dataGrid.ItemsSource).ToTable();
+                var ngDistributionWindow = new NGDistributionWindow(filteredDataTable);
+                ngDistributionWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("필터링된 데이터가 없습니다.");
+            }
+        }
+
+        private DataTable CalculateStatistics(DataTable table)
+        {
+            var statisticsTable = new DataTable();
+            statisticsTable.Columns.Add("Statistic");
+            statisticsTable.Columns.Add("MELT_TEMP");
+            statisticsTable.Columns.Add("MOTORSPEED");
+            statisticsTable.Columns.Add("MELT_WEIGHT");
+            statisticsTable.Columns.Add("INSP");
+
+            var columns = new[] { "MELT_TEMP", "MOTORSPEED", "MELT_WEIGHT", "INSP" };
+
+            var averages = columns.Select(column => table.AsEnumerable().Average(row => Convert.ToDouble(row[column]))).ToArray();
+            var medians = columns.Select(column => table.AsEnumerable().Median(row => Convert.ToDouble(row[column]))).ToArray();
+            var stdDevs = columns.Select(column => table.AsEnumerable().StandardDeviation(row => Convert.ToDouble(row[column]))).ToArray();
+            var maxValues = columns.Select(column => table.AsEnumerable().Max(row => Convert.ToDouble(row[column]))).ToArray();
+            var minValues = columns.Select(column => table.AsEnumerable().Min(row => Convert.ToDouble(row[column]))).ToArray();
+
+            statisticsTable.Rows.Add("평균", FormatNumber(averages[0]), FormatNumber(averages[1]), FormatNumber(averages[2]), FormatNumber(averages[3]));
+            statisticsTable.Rows.Add("중앙값", FormatNumber(medians[0]), FormatNumber(medians[1]), FormatNumber(medians[2]), FormatNumber(medians[3]));
+            statisticsTable.Rows.Add("표준편차", FormatNumber(stdDevs[0]), FormatNumber(stdDevs[1]), FormatNumber(stdDevs[2]), FormatNumber(stdDevs[3]));
+            statisticsTable.Rows.Add("최대값", FormatNumber(maxValues[0]), FormatNumber(maxValues[1]), FormatNumber(maxValues[2]), FormatNumber(maxValues[3]));
+            statisticsTable.Rows.Add("최소값", FormatNumber(minValues[0]), FormatNumber(minValues[1]), FormatNumber(minValues[2]), FormatNumber(minValues[3]));
+
+            return statisticsTable;
+        }
+
+        private string FormatNumber(double number)
+        {
+            return number % 1 == 0 ? number.ToString("F0") : number.ToString("F2");
+        }
+    }
+
+    public static class DataTableExtensions
+    {
+        public static double StandardDeviation(this EnumerableRowCollection<DataRow> rows, Func<DataRow, double> selector)
+        {
+            var values = rows.Select(selector).ToArray();
+            var average = values.Average();
+            var sumOfSquaresOfDifferences = values.Select(val => (val - average) * (val - average)).Sum();
+            var sd = Math.Sqrt(sumOfSquaresOfDifferences / values.Length);
+            return sd;
+        }
+
+        public static double Median(this EnumerableRowCollection<DataRow> rows, Func<DataRow, double> selector)
+        {
+            var orderedValues = rows.Select(selector).OrderBy(val => val).ToArray();
+            int count = orderedValues.Length;
+            if (count == 0)
+                throw new InvalidOperationException("빈 컬렉션의 중앙값은 정의되지 않습니다.");
+
+            double median;
+            if (count % 2 == 0)
+            {
+                median = (orderedValues[count / 2 - 1] + orderedValues[count / 2]) / 2;
+            }
+            else
+            {
+                median = orderedValues[count / 2];
+            }
+
+            return median;
         }
     }
 }
