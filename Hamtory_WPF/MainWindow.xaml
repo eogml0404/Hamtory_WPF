@@ -35,6 +35,8 @@
             <Button Name="btnShowStatistics" Content="Show Statistics" Width="150" Height="30" Margin="10,0,0,0" Click="BtnShowStatistics_Click"/>
             <!-- NG 분포도 버튼 -->
             <Button Name="btnShowNGDistribution" Content="Show NG분포도" Width="150" Height="30" Margin="10,0,0,0" Click="BtnShowNGDistribution_Click"/>
+            <!-- 파일 저장 버튼 -->
+            <Button Name="btnSaveData" Content="Save Data" Width="150" Height="30" Margin="10,0,0,0" Click="BtnSaveData_Click"/>
         </StackPanel>
     </Grid>
 </Window>

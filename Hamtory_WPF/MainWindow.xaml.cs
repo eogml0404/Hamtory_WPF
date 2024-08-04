@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Microsoft.Win32;
+using ClosedXML.Excel;
 
 namespace Hamtory_WPF
 {
@@ -145,6 +147,29 @@ namespace Hamtory_WPF
                 var filteredDataTable = ((DataView)dataGrid.ItemsSource).ToTable();
                 var ngDistributionWindow = new NGDistributionWindow(filteredDataTable);
                 ngDistributionWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("필터링된 데이터가 없습니다.");
+            }
+        }
+
+        private void BtnSaveData_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataGrid.ItemsSource != null)
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Excel Files|*.xlsx";
+                saveFileDialog.Title = "Save an Excel File";
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    using (XLWorkbook wb = new XLWorkbook())
+                    {
+                        var filteredDataTable = ((DataView)dataGrid.ItemsSource).ToTable();
+                        wb.Worksheets.Add(filteredDataTable, "FilteredData");
+                        wb.SaveAs(saveFileDialog.FileName);
+                    }
+                }
             }
             else
             {
