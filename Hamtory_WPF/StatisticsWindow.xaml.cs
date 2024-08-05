@@ -11,7 +11,6 @@ namespace Hamtory_WPF
     {
         public StatisticsWindow(DataTable statisticsTable)
         {
-            InitializeComponent();
             PlotStatisticsGraph(statisticsTable);
         }
 
