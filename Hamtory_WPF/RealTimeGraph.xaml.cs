@@ -11,7 +11,7 @@ namespace Hamtory_WPF
     {
         public MainWindow()
         {
-
+            InitializeComponent();
             DataContext = new MainWindowViewModel();
 
         }
