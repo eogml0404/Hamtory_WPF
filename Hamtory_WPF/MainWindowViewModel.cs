@@ -1,7 +1,6 @@
 ﻿using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Wpf;
-using ScottPlot.Plottables;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

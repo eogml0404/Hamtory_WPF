@@ -1,5 +1,4 @@
-﻿using ScottPlot.WPF;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using LiveCharts;
 using LiveCharts.Wpf;
