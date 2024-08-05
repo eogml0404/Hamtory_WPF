@@ -3,10 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Hamtory_WPF"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:local="clr-namespace:Hamtory_WPF"
         mc:Ignorable="d"
-        Title="용해공정 모니터링" Height="620" Width="900" >
+        Title="용해공정 모니터링" Height="620" Width="900">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="Black" Offset="1"/>
@@ -23,7 +23,10 @@
             <TextBlock Text="📊" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,3,0,0"/>
         </Button>
         <Frame x:Name="frame" Content="Frame" Margin="0,65,0,0" NavigationUIVisibility="Hidden"/>
-
+        <lvc:CartesianChart x:Name="cartesianChart"
+                            Series="{Binding SeriesCollection}"
+                            AxisX="{Binding AxisXCollection}"
+                            LegendLocation="Right" Margin="0,0,425,208">
+        </lvc:CartesianChart>
     </Grid>
-
 </Window>
