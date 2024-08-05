@@ -26,7 +26,7 @@ namespace Hamtory_WPF
         {
             try
             {
-                string relativePath = @"C:\Users\dksje\source\repos\Hamtory_WPF\Hamtory_WPF\bin\Debug\melting_tank.csv"; // 실행 디렉토리 기준 상대 경로 설정
+                string relativePath = @"C:\Users\dksje\source\repos\Hamtory_WPF\Hamtory_WPF\bin\Debug\melting_tank.csv";
                 string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativePath);
 
                 if (File.Exists(fullPath))

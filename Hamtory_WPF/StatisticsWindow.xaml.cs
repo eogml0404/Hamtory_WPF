@@ -34,7 +34,7 @@ namespace Hamtory_WPF
                 PointGeometry = DefaultGeometries.Circle,
                 PointGeometrySize = 10,
                 DataLabels = true,
-                LabelPoint = point => columnName == "INSP" ? point.Y.ToString("F2") : point.Y.ToString("F0") // 소수점 조건부 표시
+                LabelPoint = point => columnName == "INSP" ? point.Y.ToString("F2") : point.Y.ToString("F0")
             };
 
             chart.Series.Clear();
@@ -45,15 +45,15 @@ namespace Hamtory_WPF
             {
                 Title = title,
                 Labels = table.Rows.Cast<DataRow>().Select(row => row["Statistic"].ToString()).ToArray(),
-                FontSize = 16 // X축 폰트 크기 설정
+                FontSize = 16
             });
 
             chart.AxisY.Clear();
             chart.AxisY.Add(new Axis
             {
                 Title = "Values",
-                LabelFormatter = value => columnName == "INSP" ? value.ToString("F2") : value.ToString("F0"), // 소수점 조건부 표시
-                FontSize = 16 // Y축 폰트 크기 설정
+                LabelFormatter = value => columnName == "INSP" ? value.ToString("F2") : value.ToString("F0"),
+                FontSize = 16
             });
         }
     }
