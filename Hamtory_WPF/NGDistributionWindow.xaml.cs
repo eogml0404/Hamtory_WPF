@@ -11,7 +11,6 @@ namespace Hamtory_WPF
     {
         public NGDistributionWindow(DataTable table)
         {
-            InitializeComponent();
             PlotNGDistribution(table);
         }
 

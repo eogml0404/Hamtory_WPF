@@ -12,13 +12,12 @@ using ClosedXML.Excel;
 
 namespace Hamtory_WPF
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow2 : Window
     {
         private DataTable dataTable;
 
-        public MainWindow()
+        public MainWindow2()
         {
-            InitializeComponent();
             LoadCsvFile();
         }
 
