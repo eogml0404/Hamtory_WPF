@@ -6,35 +6,106 @@
       xmlns:local="clr-namespace:Hamtory_WPF"
       xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
       mc:Ignorable="d" 
-      d:DesignHeight="535" d:DesignWidth="900"
+      d:DesignHeight="530" d:DesignWidth="900"
       Title="Page1">
 
-    <Grid>
-        <Grid>
-            <Border HorizontalAlignment="Left" Height="240" Margin="451,22,0,0" VerticalAlignment="Top" Width="200" CornerRadius="20">
-                <Border.Background>
+    <Page.Resources>
+        <Style x:Key="GaugeBorderStyle" TargetType="Border">
+            <Setter Property="Height" Value="240"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="Background">
+                <Setter.Value>
                     <SolidColorBrush Color="White" Opacity="0.1"/>
-                </Border.Background>
-                <Grid>
-                    <Label Margin="0,38,0,146" Foreground="White" HorizontalAlignment="Center" FontSize="20" FontFamily="Segoe UI Variable Small Semibold">Melt Temp</Label>
-                    <lvc:Gauge  Margin="10,60,10,0"
-                   From="0" To="100" Value="50"
-                   LabelsVisibility="Collapsed" Foreground="White">
-                        <lvc:Gauge.GaugeActiveFill>
-                            <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
-                                <GradientStop Color="#FFFF1515" Offset="0"/>
-                                <GradientStop Color="#FFFFF000" Offset="1"/>
-                            </LinearGradientBrush>
-                        </lvc:Gauge.GaugeActiveFill>
-                    </lvc:Gauge>
-                </Grid>
-            </Border>
-            <Grid HorizontalAlignment="Left" Height="240" Margin="665,20,0,0" VerticalAlignment="Top" Width="225" Background="#FFFFD400" Opacity="0.5"></Grid>
-            <Grid HorizontalAlignment="Left" Height="240" Margin="435,268,0,0" VerticalAlignment="Top" Width="225" Background="#FF00FF3D" Opacity="0.5"></Grid>
-            <Grid HorizontalAlignment="Left" Height="240" Margin="665,268,0,0" VerticalAlignment="Top" Width="225" Background="#FF00F6FF" Opacity="0.5"></Grid>
-            <Grid HorizontalAlignment="Left" Height="240" Margin="10,268,0,0" VerticalAlignment="Top" Width="420" Background="#FF989898" Opacity="0.5"></Grid>
-            <Grid HorizontalAlignment="Left" Height="240" Margin="10,28,0,0" VerticalAlignment="Top" Width="420" Background="#FFD9D9D9" Opacity="0.5"></Grid>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="GaugeLabelStyle" TargetType="Label">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontFamily" Value="Segoe UI Variable Small Semibold"/>
+        </Style>
+        <Style x:Key="ChartBorderStyle" TargetType="Border">
+            <Setter Property="Height" Value="240"/>
+            <Setter Property="Width" Value="420"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="#FFD9D9D9" Opacity="0.5"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
 
+    <Grid>
+        <Border Style="{StaticResource GaugeBorderStyle}" HorizontalAlignment="Left" Margin="450,20,0,0" VerticalAlignment="Top">
+            <Grid>
+                <Label Style="{StaticResource GaugeLabelStyle}" Margin="0,38,0,146">Melt Temp</Label>
+                <lvc:Gauge Margin="10,60,10,0" From="300" To="850" Value="500" LabelsVisibility="Collapsed" Foreground="White">
+                    <lvc:Gauge.GaugeActiveFill>
+                        <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
+                            <GradientStop Color="#FFE60000" Offset="0"/>
+                            <GradientStop Color="#FF0059FF" Offset="1"/>
+                        </LinearGradientBrush>
+                    </lvc:Gauge.GaugeActiveFill>
+                </lvc:Gauge>
+            </Grid>
+        </Border>
+
+        <Border Style="{StaticResource GaugeBorderStyle}" HorizontalAlignment="Left" Margin="665,20,0,0" VerticalAlignment="Top">
+            <Grid>
+                <Label Style="{StaticResource GaugeLabelStyle}" Margin="0,38,0,146">Motor Speed</Label>
+                <lvc:Gauge Margin="10,60,10,0" From="0" To="1800" Value="1700" LabelsVisibility="Collapsed" Foreground="White">
+                    <lvc:Gauge.GaugeActiveFill>
+                        <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
+                            <GradientStop Color="#FFFF1515" Offset="0"/>
+                            <GradientStop Color="#FFFFF000" Offset="1"/>
+                        </LinearGradientBrush>
+                    </lvc:Gauge.GaugeActiveFill>
+                </lvc:Gauge>
+            </Grid>
+        </Border>
+
+        <Border Style="{StaticResource GaugeBorderStyle}" HorizontalAlignment="Left" Margin="450,268,0,0" VerticalAlignment="Top">
+            <Grid>
+                <Label Style="{StaticResource GaugeLabelStyle}" Margin="0,38,0,146">Melt Weight</Label>
+                <lvc:Gauge Margin="10,60,10,0" From="0" To="700" Value="500" LabelsVisibility="Collapsed" Foreground="White">
+                    <lvc:Gauge.GaugeActiveFill>
+                        <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
+                            <GradientStop Color="#FF177900" Offset="0"/>
+                            <GradientStop Color="#FFFFF000" Offset="1"/>
+                        </LinearGradientBrush>
+                    </lvc:Gauge.GaugeActiveFill>
+                </lvc:Gauge>
+            </Grid>
+        </Border>
+
+        <!--Grid HorizontalAlignment="Left" Height="240" Margin="665,268,0,0" VerticalAlignment="Top" Width="225" Background="#FF00F6FF" Opacity="0.5"/-->
+        <Border Style="{StaticResource GaugeBorderStyle}" HorizontalAlignment="Left" Margin="665,268,0,0" VerticalAlignment="Top">
+            <Grid>
+                <Label Style="{StaticResource GaugeLabelStyle}" Margin="0,38,0,146">Insp</Label>
+                <lvc:Gauge Margin="10,60,10,0" From="0" To="4" Value="3.5" LabelsVisibility="Collapsed" Foreground="White">
+                    <lvc:Gauge.GaugeActiveFill>
+                        <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
+                            <GradientStop Color="#FF0019FF" Offset="0"/>
+                            <GradientStop Color="#FF00FFE3" Offset="1"/>
+                        </LinearGradientBrush>
+                    </lvc:Gauge.GaugeActiveFill>
+                </lvc:Gauge>
+            </Grid>
+        </Border>
+
+        <!-- Grid HorizontalAlignment="Left" Height="240" Margin="10,28,0,0" VerticalAlignment="Top" Width="420" Background="#FFD9D9D9" Opacity="0.5"/-->
+        <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Left" Margin="10,28,0,0" VerticalAlignment="Top">
+            <lvc:CartesianChart Series="{Binding SeriesCollection}" 
+                                 AxisX="{Binding XAxis}"
+                                 AxisY="{Binding YAxis}">
+            </lvc:CartesianChart>
+        </Border>
+
+
+        <Grid HorizontalAlignment="Left" Height="240" Margin="10,268,0,0" VerticalAlignment="Top" Width="420" Background="#FF989898" Opacity="0.5">
+  
         </Grid>
 
     </Grid>
