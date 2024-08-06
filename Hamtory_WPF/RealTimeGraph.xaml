@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-        xmlns:local="clr-namespace:Hamtory_WPF"
         mc:Ignorable="d"
+<<<<<<< HEAD
         Title="용해공정 모니터링" Height="620" Width="900">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -27,6 +27,38 @@
                             Series="{Binding SeriesCollection}"
                             AxisX="{Binding AxisXCollection}"
                             LegendLocation="Right" Margin="0,0,425,208">
+=======
+        Title="MainWindow" Height="450" Width="800">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- 온도, 모터 속도, 용해 무게를 위한 차트 -->
+        <lvc:CartesianChart Grid.Row="0"
+                            Series="{Binding SeriesCollectionTemperature}"
+                            AxisX="{Binding AxisXCollectionTemperature}"
+                            LegendLocation="Right">
+            <!-- Legend 추가 -->
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Values" />
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+
+        <!-- 수분 함유량을 위한 차트 -->
+        <lvc:CartesianChart Grid.Row="1"
+                            Series="{Binding SeriesCollectionMoisture}"
+                            AxisX="{Binding AxisXCollectionMoisture}"
+                            LegendLocation="Right">
+            <!-- Legend 추가 -->
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Moisture (%)"
+                          LabelFormatter="{Binding AxisYCollection2[0].LabelFormatter}" />
+                <!-- Y축 레이블 포맷 적용 -->
+            </lvc:CartesianChart.AxisY>
+>>>>>>> a9cc75a408223b6782fd63df049d67a964104581
         </lvc:CartesianChart>
     </Grid>
 </Window>

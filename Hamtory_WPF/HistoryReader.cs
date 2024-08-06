@@ -9,15 +9,19 @@ using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
 using ClosedXML.Excel;
+using LiveCharts;
+using LiveCharts.Wpf;
+using System.Windows.Media;
 
 namespace Hamtory_WPF
 {
-    public partial class MainWindow2 : Window
+    public partial class HistoryReader : Window
     {
         private DataTable dataTable;
 
-        public MainWindow2()
+        public HistoryReader()
         {
+          
             LoadCsvFile();
         }
 
@@ -25,7 +29,7 @@ namespace Hamtory_WPF
         {
             try
             {
-                string relativePath = @"C:\Users\dksje\source\repos\Hamtory_WPF\Hamtory_WPF\bin\Debug\melting_tank.csv";
+                string relativePath = @"melting_tank.csv";
                 string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativePath);
 
                 if (File.Exists(fullPath))
@@ -59,12 +63,12 @@ namespace Hamtory_WPF
                 }
                 else
                 {
-                    MessageBox.Show("CSV file not found.");
+                    MessageBox.Show("CSV 파일을 찾을 수 없습니다.");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading CSV file: {ex.Message}");
+                MessageBox.Show($"CSV 파일 로드 중 오류 발생: {ex.Message}");
             }
         }
 
@@ -102,6 +106,8 @@ namespace Hamtory_WPF
                         if (filteredRows.Rows.Count > 0)
                         {
                             Dispatcher.Invoke(() => dataGrid.ItemsSource = filteredRows.DefaultView);
+                            ShowStatistics(filteredRows);
+                            ShowNGDistribution(filteredRows);
                         }
                         else
                         {
@@ -124,42 +130,13 @@ namespace Hamtory_WPF
             }
         }
 
-        private void BtnShowStatistics_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataGrid.ItemsSource != null)
-            {
-                var filteredDataTable = ((DataView)dataGrid.ItemsSource).ToTable();
-                var statisticsTable = CalculateStatistics(filteredDataTable);
-                var statisticsWindow = new StatisticsWindow(statisticsTable);
-                statisticsWindow.Show();
-            }
-            else
-            {
-                MessageBox.Show("필터링된 데이터가 없습니다.");
-            }
-        }
-
-        private void BtnShowNGDistribution_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataGrid.ItemsSource != null)
-            {
-                var filteredDataTable = ((DataView)dataGrid.ItemsSource).ToTable();
-                var ngDistributionWindow = new NGDistributionWindow(filteredDataTable);
-                ngDistributionWindow.Show();
-            }
-            else
-            {
-                MessageBox.Show("필터링된 데이터가 없습니다.");
-            }
-        }
-
         private void BtnSaveData_Click(object sender, RoutedEventArgs e)
         {
             if (dataGrid.ItemsSource != null)
             {
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filter = "Excel Files|*.xlsx";
-                saveFileDialog.Title = "Save an Excel File";
+                saveFileDialog.Title = "엑셀 파일 저장";
                 if (saveFileDialog.ShowDialog() == true)
                 {
                     using (XLWorkbook wb = new XLWorkbook())
@@ -174,6 +151,17 @@ namespace Hamtory_WPF
             {
                 MessageBox.Show("필터링된 데이터가 없습니다.");
             }
+        }
+
+        private void ShowStatistics(DataTable filteredRows)
+        {
+            var statisticsTable = CalculateStatistics(filteredRows);
+            PlotStatisticsGraph(statisticsTable);
+        }
+
+        private void ShowNGDistribution(DataTable filteredRows)
+        {
+            PlotNGDistribution(filteredRows);
         }
 
         private DataTable CalculateStatistics(DataTable table)
@@ -200,6 +188,79 @@ namespace Hamtory_WPF
             statisticsTable.Rows.Add("최소값", FormatNumber(minValues[0]), FormatNumber(minValues[1]), FormatNumber(minValues[2]), FormatNumber(minValues[3]));
 
             return statisticsTable;
+        }
+
+        private void PlotStatisticsGraph(DataTable table)
+        {
+            PlotSingleGraph(table, "Melt Temp", "MELT_TEMP", meltTempChart, Colors.Blue);
+            PlotSingleGraph(table, "Motor Speed", "MOTORSPEED", motorSpeedChart, Colors.Red);
+            PlotSingleGraph(table, "Melt Weight", "MELT_WEIGHT", meltWeightChart, Colors.Green);
+            PlotSingleGraph(table, "INSP", "INSP", inspChart, Colors.Purple);
+        }
+
+        private void PlotSingleGraph(DataTable table, string title, string columnName, CartesianChart chart, Color color)
+        {
+            var lineSeries = new LineSeries
+            {
+                Title = title,
+                Values = new ChartValues<double>(table.Rows.Cast<DataRow>().Select(row => Convert.ToDouble(row[columnName]))),
+                Stroke = new SolidColorBrush(color),
+                Fill = Brushes.Transparent,
+                PointGeometry = DefaultGeometries.Circle,
+                PointGeometrySize = 10,
+                DataLabels = true,
+                LabelPoint = point => columnName == "INSP" ? point.Y.ToString("F2") : point.Y.ToString("F0")
+            };
+
+            chart.Series.Clear();
+            chart.Series.Add(lineSeries);
+
+            chart.AxisX.Clear();
+            chart.AxisX.Add(new Axis
+            {
+                Title = title,
+                Labels = table.Rows.Cast<DataRow>().Select(row => row["Statistic"].ToString()).ToArray(),
+                FontSize = 16
+            });
+
+            chart.AxisY.Clear();
+            chart.AxisY.Add(new Axis
+            {
+                Title = "Values",
+                LabelFormatter = value => columnName == "INSP" ? value.ToString("F2") : value.ToString("F0"),
+                FontSize = 16
+            });
+        }
+
+        private void PlotNGDistribution(DataTable table)
+        {
+            int okCount = table.AsEnumerable().Count(row => row["TAG"].ToString() == "OK");
+            int ngCount = table.AsEnumerable().Count(row => row["TAG"].ToString() == "NG");
+            int totalCount = okCount + ngCount;
+
+            double okPercentage = (double)okCount / totalCount * 100;
+            double ngPercentage = (double)ngCount / totalCount * 100;
+
+            ngPieChart.Series.Clear();
+            ngPieChart.Series.Add(new PieSeries
+            {
+                Title = "OK",
+                Values = new ChartValues<int> { okCount },
+                DataLabels = true,
+                Fill = new SolidColorBrush(Colors.Blue),
+                LabelPoint = chartPoint => $"{chartPoint.Y} ({chartPoint.Participation:P1})"
+            });
+            ngPieChart.Series.Add(new PieSeries
+            {
+                Title = "NG",
+                Values = new ChartValues<int> { ngCount },
+                DataLabels = true,
+                Fill = new SolidColorBrush(Colors.Red),
+                LabelPoint = chartPoint => $"{chartPoint.Y} ({chartPoint.Participation:P1})"
+            });
+
+            txtOKCount.Text = $"OK: {okCount} ({okPercentage:F1}%)";
+            txtNGCount.Text = $"NG: {ngCount} ({ngPercentage:F1}%)";
         }
 
         private string FormatNumber(double number)

@@ -8,7 +8,6 @@
       mc:Ignorable="d" 
       d:DesignHeight="530" d:DesignWidth="900"
       Title="Page1">
-
     <Page.Resources>
         <Style x:Key="GaugeBorderStyle" TargetType="Border">
             <Setter Property="Height" Value="240"/>
@@ -29,9 +28,10 @@
         <Style x:Key="ChartBorderStyle" TargetType="Border">
             <Setter Property="Height" Value="240"/>
             <Setter Property="Width" Value="420"/>
+            <Setter Property="CornerRadius" Value="15"/>
             <Setter Property="Background">
                 <Setter.Value>
-                    <SolidColorBrush Color="#FFD9D9D9" Opacity="0.5"/>
+                    <SolidColorBrush Color="White" Opacity="0.1"/>
                 </Setter.Value>
             </Setter>
         </Style>
@@ -96,11 +96,15 @@
         </Border>
 
         <!-- Grid HorizontalAlignment="Left" Height="240" Margin="10,28,0,0" VerticalAlignment="Top" Width="420" Background="#FFD9D9D9" Opacity="0.5"/-->
-        <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Left" Margin="10,28,0,0" VerticalAlignment="Top">
-            <lvc:CartesianChart Series="{Binding SeriesCollection}" 
-                                 AxisX="{Binding XAxis}"
-                                 AxisY="{Binding YAxis}">
+        <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top">
+            <Grid>
+            <lvc:CartesianChart x:Name="cartesianChart"
+                    Series="{Binding SeriesCollection}"
+                    AxisX="{Binding AxisXCollection}"
+                    LegendLocation="Right">
             </lvc:CartesianChart>
+            </Grid>
+
         </Border>
 
 

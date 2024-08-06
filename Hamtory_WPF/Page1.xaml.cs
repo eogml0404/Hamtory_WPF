@@ -23,6 +23,7 @@ namespace Hamtory_WPF
         public Page1()
         {
             InitializeComponent();
+            DataContext = new MainWindowViewModel();
         }
     }
 }

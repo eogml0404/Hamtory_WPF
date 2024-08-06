@@ -21,6 +21,7 @@ namespace Hamtory_WPF
         {
             InitializeComponent();
             //LoadDataFromFile("melting_tank.csv");
+
         }
 
         private void real_time_button_Click(object sender, RoutedEventArgs e)

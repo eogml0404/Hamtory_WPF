@@ -9,6 +9,7 @@
       Title="Page2">
 
     <Grid>
-        <TextBlock Background="Green"> 페이지 2</TextBlock>
+        <DatePicker HorizontalAlignment="Left" Margin="197,49,0,0" VerticalAlignment="Top"/>
+
     </Grid>
 </Page>
