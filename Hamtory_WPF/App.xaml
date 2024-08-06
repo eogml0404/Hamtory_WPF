@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
              xmlns:local="clr-namespace:Hamtory_WPF"
-             StartupUri="RealTimeGraph.xaml">
+             StartupUri="RealTimeGraph">
 
     <Application.Resources>
          

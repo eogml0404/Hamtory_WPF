@@ -21,7 +21,7 @@ namespace Hamtory_WPF
 
         public HistoryReader()
         {
-          
+            InitializeComponent();
             LoadCsvFile();
         }
 
