@@ -46,6 +46,10 @@ namespace Hamtory_WPF
             }
         }
 
-        
+        private void RawDataButton_Click(object sender, RoutedEventArgs e)
+        {
+            RawData rawDataWindow = new RawData();
+            rawDataWindow.Show();
+        }
     }
 }
