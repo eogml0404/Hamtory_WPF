@@ -7,11 +7,10 @@ using System.Windows.Media;
 
 namespace Hamtory_WPF
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow3 : Window
     {
-        public MainWindow()
+        public MainWindow3()
         {
-            InitializeComponent();
             DataContext = new MainWindowViewModel();
 
         }
