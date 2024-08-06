@@ -12,17 +12,44 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.Generic;
 
 namespace Hamtory_WPF
 {
-    /// <summary>
-    /// Page2.xaml에 대한 상호 작용 논리
-    /// </summary>
     public partial class Page2 : Page
     {
         public Page2()
         {
             InitializeComponent();
+            DateRangePickerControl.DateRangeChanged += DateRangePickerControl_DateRangeChanged;
+            opChart.LoadSampleData();
+        }
+
+        private void DateRangePickerControl_DateRangeChanged(object sender, DateRangeChangedEventArgs e)
+        {
+            if (e.StartDate.HasValue)
+            {
+                StartDateText.Text = $"{e.StartDate.Value.ToShortDateString()}";
+            }
+            else
+            {
+                StartDateText.Text = "N/A";
+            }
+
+            if (e.EndDate.HasValue)
+            {
+                EndDateText.Text = $"{e.EndDate.Value.ToShortDateString()}";
+            }
+            else
+            {
+                EndDateText.Text = "N/A";
+            }
+        }
+
+        private void RawDataButton_Click(object sender, RoutedEventArgs e)
+        {
+            RawData rawDataWindow = new RawData();
+            rawDataWindow.Show();
         }
     }
 }
