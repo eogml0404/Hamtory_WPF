@@ -133,7 +133,7 @@
         <Grid HorizontalAlignment="Left" Height="207" Margin="10,301,0,0" VerticalAlignment="Top" Width="420" Background="#FF989898" Opacity="0.5">
 
         </Grid>
-        <DatePicker x:Name="RealdatePicker" HorizontalAlignment="Left" Margin="177,265,0,0" VerticalAlignment="Top" SelectedDateChanged="RealdatePicker_SelectedDateChanged" Text="2020-3-4" />
+        <Label x:Name="ToDay" Content="Label" HorizontalAlignment="Left" Margin="107,260,0,0" VerticalAlignment="Top" Width="238" Foreground="White"/>
 
     </Grid>
 </Page>
