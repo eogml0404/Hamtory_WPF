@@ -25,11 +25,53 @@ namespace Hamtory_WPF
         private List<double> filteredMoisture;
         private int currentMoistureDataIndex = 0;
 
-        public MainWindowViewModel()
+        //현재 온도 변수 추가 (원형 차트)
+        private int currentTemperature;
+        public int CurrentTemperature
+        {
+            get { return currentTemperature; }
+            set
+            {
+                currentTemperature = value;
+                OnPropertyChanged(nameof(CurrentTemperature));
+            }
+        }
+
+        private int currentMotorSpeed;
+        public int CurrentMotorSpeed
+        {
+            get { return currentMotorSpeed; }
+            set
+            {
+                currentMotorSpeed = value;
+                OnPropertyChanged(nameof(CurrentMotorSpeed));
+            }
+        }
+
+        private int currentMeltWeight;
+        public int CurrentMeltWeight
+        {
+            get { return currentMeltWeight; }
+            set
+            {
+                currentMeltWeight = value;
+                OnPropertyChanged(nameof(CurrentMeltWeight));
+            }
+        }
+
+        private double currentMoisture;
+        public double CurrentMoisture
+        {
+            get { return currentMoisture; }
+            set
+            {
+                currentMoisture = value;
+                OnPropertyChanged(nameof(CurrentMoisture));
+            }
+        }
+        public MainWindowViewModel(DateTime targetDate)
         {
             List<DataValues> datas = dataLoader.LoadDataFile("melting_tank.csv");
-
-            DateTime targetDate = new DateTime(2020, 3, 4);
 
             List<DateTime> date_datas = new List<DateTime>();
             List<int> melt_temperature_datas = new List<int>();
@@ -132,7 +174,7 @@ namespace Hamtory_WPF
                         int index = (int)value;
                         if (index >= 0 && index < filteredDates.Count)
                         {
-                            return filteredDates[index].ToString("mm:ss");
+                            return filteredDates[index].ToString("HH:mm");
                         }
                         return "";
                     }, // X축 레이블 포맷
@@ -153,7 +195,7 @@ namespace Hamtory_WPF
                         int index = (int)value;
                         if (index >= 0 && index < filteredDates.Count)
                         {
-                            return filteredDates[index].ToString("mm:ss");
+                            return filteredDates[index].ToString("HH:mm");
                         }
                         return "";
                     }, // X축 레이블 포맷
@@ -175,7 +217,6 @@ namespace Hamtory_WPF
             // 초기 축 한계 설정
             SetAxisLimits(0);
 
-            // 데이터를 500ms마다 업데이트하는 타이머 설정
             Timer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromMilliseconds(300) // 300ms 간격으로 타이머 설정
@@ -183,7 +224,15 @@ namespace Hamtory_WPF
             Timer.Tick += TimerOnTick; // 타이머의 Tick 이벤트에 처리기 추가
             Timer.Start(); // 타이머 시작
         }
+        public void StartTimer()
+        {
+            Timer.Start();
+        }
 
+        public void StopTimer()
+        {
+            Timer.Stop();
+        }
         // 차트에 표시할 데이터 컬렉션
 
         public SeriesCollection SeriesCollectionTemperature { get; set; }
@@ -215,6 +264,12 @@ namespace Hamtory_WPF
             if (currentDataIndex >= filteredIndex.Count) return;
 
             var nowIndex = filteredIndex[currentDataIndex]; // 필터된 인덱스 가져오기
+
+            //현재 값들 저장 (Binding 목적)
+            CurrentTemperature = filteredTemperatures[currentDataIndex];
+            CurrentMotorSpeed = filteredMotorSpeed[currentDataIndex];
+            CurrentMeltWeight = fillteredMeltWeight[currentDataIndex];
+            CurrentMoisture = filteredMoisture[currentDataIndex];
 
             // 새로운 데이터 포인트 추가
             ChartValuesTemperature.Add(new MeasureModel
@@ -252,7 +307,7 @@ namespace Hamtory_WPF
             currentDataIndex++;
         }
 
-        // PropertyChanged 이벤트
+        // PropertyChanged 이벤트 (값 바뀔 때 마다 실행)
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {

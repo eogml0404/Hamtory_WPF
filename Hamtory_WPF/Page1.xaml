@@ -41,7 +41,7 @@
         <Border Style="{StaticResource GaugeBorderStyle}" HorizontalAlignment="Left" Margin="450,20,0,0" VerticalAlignment="Top">
             <Grid>
                 <Label Style="{StaticResource GaugeLabelStyle}" Margin="0,38,0,146">Melt Temp</Label>
-                <lvc:Gauge Margin="10,60,10,0" From="300" To="850" Value="500" LabelsVisibility="Collapsed" Foreground="White">
+                <lvc:Gauge Margin="10,60,10,0" From="300" To="850" Value="{Binding CurrentTemperature}" LabelsVisibility="Collapsed" Foreground="White">
                     <lvc:Gauge.GaugeActiveFill>
                         <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
                             <GradientStop Color="#FFE60000" Offset="0"/>
@@ -55,7 +55,7 @@
         <Border Style="{StaticResource GaugeBorderStyle}" HorizontalAlignment="Left" Margin="665,20,0,0" VerticalAlignment="Top">
             <Grid>
                 <Label Style="{StaticResource GaugeLabelStyle}" Margin="0,38,0,146">Motor Speed</Label>
-                <lvc:Gauge Margin="10,60,10,0" From="0" To="1800" Value="1700" LabelsVisibility="Collapsed" Foreground="White">
+                <lvc:Gauge Margin="10,60,10,0" From="0" To="1800" Value="{Binding CurrentMotorSpeed}" LabelsVisibility="Collapsed" Foreground="White">
                     <lvc:Gauge.GaugeActiveFill>
                         <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
                             <GradientStop Color="#FFFF1515" Offset="0"/>
@@ -69,7 +69,7 @@
         <Border Style="{StaticResource GaugeBorderStyle}" HorizontalAlignment="Left" Margin="450,268,0,0" VerticalAlignment="Top">
             <Grid>
                 <Label Style="{StaticResource GaugeLabelStyle}" Margin="0,38,0,146">Melt Weight</Label>
-                <lvc:Gauge Margin="10,60,10,0" From="0" To="700" Value="500" LabelsVisibility="Collapsed" Foreground="White">
+                <lvc:Gauge Margin="10,60,10,0" From="0" To="700" Value="{Binding CurrentMeltWeight}" LabelsVisibility="Collapsed" Foreground="White">
                     <lvc:Gauge.GaugeActiveFill>
                         <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
                             <GradientStop Color="#FF177900" Offset="0"/>
@@ -84,7 +84,7 @@
         <Border Style="{StaticResource GaugeBorderStyle}" HorizontalAlignment="Left" Margin="665,268,0,0" VerticalAlignment="Top">
             <Grid>
                 <Label Style="{StaticResource GaugeLabelStyle}" Margin="0,38,0,146">Insp</Label>
-                <lvc:Gauge Margin="10,60,10,0" From="0" To="4" Value="3.5" LabelsVisibility="Collapsed" Foreground="White">
+                <lvc:Gauge Margin="10,60,10,0" From="0" To="4" Value="{Binding CurrentMoisture}" LabelsVisibility="Collapsed" Foreground="White">
                     <lvc:Gauge.GaugeActiveFill>
                         <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
                             <GradientStop Color="#FF0019FF" Offset="0"/>
@@ -107,7 +107,7 @@
                 <lvc:CartesianChart Grid.Row="0"
                         Series="{Binding SeriesCollectionTemperature}"
                         AxisX="{Binding AxisXCollectionTemperature}"
-                        LegendLocation="Right">
+                        LegendLocation="Right" MouseEnter="stopGraph" MouseLeave="startGraph">
                     <!-- Legend 추가 -->
                     <lvc:CartesianChart.AxisY>
                         <lvc:Axis Title="Values" />
@@ -118,7 +118,7 @@
                 <lvc:CartesianChart Grid.Row="1"
                         Series="{Binding SeriesCollectionMoisture}"
                         AxisX="{Binding AxisXCollectionMoisture}"
-                        LegendLocation="Right">
+                        LegendLocation="Right" MouseEnter="stopGraph" MouseLeave="startGraph">
                     <!-- Legend 추가 -->
                     <lvc:CartesianChart.AxisY>
                         <lvc:Axis Title="Moisture (%)"
@@ -130,10 +130,10 @@
 
         </Border>
 
+        <Grid HorizontalAlignment="Left" Height="207" Margin="10,301,0,0" VerticalAlignment="Top" Width="420" Background="#FF989898" Opacity="0.5">
 
-        <Grid HorizontalAlignment="Left" Height="240" Margin="10,268,0,0" VerticalAlignment="Top" Width="420" Background="#FF989898" Opacity="0.5">
-  
         </Grid>
+        <DatePicker x:Name="RealdatePicker" HorizontalAlignment="Left" Margin="177,265,0,0" VerticalAlignment="Top" SelectedDateChanged="RealdatePicker_SelectedDateChanged" Text="2020-3-4" />
 
     </Grid>
 </Page>
