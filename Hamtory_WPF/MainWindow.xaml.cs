@@ -1,27 +1,46 @@
-﻿using System.Data;
+﻿using System;
 using System.IO;
-using System.Text;
+using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using LiveCharts;
-using LiveCharts.Wpf;
 
 namespace Hamtory_WPF
 {
     public partial class MainWindow : Window
     {
+        private const string USER_FILE = "users.txt";
+
         public MainWindow()
         {
             InitializeComponent();
-            //LoadDataFromFile("melting_tank.csv");
+            ShowLoginPage();
+        }
 
+        private void ShowLoginPage()
+        {
+            tabControl.Visibility = Visibility.Visible;
+            frame.Visibility = Visibility.Hidden;
+            real_time_button.Visibility = Visibility.Hidden;
+            data_button.Visibility = Visibility.Hidden;
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            var users = File.ReadAllLines(USER_FILE)
+                            .Select(line => line.Split(','))
+                            .ToDictionary(parts => parts[0], parts => parts[1]);
+
+            if (users.TryGetValue(LoginIDTextBox.Text, out var password) && password == LoginPasswordBox.Password)
+            {
+                tabControl.Visibility = Visibility.Hidden;
+                frame.Visibility = Visibility.Visible;
+                real_time_button.Visibility = Visibility.Visible;
+                data_button.Visibility = Visibility.Visible;
+                frame.Content = new Page1(); // Navigate to default page after login
+            }
+            else
+            {
+                MessageBox.Show("ID 또는 비밀번호가 잘못되었습니다.", "로그인 실패", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void real_time_button_Click(object sender, RoutedEventArgs e)

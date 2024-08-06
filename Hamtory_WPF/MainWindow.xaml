@@ -6,7 +6,7 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:Hamtory_WPF"
         mc:Ignorable="d"
-        Title="용해공정 모니터링" Height="620" Width="900">
+        Title="용해 공정 모니터링" Height="620" Width="900">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="Black" Offset="1"/>
@@ -15,11 +15,22 @@
         </LinearGradientBrush>
     </Window.Background>
     <Grid>
+        <TabControl Name="tabControl" Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400" Height="300">
+            <TabItem Header="공정 모니터링 시스템 ">
+                <Grid>
+                    <Label Content="ID" HorizontalAlignment="Left" Margin="50,70,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="LoginIDTextBox" HorizontalAlignment="Left" Height="23" Margin="150,70,0,0" VerticalAlignment="Top" Width="200"/>
+                    <Label Content="Password" HorizontalAlignment="Left" Margin="50,120,0,0" VerticalAlignment="Top"/>
+                    <PasswordBox x:Name="LoginPasswordBox" HorizontalAlignment="Left" Height="23" Margin="150,120,0,0" VerticalAlignment="Top" Width="200"/>
+                    <Button Content="로그인" HorizontalAlignment="Left" Margin="150,170,0,0" VerticalAlignment="Top" Width="200" Click="LoginButton_Click"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
         <Label Content="Label" HorizontalAlignment="Left" Height="50" Margin="23,10,0,0" VerticalAlignment="Top" Width="267" Foreground="White" FontSize="30"/>
-        <Button x:Name="real_time_button" HorizontalAlignment="Left" Height="50" Width="50" Margin="780,10,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" FontSize="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Click="real_time_button_Click" >
+        <Button x:Name="real_time_button" HorizontalAlignment="Left" Height="50" Width="50" Margin="780,10,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" FontSize="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Click="real_time_button_Click" Visibility="Hidden">
             <TextBlock Text="⏱️" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFEDEDED"/>
         </Button>
-        <Button x:Name="data_button" HorizontalAlignment="Left" Height="50" Width="50" Margin="830,10,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FFFCFAFA" FontSize="35" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Click="data_button_Click">
+        <Button x:Name="data_button" HorizontalAlignment="Left" Height="50" Width="50" Margin="830,10,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FFFCFAFA" FontSize="35" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Click="data_button_Click" Visibility="Hidden">
             <TextBlock Text="📊" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,3,0,0"/>
         </Button>
         <Frame x:Name="frame" Margin="0,65,0,0" NavigationUIVisibility="Hidden"/>
