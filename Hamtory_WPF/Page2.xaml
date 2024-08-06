@@ -8,8 +8,16 @@
       d:DesignHeight="535" d:DesignWidth="900"
       Title="Page2">
 
-    <Grid>
-        <DatePicker HorizontalAlignment="Left" Margin="197,49,0,0" VerticalAlignment="Top"/>
-
+    <Grid Background="#FFFCFF00">
+        <Label Content="조회 기간" HorizontalAlignment="Left" Height="34" Margin="175,30,0,0" VerticalAlignment="Top" Width="82" FontSize="15"/>
+        <local:DateRangePicker x:Name="DateRangePickerControl" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="586,35,0,0" RenderTransformOrigin="1.014,-3.182" Width="32" />
+        <TextBlock x:Name="StartDateText" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="262,35,0,0" Width="86" Background="Red" FontSize="15" />
+        <TextBlock x:Name="EndDateText" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="443,35,0,0" Width="86" Background="Red" FontSize="15" />
+        <Button Content="Raw Data" HorizontalAlignment="Left" Height="34" Margin="727,29,0,0" VerticalAlignment="Top" Width="82"/>
+        <Grid HorizontalAlignment="Left" Height="322" Margin="36,103,0,0" VerticalAlignment="Top" Width="560" Background="#FF00FFDA"/>
+        <Grid HorizontalAlignment="Left" Height="201" Margin="609,103,0,0" VerticalAlignment="Top" Width="251" Background="#FF4E4E4E"/>
+        <Grid HorizontalAlignment="Left" Height="183" Margin="609,322,0,0" VerticalAlignment="Top" Width="251" Background="#FFD700FF"/>
+        <TextBox HorizontalAlignment="Left" Height="28" Margin="353,31,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="49" FontSize="15"/>
+        <TextBox HorizontalAlignment="Left" Height="30" Margin="534,31,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="47" FontSize="15"/>
     </Grid>
 </Page>
