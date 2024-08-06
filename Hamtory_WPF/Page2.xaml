@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Hamtory_WPF"
+      xmlns:lc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
       mc:Ignorable="d" 
       d:DesignHeight="535" d:DesignWidth="900"
       Title="Page2">
@@ -14,7 +15,14 @@
         <TextBlock x:Name="StartDateText" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="262,35,0,0" Width="86" Background="Red" FontSize="15" />
         <TextBlock x:Name="EndDateText" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="443,35,0,0" Width="86" Background="Red" FontSize="15" />
         <Button Content="Raw Data" HorizontalAlignment="Left" Height="34" Margin="727,29,0,0" VerticalAlignment="Top" Width="82"/>
-        <Grid HorizontalAlignment="Left" Height="322" Margin="36,103,0,0" VerticalAlignment="Top" Width="560" Background="#FF00FFDA"/>
+
+
+        <!-- 운영 데이터 -->
+        <Grid HorizontalAlignment="Left" Height="402" Margin="26,103,0,0" VerticalAlignment="Top" Width="560" Background="#FF00FFDA">
+            <local:OpChart x:Name="opChart" HorizontalAlignment="Center" VerticalAlignment="Top" Width="560" Height="322" Margin="0,80,0,0"/>
+        </Grid>
+
+
         <Grid HorizontalAlignment="Left" Height="201" Margin="609,103,0,0" VerticalAlignment="Top" Width="251" Background="#FF4E4E4E"/>
         <Grid HorizontalAlignment="Left" Height="183" Margin="609,322,0,0" VerticalAlignment="Top" Width="251" Background="#FFD700FF"/>
         <TextBox HorizontalAlignment="Left" Height="28" Margin="353,31,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="49" FontSize="15"/>

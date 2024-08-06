@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.Generic;
 
 namespace Hamtory_WPF
 {
@@ -21,6 +22,7 @@ namespace Hamtory_WPF
         {
             InitializeComponent();
             DateRangePickerControl.DateRangeChanged += DateRangePickerControl_DateRangeChanged;
+            opChart.LoadSampleData();
         }
 
         private void DateRangePickerControl_DateRangeChanged(object sender, DateRangeChangedEventArgs e)
@@ -43,5 +45,7 @@ namespace Hamtory_WPF
                 EndDateText.Text = "N/A";
             }
         }
+
+        
     }
 }
