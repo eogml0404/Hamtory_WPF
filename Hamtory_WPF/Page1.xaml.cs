@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Drawing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,10 +21,56 @@ namespace Hamtory_WPF
     /// </summary>
     public partial class Page1 : Page
     {
+        public bool IsReading { get; set; }
+        private MainWindowViewModel viewModel;
+        ProcessData dataLoader = new ProcessData();
+        
+
         public Page1()
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel();
+
+            viewModel = new MainWindowViewModel(new DateTime(2020,3,4));
+
+            DataContext = viewModel;
+        }
+
+        private void stopGraph(object sender, MouseEventArgs e)
+        {
+             viewModel.StopTimer();
+        }
+
+        private void startGraph(object sender, MouseEventArgs e)
+        {
+            viewModel.StartTimer();
+        }
+
+        private void RealdatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            List<DataValues> datas = dataLoader.LoadDataFile("melting_tank.csv");
+
+            List<DateTime> date_datas = new List<DateTime>();
+          
+            // 데이터 값 채우기
+            foreach (DataValues data in datas)
+            {
+                date_datas.Add(data.date);
+            }
+
+            if (date_datas.Contains(RealdatePicker.SelectedDate.Value))
+            {
+                if (RealdatePicker.SelectedDate.HasValue)
+                {
+                    viewModel = new MainWindowViewModel(RealdatePicker.SelectedDate.Value);
+                    DataContext = viewModel;
+                }
+            }
+            else
+            {
+                MessageBox.Show("해당 날짜 데이터값이 없습니다.");
+            }
+                
         }
     }
+
 }
