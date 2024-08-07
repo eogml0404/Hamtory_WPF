@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hamtory_WPF", "Hamtory_WPF\Hamtory_WPF.csproj", "{847E284F-1882-4F82-875C-C77D646F1CA0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "솔루션 항목", "솔루션 항목", "{92BF5E2A-A432-4BEA-A070-94488358D013}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

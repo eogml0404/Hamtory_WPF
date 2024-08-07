@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScottPlot.Plottables;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace Hamtory_WPF
 {
     public class DataValues
     {
+        ProcessData dataLoader = new ProcessData();
+        
         public DateTime date { get; private set; }
         public int index { get; private set; }
         public int melt_temperature { get; private set; }

@@ -13,7 +13,7 @@ namespace Hamtory_WPF
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         // MainWindowViewModel의 필드
-        ProcessData dataLoader = new ProcessData();
+
         private List<DateTime> filteredDates;
         private List<int> filteredTemperatures;
         private List<int> filteredIndex;
@@ -71,46 +71,18 @@ namespace Hamtory_WPF
         }
         public MainWindowViewModel(DateTime targetDate)
         {
-            List<DataValues> datas = dataLoader.LoadDataFile("melting_tank.csv");
+        List<DataValues> datas = DataList.datas;
+            // 데이터 값 채우기 및 필터링된 데이터 생성
+            var filteredData = datas
+                .Where(data => data.date.Date == targetDate.Date)
+                .ToList();
 
-            List<DateTime> date_datas = new List<DateTime>();
-            List<int> melt_temperature_datas = new List<int>();
-            List<int> index = new List<int>();
-            List<int> motor_speed = new List<int>();
-            List<int> melt_weight = new List<int>();
-            List<double> moisture = new List<double>();
-
-            // 데이터 값 채우기
-            foreach (DataValues data in datas)
-            {
-                date_datas.Add(data.date);
-                melt_temperature_datas.Add(data.melt_temperature);
-                index.Add(data.index);
-                motor_speed.Add(data.motor_speed);
-                melt_weight.Add(data.melt_weight);
-                moisture.Add(data.moisture);
-            }
-
-            // 필터링된 데이터 생성
-            filteredDates = new List<DateTime>();
-            filteredTemperatures = new List<int>();
-            filteredIndex = new List<int>();
-            filteredMotorSpeed = new List<int>();
-            fillteredMeltWeight = new List<int>();
-            filteredMoisture = new List<double>();
-
-            for (int i = 0; i < date_datas.Count; i++)
-            {
-                if (date_datas[i].Date == targetDate.Date)
-                {
-                    filteredDates.Add(date_datas[i]);
-                    filteredTemperatures.Add(melt_temperature_datas[i]);
-                    filteredIndex.Add(index[i]);
-                    filteredMotorSpeed.Add(motor_speed[i]);
-                    fillteredMeltWeight.Add(melt_weight[i]);
-                    filteredMoisture.Add(moisture[i]);
-                }
-            }
+            filteredDates = filteredData.Select(data => data.date).ToList();
+            filteredTemperatures = filteredData.Select(data => data.melt_temperature).ToList();
+            filteredIndex = filteredData.Select(data => data.index).ToList();
+            filteredMotorSpeed = filteredData.Select(data => data.motor_speed).ToList();
+            fillteredMeltWeight = filteredData.Select(data => data.melt_weight).ToList();
+            filteredMoisture = filteredData.Select(data => data.moisture).ToList();
 
             // MeasureModel을 전역적으로 설정
             var mapper = Mappers.Xy<MeasureModel>()

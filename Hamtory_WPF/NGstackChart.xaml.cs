@@ -14,7 +14,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
 namespace Hamtory_WPF
 {
     /// <summary>
@@ -22,37 +21,34 @@ namespace Hamtory_WPF
     /// </summary>
     public partial class NGstackChart : UserControl
     {
+
         public NGstackChart()
         {
             InitializeComponent();
+
+            List<DataValues> datas = DataList.datas;
             SeriesCollection = new SeriesCollection
             {
                 new StackedColumnSeries
                 {
-                    Values = new ChartValues<double> {4, 5, 6, 8},
-                    StackMode = StackMode.Values, // this is not necessary, values is the default stack mode
-                    DataLabels = true
+                    Values = new ChartValues<int> {OKCounting(4, datas),OKCounting(3, datas),OKCounting(2, datas),OKCounting(1, datas) },
+                    StackMode = StackMode.Percentage,
+                    DataLabels = true,
+                    Title = "OK"
                 },
+
                 new StackedColumnSeries
                 {
-                    Values = new ChartValues<double> {2, 5, 6, 7},
-                    StackMode = StackMode.Values,
-                    DataLabels = true
+                    Values = new ChartValues<int> {NGCounting(4, datas),NGCounting(3, datas),NGCounting(2, datas),NGCounting(1, datas) },
+                    StackMode = StackMode.Percentage,
+                    DataLabels = true,
+                    Title = "NG"
                 }
             };
 
-            //adding series updates and animates the chart
-            SeriesCollection.Add(new StackedColumnSeries
-            {
-                Values = new ChartValues<double> { 6, 2, 7 },
-                StackMode = StackMode.Values
-            });
 
-            //adding values also updates and animates
-            SeriesCollection[2].Values.Add(4d);
-
-            Labels = new[] { "Chrome", "Mozilla", "Opera", "IE" };
-            Formatter = value => value + " Mill";
+            Labels = new[] {"4시간 전", "3시간 전", "2시간 전" , "1시간 전"};
+            Formatter = value => value + " 번";
 
             DataContext = this;
         }
@@ -60,5 +56,52 @@ namespace Hamtory_WPF
         public SeriesCollection SeriesCollection { get; set; }
         public string[] Labels { get; set; }
         public Func<double, string> Formatter { get; set; }
+
+        public int OKCounting(int time , List<DataValues> datas)
+        {
+            int OkCnt = 0;
+
+            
+            foreach (DataValues data in datas)
+            {
+
+                if (data.date.Year == 2020 &&
+                    data.date.Month == 4 &&
+                    data.date.Day == DateTime.Now.Day &&
+                    data.date.Hour == DateTime.Now.Hour - time)
+                {
+                    if (data.ok_ng == "OK")
+                    {
+                        OkCnt++;
+                    }
+
+                }
+
+            }
+            return OkCnt;
+        }
+
+        public int NGCounting(int time , List<DataValues> datas)
+        {
+            int NGCnt = 0;
+
+            foreach (DataValues data in datas)
+            {
+
+                if (data.date.Year == 2020 &&
+                    data.date.Month == 4 &&
+                    data.date.Day == DateTime.Now.Day &&
+                    data.date.Hour == DateTime.Now.Hour - time)
+                {
+                    if (data.ok_ng == "NG")
+                    {
+                        NGCnt++;
+                    }
+
+                }
+
+            }
+            return NGCnt;
+        }
     }
 }
