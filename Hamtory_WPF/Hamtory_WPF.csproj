@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Page Remove="Styles.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.102.3" />
     <PackageReference Include="CsvHelper" Version="33.0.1" />
     <PackageReference Include="EPPlus" Version="7.2.2" />
@@ -17,6 +21,10 @@
     <PackageReference Include="System.Reactive.Windows.Forms" Version="6.0.1" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="Microsoft.Data.Analysis" Version="0.21.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Styles.xaml" />
   </ItemGroup>
 
 </Project>
