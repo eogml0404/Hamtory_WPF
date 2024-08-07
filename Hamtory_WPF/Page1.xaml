@@ -130,11 +130,10 @@
             </Grid>
 
         </Border>
-
-        <Grid HorizontalAlignment="Left" Height="207" Margin="10,301,0,0" VerticalAlignment="Top" Width="420" Background="#FF989898" Opacity="0.5">
-
-        </Grid>
-        <Label x:Name="ToDay" Content="Label" HorizontalAlignment="Left" Margin="107,260,0,0" VerticalAlignment="Top" Width="238" Foreground="White"/>
+        <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Left" Margin="10,268,0,0" VerticalAlignment="Top">
+            <local:NGstackChart x:Name="stackedChart" HorizontalAlignment="Left" VerticalAlignment="Top" Width="368" Height="212" Margin="22,20,0,0"/>
+        </Border>
+        <Label x:Name="ToDay" Content="Label" HorizontalAlignment="Left" Margin="412,20,0,0" VerticalAlignment="Top" Width="238" Foreground="White"/>
 
     </Grid>
 </Page>
