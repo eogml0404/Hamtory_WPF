@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using System.Windows;
 
 namespace Hamtory_WPF
@@ -8,12 +6,12 @@ namespace Hamtory_WPF
     public partial class MainWindow : Window
     {
         private const string USER_FILE = "users.txt";
-        private LoginManager loginManager; 
+        private LoginManager loginManager;
 
         public MainWindow()
         {
             InitializeComponent();
-            loginManager = new LoginManager(); 
+            loginManager = new LoginManager();
             ShowLoginPage(); // 로그인 페이지 표시
         }
 
@@ -35,6 +33,11 @@ namespace Hamtory_WPF
         private void data_button_Click(object sender, RoutedEventArgs e)
         {
             frame.Content = new Page2();
+        }
+
+        private void home_button_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Content = new Page3();
         }
     }
 }
