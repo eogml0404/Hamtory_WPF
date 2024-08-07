@@ -27,14 +27,19 @@ namespace Hamtory_WPF
 
         private void DateRangePickerControl_DateRangeChanged(object sender, DateRangeChangedEventArgs e)
         {
-            StartDateText.Text = e.StartDate.HasValue ? e.StartDate.Value.ToString("yyyy-MM-dd") : "선택 안됨";
-            EndDateText.Text = e.EndDate.HasValue ? e.EndDate.Value.ToString("yyyy-MM-dd") : "선택 안됨";
+            StartDateText.Text = e.StartDate.HasValue ? e.StartDate.Value.ToString("yyyy-MM-dd") : string.Empty;
+            EndDateText.Text = e.EndDate.HasValue ? e.EndDate.Value.ToString("yyyy-MM-dd") : string.Empty;
         }
 
         private void RawDataButton_Click(object sender, RoutedEventArgs e)
         {
             RawData rawDataWindow = new RawData();
             rawDataWindow.Show();
+        }
+
+        private void DateRangePickerControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
