@@ -27,23 +27,8 @@ namespace Hamtory_WPF
 
         private void DateRangePickerControl_DateRangeChanged(object sender, DateRangeChangedEventArgs e)
         {
-            if (e.StartDate.HasValue)
-            {
-                StartDateText.Text = $"{e.StartDate.Value.ToShortDateString()}";
-            }
-            else
-            {
-                StartDateText.Text = "N/A";
-            }
-
-            if (e.EndDate.HasValue)
-            {
-                EndDateText.Text = $"{e.EndDate.Value.ToShortDateString()}";
-            }
-            else
-            {
-                EndDateText.Text = "N/A";
-            }
+            StartDateText.Text = e.StartDate.HasValue ? e.StartDate.Value.ToString("yyyy-MM-dd") : "선택 안됨";
+            EndDateText.Text = e.EndDate.HasValue ? e.EndDate.Value.ToString("yyyy-MM-dd") : "선택 안됨";
         }
 
         private void RawDataButton_Click(object sender, RoutedEventArgs e)
