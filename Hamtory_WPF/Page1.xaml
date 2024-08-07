@@ -8,6 +8,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="530" d:DesignWidth="900"
       Title="Page1">
+
     <Page.Resources>
         <Style x:Key="GaugeBorderStyle" TargetType="Border">
             <Setter Property="Height" Value="240"/>
@@ -69,7 +70,7 @@
         <Border Style="{StaticResource GaugeBorderStyle}" HorizontalAlignment="Left" Margin="450,268,0,0" VerticalAlignment="Top">
             <Grid>
                 <Label Style="{StaticResource GaugeLabelStyle}" Margin="0,38,0,146">Melt Weight</Label>
-                <lvc:Gauge Margin="10,60,10,0" From="0" To="700" Value="{Binding CurrentMeltWeight}" LabelsVisibility="Collapsed" Foreground="White">
+                <lvc:Gauge Margin="10,60,10,0" From="0" To="2000" Value="{Binding CurrentMeltWeight}" LabelsVisibility="Collapsed" Foreground="White">
                     <lvc:Gauge.GaugeActiveFill>
                         <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
                             <GradientStop Color="#FF177900" Offset="0"/>
@@ -107,7 +108,7 @@
                 <lvc:CartesianChart Grid.Row="0"
                         Series="{Binding SeriesCollectionTemperature}"
                         AxisX="{Binding AxisXCollectionTemperature}"
-                        LegendLocation="Right" MouseEnter="stopGraph" MouseLeave="startGraph">
+                        LegendLocation="Right" MouseEnter="stopGraph" MouseLeave="startGraph" Zoom="X">
                     <!-- Legend 추가 -->
                     <lvc:CartesianChart.AxisY>
                         <lvc:Axis Title="Values" />
@@ -118,7 +119,7 @@
                 <lvc:CartesianChart Grid.Row="1"
                         Series="{Binding SeriesCollectionMoisture}"
                         AxisX="{Binding AxisXCollectionMoisture}"
-                        LegendLocation="Right" MouseEnter="stopGraph" MouseLeave="startGraph">
+                        LegendLocation="Right" MouseEnter="stopGraph" MouseLeave="startGraph" Zoom="X">
                     <!-- Legend 추가 -->
                     <lvc:CartesianChart.AxisY>
                         <lvc:Axis Title="Moisture (%)"
