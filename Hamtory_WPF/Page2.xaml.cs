@@ -28,7 +28,7 @@ namespace Hamtory_WPF
         private void DateRangePickerControl_DateRangeChanged(object sender, DateRangeChangedEventArgs e)
         {
             StartDateText.Text = e.StartDate.HasValue ? e.StartDate.Value.ToString("yyyy-MM-dd") : string.Empty;
-            EndDateText.Text = e.EndDate.HasValue ? e.EndDate.Value.ToString("yyyy-MM-dd") : string.Empty;
+            EndDateText.Text = e.EndDate.HasValue ? e.EndDate.Value.ToString("yyyy-MM-dd") : "End Date";
         }
 
         private void RawDataButton_Click(object sender, RoutedEventArgs e)
@@ -37,9 +37,5 @@ namespace Hamtory_WPF
             rawDataWindow.Show();
         }
 
-        private void DateRangePickerControl_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

@@ -25,7 +25,7 @@
 
             <Grid >
                 <Label Content="조회 기간" HorizontalAlignment="Left" Height="34" Margin="19,3,0,0" VerticalAlignment="Center" Width="82" FontSize="15" Foreground="White"/>
-                <local:DateRangePicker x:Name="DateRangePickerControl" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="410,1,0,0" RenderTransformOrigin="1.014,-3.182" Width="32" Foreground="{x:Null}" Loaded="DateRangePickerControl_Loaded" />
+                <local:DateRangePicker x:Name="DateRangePickerControl" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="410,1,0,0" RenderTransformOrigin="1.014,-3.182" Width="32" Foreground="{x:Null}"/>
                 <TextBlock x:Name="StartDateText" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="126,-1,0,0" Width="80" FontSize="15" Foreground="White" Text="Start Date" />
                 <TextBox x:Name="txtStartTime" HorizontalAlignment="Left" Height="28" Margin="206,5,0,0" TextWrapping="Wrap" Text="00:00" VerticalAlignment="Center" Width="47" FontSize="15" Foreground="White" Background="{x:Null}" BorderBrush="{x:Null}"/>
                 <TextBlock x:Name="EndDateText" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="264,-1,0,0" Width="80" FontSize="15" Foreground="White" Text="End Date"/>

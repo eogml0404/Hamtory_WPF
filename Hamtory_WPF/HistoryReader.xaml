@@ -15,8 +15,6 @@
                         <Label Content="End Date:" VerticalAlignment="Center" Margin="15,0,5,0"/>
                         <DatePicker x:Name="datePickerEnd" Width="120" Height="25" VerticalAlignment="Center" Margin="5"/>
                         <TextBox x:Name="txtEndTime" Width="50" Height="25" VerticalAlignment="Center" Margin="5" Text="23:59"/>
-                        <Button x:Name="btnFilter" Content="Filter" Width="100" Height="30" Margin="5,0,0,0" Click="BtnFilter_Click"/>
-                        <Button x:Name="btnSaveData" Content="Save Data" Width="100" Height="30" Margin="5,0,0,0" Click="BtnSaveData_Click"/>
                     </StackPanel>
                     <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,60,10,0" AutoGenerateColumns="False" Width="960" Height="600">
                         <DataGrid.Columns>
