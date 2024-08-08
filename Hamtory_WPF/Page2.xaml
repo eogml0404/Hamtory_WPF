@@ -18,7 +18,7 @@
 
 
     <Grid>
-        <Border Margin="186,4,235,471" CornerRadius="5" BorderThickness="1">
+        <Border Margin="217,4,216,471" CornerRadius="5" BorderThickness="1">
             <Border.BorderBrush>
                 <SolidColorBrush Color="White" Opacity="0.5"/>
             </Border.BorderBrush>
@@ -35,12 +35,24 @@
         <Button x:Name="RawDataButton" Content="📜" HorizontalAlignment="Left" Height="34" Margin="10,12,0,0" VerticalAlignment="Top" Width="37" Click="RawDataButton_Click" BorderBrush="{x:Null}" Background="#FFE8E8E8"/>
 
         <!-- 운영 데이터 -->
-        <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Left" Margin="26,69,0,0" VerticalAlignment="Top" Height="404" Width="576">
+        <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Left" Margin="38,78,0,0" VerticalAlignment="Top" Height="404" Width="576">
+            <Border.Background>
+                <SolidColorBrush Color="White" Opacity="0.1"/>
+            </Border.Background>
             <local:OpChart x:Name="opChart" HorizontalAlignment="Center" VerticalAlignment="Top" Width="499" Height="280" Margin="0,90,0,0"/>
         </Border>
-
-        <Grid HorizontalAlignment="Left" Height="201" Margin="609,103,0,0" VerticalAlignment="Top" Width="251" Background="#FF4E4E4E"/>
-        <Grid HorizontalAlignment="Left" Height="183" Margin="609,322,0,0" VerticalAlignment="Top" Width="251" Background="#FFD700FF"/>
+        <!-- 통계 차트 -->
+        <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Left" Margin="620,78,0,0" VerticalAlignment="Top" Height="199" Width="251">
+            <Border.Background>
+                <SolidColorBrush Color="White" Opacity="0.1"/>
+            </Border.Background>
+        </Border>
+        <!-- OK/NG -->
+        <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Left" Margin="620,282,0,0" VerticalAlignment="Top" Height="200" Width="251">
+            <Border.Background>
+                <SolidColorBrush Color="White" Opacity="0.1"/>
+            </Border.Background>
+        </Border>
 
     </Grid>
 </Page>
