@@ -49,7 +49,7 @@
         <Border Style="{StaticResource GaugeBorderStyle}" HorizontalAlignment="Left" Margin="450,268,0,0" VerticalAlignment="Top">
             <Grid>
                 <Label Style="{StaticResource GaugeLabelStyle}" Margin="0,38,0,146">Melt Weight</Label>
-                <lvc:Gauge Margin="10,60,10,0" From="0" To="2000" Value="{Binding CurrentMeltWeight}" LabelsVisibility="Collapsed" Foreground="White">
+                <lvc:Gauge Margin="10,60,10,0" From="0" To="2200" Value="{Binding CurrentMeltWeight}" LabelsVisibility="Collapsed" Foreground="White">
                     <lvc:Gauge.GaugeActiveFill>
                         <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
                             <GradientStop Color="#FF177900" Offset="0"/>

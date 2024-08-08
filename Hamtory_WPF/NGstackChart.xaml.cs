@@ -46,7 +46,6 @@ namespace Hamtory_WPF
                 }
             };
 
-
             Labels = new[] {"4시간 전", "3시간 전", "2시간 전" , "1시간 전"};
             Formatter = value => value + " 번";
 
@@ -61,7 +60,6 @@ namespace Hamtory_WPF
         {
             int OkCnt = 0;
 
-            
             foreach (DataValues data in datas)
             {
 
@@ -74,7 +72,6 @@ namespace Hamtory_WPF
                     {
                         OkCnt++;
                     }
-
                 }
 
             }

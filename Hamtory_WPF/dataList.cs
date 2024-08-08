@@ -17,21 +17,6 @@ namespace Hamtory_WPF
         {
             datas = dataLoader.LoadDataFile("melting_tank.csv");
             
-            List<DateTime> date_datas = new List<DateTime>();
-            List<int> melt_temperature_datas = new List<int>();
-            List<int> index = new List<int>();
-            List<int> motor_speed = new List<int>();
-            List<int> melt_weight = new List<int>();
-            List<double> moisture = new List<double>();
-
-            foreach (var data in datas){
-                date_datas.Add(data.date);
-                melt_temperature_datas.Add(data.melt_temperature);
-                index.Add(data.index);
-                motor_speed.Add(data.motor_speed);
-                melt_weight.Add(data.melt_weight);
-                moisture.Add(data.melt_weight);
-            }
         }
 
     }
