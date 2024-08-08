@@ -30,15 +30,15 @@ namespace Hamtory_WPF
         public Page1()
         {
             InitializeComponent();
-
+  
             viewModel = new MainWindowViewModel(new DateTime(2020, 4, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
-
+            
             DataContext = viewModel;
             
             ToDay.Content = "ToDay = " + new DateTime(2020, 4, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
 
             UpdateDateTimeDisplay();
-
+            
             // DispatcherTimer 설정
             timer = new DispatcherTimer
             {
