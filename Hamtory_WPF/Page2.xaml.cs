@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Collections.Generic;
+using Microsoft.Win32;
 
 namespace Hamtory_WPF
 {
@@ -33,9 +34,23 @@ namespace Hamtory_WPF
 
         private void RawDataButton_Click(object sender, RoutedEventArgs e)
         {
-            RawData rawDataWindow = new RawData();
-            rawDataWindow.Show();
-        }
+            DateTime? startDate = DateRangePickerControl.StartDate;
+            DateTime? endDate = DateRangePickerControl.EndDate;
+            string startTime = txtStartTime.Text;
+            string endTime = txtEndTime.Text;
 
+            if (startDate.HasValue && endDate.HasValue)
+            {
+                DateTime startDateTime = DateTime.ParseExact($"{startDate.Value:yyyy-MM-dd} {startTime}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+                DateTime endDateTime = DateTime.ParseExact($"{endDate.Value:yyyy-MM-dd} {endTime}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+
+                RawData rawDataWindow = new RawData(startDateTime, endDateTime);
+                rawDataWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("유효한 날짜를 선택하세요.");
+            }
+        }
     }
 }

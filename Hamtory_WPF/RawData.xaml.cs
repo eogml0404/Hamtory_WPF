@@ -8,12 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Data;
 using ClosedXML.Excel;
 using Microsoft.Win32;
@@ -23,10 +17,14 @@ namespace Hamtory_WPF
     public partial class RawData : Window
     {
         private readonly string csvFilePath = @"melting_tank.csv"; // CSV 파일 경로 설정
+        private readonly DateTime startDateTime;
+        private readonly DateTime endDateTime;
 
-        public RawData()
+        public RawData(DateTime startDateTime, DateTime endDateTime)
         {
             InitializeComponent();
+            this.startDateTime = startDateTime;
+            this.endDateTime = endDateTime;
             LoadData(); // 창이 열릴 때 자동으로 데이터 로드
         }
 
@@ -39,7 +37,8 @@ namespace Hamtory_WPF
                 {
                     // CSV 파일을 로드하고 DataGrid에 표시
                     DataTable dataTable = LoadCsvData(csvFilePath);
-                    DisplayData(dataGrid, dataTable);
+                    DataTable filteredDataTable = FilterDataByDateRange(dataTable, startDateTime, endDateTime);
+                    DisplayData(dataGrid, filteredDataTable);
                 }
                 else
                 {
@@ -81,6 +80,22 @@ namespace Hamtory_WPF
             }
 
             return dataTable;
+        }
+
+        private DataTable FilterDataByDateRange(DataTable dataTable, DateTime startDateTime, DateTime endDateTime)
+        {
+            var filteredDataTable = dataTable.Clone();
+            foreach (DataRow row in dataTable.Rows)
+            {
+                if (DateTime.TryParse(row["STD_DT"].ToString(), out DateTime rowDateTime))
+                {
+                    if (rowDateTime >= startDateTime && rowDateTime <= endDateTime)
+                    {
+                        filteredDataTable.ImportRow(row);
+                    }
+                }
+            }
+            return filteredDataTable;
         }
 
         private void DisplayData(DataGrid dataGrid, DataTable dataTable)
