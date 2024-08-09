@@ -33,7 +33,7 @@ namespace Hamtory_WPF
             {
                 new StackedColumnSeries
                 {
-                    Values = new ChartValues<int> {OKCounting(4, datas),OKCounting(3, datas),OKCounting(2, datas),OKCounting(1, datas) },
+                    Values = new ChartValues<int> { OKCounting(6, datas), OKCounting(5, datas),OKCounting(4, datas),OKCounting(3, datas),OKCounting(2, datas),OKCounting(1, datas) },
                     StackMode = StackMode.Percentage,
                     DataLabels = true,
                     Fill = new SolidColorBrush(Color.FromArgb(250, 100, 90, 190)),
@@ -42,7 +42,7 @@ namespace Hamtory_WPF
 
                 new StackedColumnSeries
                 {
-                    Values = new ChartValues<int> {NGCounting(4, datas),NGCounting(3, datas),NGCounting(2, datas),NGCounting(1, datas) },
+                    Values = new ChartValues<int> { NGCounting(6, datas), NGCounting(5, datas),NGCounting(4, datas),NGCounting(3, datas),NGCounting(2, datas),NGCounting(1, datas) },
                     StackMode = StackMode.Percentage,
                     DataLabels = true,
                     Fill = new SolidColorBrush(Color.FromArgb(250, 190, 50, 50)),
@@ -50,7 +50,7 @@ namespace Hamtory_WPF
                 }
             };
 
-            Labels = new[] {"-4h", "-3h", "-2h" , "-1h"};
+            Labels = new[] {"-6h","-5h","-4h", "-3h", "-2h" , "-1h"};
             // Formatter = value => value + " 번";
 
             DataContext = this;

@@ -115,7 +115,7 @@
                         LegendLocation="None" MouseEnter="stopGraph" MouseLeave="startGraph" Zoom="X">
                         <!-- Legend 추가 -->
                         <lvc:CartesianChart.AxisY>
-                            <lvc:Axis Title="Values" />
+                                <lvc:Axis  FontSize="10" Title="Values" LabelFormatter="{Binding AxisYMelt[0].LabelFormatter}"  MinValue="0" MaxValue="2200"/>
                         </lvc:CartesianChart.AxisY>
                     </lvc:CartesianChart>
 
@@ -126,8 +126,8 @@
                         LegendLocation="None" MouseEnter="stopGraph" MouseLeave="startGraph" Zoom="X">
                         <!-- Legend 추가 -->
                         <lvc:CartesianChart.AxisY>
-                            <lvc:Axis Title="Moisture (%)"
-                      LabelFormatter="{Binding AxisYCollection2[0].LabelFormatter}" />
+                                <lvc:Axis FontSize="10.8" Title="Moisture (%)"
+                      LabelFormatter="{Binding AxisYMoisture[0].LabelFormatter}"  MinValue="3.1" MaxValue="3.3" />
                             <!-- Y축 레이블 포맷 적용 -->
                         </lvc:CartesianChart.AxisY>
                     </lvc:CartesianChart>

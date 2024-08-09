@@ -100,6 +100,15 @@ namespace Hamtory_WPF
             ChartValuesMeltWeight = new ChartValues<MeasureModel>();
             ChartValuesMoisture = new ChartValues<MeasureModel>();
 
+
+            //용해속도, 용해량, 용해온도 Y 축
+            AxisYMoisture = new AxesCollection
+            {
+                new Axis
+                {
+                    LabelFormatter = value => value.ToString("0")
+                }
+            };
             // SeriesCollection 설정
             SeriesCollectionTemperature = new SeriesCollection
             {
@@ -193,14 +202,17 @@ namespace Hamtory_WPF
                     },
                 }
             };
-            AxisYCollection2 = new AxesCollection
+            //수분 함유량 Y 축
+            AxisYMoisture = new AxesCollection
             {
                 new Axis
                 {
+                    DisableAnimations = true,
                     Title = "Moisture (%)",
                     LabelFormatter = value => value.ToString("0.00"), // Y축 레이블 포맷 (소수점 둘째 자리까지)
                 }
             };
+
 
             // 초기 축 한계 설정
             SetAxisLimits(0);
@@ -227,7 +239,8 @@ namespace Hamtory_WPF
         public SeriesCollection SeriesCollectionMoisture { get; set; }
         public AxesCollection AxisXCollectionTemperature { get; set; }
         public AxesCollection AxisXCollectionMoisture { get; set; }
-        public AxesCollection AxisYCollection2 { get; set; }
+        public AxesCollection AxisYMoisture { get; set; }
+        public AxesCollection AxisYMelt { get; set; }
         public ChartValues<MeasureModel> ChartValuesTemperature { get; set; }
         public ChartValues<MeasureModel> ChartValuesMotorSpeed { get; set; }
         public ChartValues<MeasureModel> ChartValuesMeltWeight { get; set; }
