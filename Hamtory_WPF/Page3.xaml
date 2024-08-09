@@ -7,7 +7,8 @@
       mc:Ignorable="d"
       d:DesignHeight="530" d:DesignWidth="900"
       Title="Page3">
-	<Grid Background="Black">
+  
+	<!--Grid Background="Black">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
@@ -33,10 +34,8 @@
 			<TextBlock Text="3. 기타사항" FontSize="22" Foreground="White" Margin="0,13,0,0" />
 			<TextBlock Text="- 소프트웨어 오류 및 업데이트 등 프로그램과 관련된 내용은 MES 관련 담당자에게 문의바랍니다." FontSize="16" Foreground="White" Margin="0,0,0,5"/>
 			<TextBlock Text="- 공정 및 데이터와 관련된 내용은 공정QC 관련 담당자에게 문의바랍니다." FontSize="16" Foreground="White" Margin="0,0,0,5"/>
-			<TextBlock Text="- 해당 프로그램은 인가된 인원만 사용바랍니다." FontSize="16" Foreground="White" Margin="0,0,0,5"/>
-
-			
-			
-		</StackPanel>
-	</Grid>
+            <TextBlock Text="- 해당 프로그램은 인가된 인원만 사용바랍니다." FontSize="16" Foreground="White" Margin="0,0,0,5"/>
+        </StackPanel>
+	</Grid-->
+    
 </Page>

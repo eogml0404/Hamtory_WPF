@@ -12,10 +12,11 @@ public class LoginManager
     public void ShowLoginPage(MainWindow mainWindow)
     {
         mainWindow.Login.Visibility = Visibility.Visible;
-        mainWindow.frame.Visibility = Visibility.Hidden;
+        mainWindow.MainLabel.Visibility = Visibility.Hidden;
         mainWindow.real_time_button.Visibility = Visibility.Hidden;
         mainWindow.data_button.Visibility = Visibility.Hidden;
         mainWindow.home_button.Visibility = Visibility.Hidden;
+        mainWindow.ToDay.Visibility = Visibility.Hidden;
     }
 
     public void Login(MainWindow mainWindow, string loginId, string password)
@@ -27,10 +28,11 @@ public class LoginManager
         if (users.TryGetValue(loginId, out var storedPassword) && storedPassword == password)
         {
             mainWindow.Login.Visibility = Visibility.Hidden;
-            mainWindow.frame.Visibility = Visibility.Visible;
+            mainWindow.MainLabel.Visibility = Visibility.Visible;
             mainWindow.real_time_button.Visibility = Visibility.Visible;
             mainWindow.data_button.Visibility = Visibility.Visible;
             mainWindow.home_button.Visibility = Visibility.Visible;
+            mainWindow.ToDay.Visibility = Visibility.Visible;
             //mainWindow.frame.Content = new Page3(); // 로그인 성공 시 Page3으로 이동
         }
         else

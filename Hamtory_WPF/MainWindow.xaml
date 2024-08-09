@@ -6,7 +6,7 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:Hamtory_WPF"
         mc:Ignorable="d"
-        Title="용해 공정 모니터링" Height="620" Width="930">
+        Title="용해 공정 관리 시스템" Height="620" Width="930">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="Black" Offset="1"/>
@@ -15,9 +15,14 @@
         </LinearGradientBrush>
     </Window.Background>
     <Grid>
-
-        <Button x:Name="home_button" HorizontalAlignment="Left" Height="50" Width="50" Margin="760,10,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FFFCFAFA" FontSize="35" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0">
-            <TextBlock Text="🏠" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,3,0,0"/>
+        <Label x:Name="MainLabel" Content="Home " HorizontalAlignment="Left" Height="50" Margin="23,15,0,0" VerticalAlignment="Top" Width="267" FontSize="30" FontFamily="Arial">
+            <Label.Foreground>
+                <SolidColorBrush Color="White" Opacity="0.8"/>
+            </Label.Foreground>
+        </Label>
+        <Label x:Name="ToDay" Content="Label" HorizontalAlignment="Left" Margin="482,22,0,0" VerticalAlignment="Top" Width="264" Foreground="White"  FontSize="20" HorizontalContentAlignment="Right"/>
+        <Button x:Name="home_button" HorizontalAlignment="Left" Height="50" Width="50" Margin="760,10,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FFFCFAFA" FontSize="35" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Click="home_button_Click">
+            <TextBlock Text="🏠" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,3,0,0" Foreground="#FFEDEDED"/>
         </Button>
 
         <Button x:Name="real_time_button" HorizontalAlignment="Left" Height="50" Width="50" Margin="810,10,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" FontSize="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Click="real_time_button_Click">
@@ -25,7 +30,7 @@
         </Button>
 
         <Button x:Name="data_button" HorizontalAlignment="Left" Height="50" Width="50" Margin="860,10,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FFFCFAFA" FontSize="35" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Click="data_button_Click">
-            <TextBlock Text="📊" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,3,0,0"/>
+            <TextBlock Text="📊" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,3,0,0" Foreground="#FFEDEDED"/>
         </Button>
 
         <Frame x:Name="frame" Margin="0,65,0,0" NavigationUIVisibility="Hidden"/>
@@ -43,7 +48,7 @@
                             <SolidColorBrush Color="White" Opacity="0.9"/>
                         </TextBox.BorderBrush>
                     </TextBox>
-                    <Label Content="PW" HorizontalAlignment="Left" Margin="1,63,0,0" VerticalAlignment="Top" Foreground="White"/>
+                    <Label Content="PW" HorizontalAlignment="Left" Margin="1,63,0,0" VerticalAlignment="Top" Foreground="#FFDADADA"/>
                     <PasswordBox x:Name="LoginPasswordBox" HorizontalAlignment="Left" Margin="33,67,0,0" VerticalAlignment="Top" Width="130" Height="19" Background="{x:Null}" BorderThickness="0,0,0,1" CaretBrush="White" Foreground="White">
                         <PasswordBox.BorderBrush>
                             <SolidColorBrush Color="White" Opacity="0.9"/>
@@ -51,18 +56,31 @@
                     </PasswordBox>
 
                 </Grid>
-                <Button x:Name="LoginButton" Content="Login" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="82" Height="26" BorderThickness="0,0,1,2" Foreground="White" Background="#FF989898" Margin="0,149,0,0" Click="LoginButton_Click">
+                <Button x:Name="LoginButton" Content="Login" HorizontalAlignment="Center" VerticalAlignment="Top" Width="82" Height="26" BorderThickness="0,0,1,2" Foreground="White" Background="#FF989898" Margin="0,149,0,0" Click="LoginButton_Click">
                     <Button.BorderBrush>
                         <SolidColorBrush Color="#FF979797" Opacity="0.8"/>
                     </Button.BorderBrush>
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
-                            <Border Background="{TemplateBinding Background}" 
+                            <Border x:Name="ButtonBorder" 
+                    Background="{TemplateBinding Background}" 
                     BorderBrush="{TemplateBinding BorderBrush}" 
                     BorderThickness="{TemplateBinding BorderThickness}" 
                     CornerRadius="7">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
+                            <ControlTemplate.Triggers>
+                                <!-- MouseOver Trigger -->
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="ButtonBorder" Property="Background" Value="#FFB0B0B0"/>
+                                    <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#FFA0A0A0"/>
+                                </Trigger>
+                                <!-- Pressed Trigger -->
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="ButtonBorder" Property="Background" Value="#FF888888"/>
+                                    <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#FF777777"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Button.Template>
                 </Button>

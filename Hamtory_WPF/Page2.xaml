@@ -17,13 +17,13 @@
     </Page.Resources>
 
 
-    <Grid>
-        <Border Margin="217,4,216,471" CornerRadius="5" BorderThickness="1">
+    <Grid Margin="10">
+        <Border Width="600" Height="40" CornerRadius="5" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0">
             <Border.BorderBrush>
                 <SolidColorBrush Color="White" Opacity="0.5"/>
             </Border.BorderBrush>
 
-            <Grid >
+            <Grid HorizontalAlignment="Center">
                 <Label Content="조회 기간" HorizontalAlignment="Left" Height="34" Margin="19,3,0,0" VerticalAlignment="Center" Width="82" FontSize="15" Foreground="White"/>
                 <local:DateRangePicker x:Name="DateRangePickerControl" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="410,1,0,0" RenderTransformOrigin="1.014,-3.182" Width="32" Foreground="{x:Null}"/>
                 <TextBlock x:Name="StartDateText" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="126,-1,0,0" Width="80" FontSize="15" Foreground="White" Text="Start Date" />
@@ -32,25 +32,68 @@
                 <TextBox x:Name="txtEndTime" HorizontalAlignment="Left" Height="28" Margin="344,5,0,0" TextWrapping="Wrap" Text="00:00" VerticalAlignment="Center" Width="47" FontSize="15" Foreground="White" Background="{x:Null}" BorderBrush="{x:Null}"/>
             </Grid>
         </Border>
-        <Button x:Name="RawDataButton" Content="📜" HorizontalAlignment="Left" Height="34" Margin="10,12,0,0" VerticalAlignment="Top" Width="37" Click="RawDataButton_Click" BorderBrush="{x:Null}" Background="#FFE8E8E8"/>
 
         <!-- 운영 데이터 -->
-        <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Left" Margin="38,78,0,0" VerticalAlignment="Top" Height="404" Width="576">
-            <Border.Background>
-                <SolidColorBrush Color="White" Opacity="0.1"/>
-            </Border.Background>
-            <local:OpChart x:Name="opChart" HorizontalAlignment="Center" VerticalAlignment="Top" Width="499" Height="280" Margin="0,90,0,0"/>
-        </Border>
-        <!-- 통계 차트 -->
-        <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Left" Margin="620,78,0,0" VerticalAlignment="Top" Height="199" Width="251">
-            <local:BoxPlot x:Name="BoxPlot"/>
-        </Border>
-        <!-- OK/NG -->
-        <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Left" Margin="620,282,0,0" VerticalAlignment="Top" Height="200" Width="251">
-            <Border.Background>
-                <SolidColorBrush Color="White" Opacity="0.1"/>
-            </Border.Background>
-        </Border>
+        <Grid Margin="10,65,10,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3">
+                <Border.BorderBrush>
+                    <SolidColorBrush Color="White" Opacity="0.8"/>
+                </Border.BorderBrush>
+                <Border.Background>
+                    <SolidColorBrush Color="White" Opacity="0.1"/>
+                </Border.Background>
+                <local:OpChart x:Name="opChart" HorizontalAlignment="Center" VerticalAlignment="Top" Width="499" Height="280" Margin="0,90,0,0"/>
+            </Border>
 
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <!-- 통계 차트 -->
+                <Grid Grid.Row="0" Margin="3">
+                    <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <local:BoxPlot x:Name="BoxPlot"/>
+                    </Border>
+                </Grid>
+                <!-- OK/NG -->
+                <Grid Grid.Row="1" Margin="3">
+                    <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Border.Background>
+                            <SolidColorBrush Color="White" Opacity="0.1"/>
+                        </Border.Background>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Button x:Name="RawDataButton" Content="Raw Data" HorizontalAlignment="Left" Height="30" Margin="26,78,0,0" VerticalAlignment="Top" Width="65" Click="RawDataButton_Click" Foreground="#FFF1F1F1" BorderThickness="0,0,1,2" Background="#FF929292">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="BorderElement" 
+                    Background="{TemplateBinding Background}" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="{TemplateBinding BorderThickness}" 
+                    CornerRadius="7">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- MouseOver Trigger -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="BorderElement" Property="Background" Value="#FFB0B0B0"/>
+                            <Setter TargetName="BorderElement" Property="BorderBrush" Value="#FFA0A0A0"/>
+                        </Trigger>
+                        <!-- Pressed Trigger -->
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="BorderElement" Property="Background" Value="#FF888888"/>
+                            <Setter TargetName="BorderElement" Property="BorderBrush" Value="#FF777777"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
     </Grid>
 </Page>
