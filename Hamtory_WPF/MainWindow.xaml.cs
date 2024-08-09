@@ -15,10 +15,12 @@ namespace Hamtory_WPF
             ShowLoginPage(); // 로그인 페이지 표시
         }
 
+        
         private void ShowLoginPage()
         {
             loginManager.ShowLoginPage(this);
         }
+        
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
@@ -35,9 +37,11 @@ namespace Hamtory_WPF
             frame.Content = new Page2();
         }
 
+        /*
         private void home_button_Click(object sender, RoutedEventArgs e)
         {
             frame.Content = new Page3();
         }
+        */
     }
 }

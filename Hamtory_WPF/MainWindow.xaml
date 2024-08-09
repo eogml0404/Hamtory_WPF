@@ -15,21 +15,8 @@
         </LinearGradientBrush>
     </Window.Background>
     <Grid>
-        <TabControl Name="tabControl" Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400" Height="300">
-            <TabItem Header="공정 모니터링 시스템 ">
-                <Grid>
-                    <Label Content="ID" HorizontalAlignment="Left" Margin="50,70,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="LoginIDTextBox" HorizontalAlignment="Left" Height="23" Margin="150,70,0,0" VerticalAlignment="Top" Width="200"/>
-                    <Label Content="Password" HorizontalAlignment="Left" Margin="50,120,0,0" VerticalAlignment="Top"/>
-                    <PasswordBox x:Name="LoginPasswordBox" HorizontalAlignment="Left" Height="23" Margin="150,120,0,0" VerticalAlignment="Top" Width="200"/>
-                    <Button Content="로그인" HorizontalAlignment="Left" Margin="150,170,0,0" VerticalAlignment="Top" Width="200" Click="LoginButton_Click"/>
-                </Grid>
-            </TabItem>
-        </TabControl>
-       
-        
-        
-        <Button x:Name="home_button" HorizontalAlignment="Left" Height="50" Width="50" Margin="760,10,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FFFCFAFA" FontSize="35" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Click="home_button_Click">
+
+        <Button x:Name="home_button" HorizontalAlignment="Left" Height="50" Width="50" Margin="760,10,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FFFCFAFA" FontSize="35" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0">
             <TextBlock Text="🏠" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,3,0,0"/>
         </Button>
 
@@ -42,5 +29,45 @@
         </Button>
 
         <Frame x:Name="frame" Margin="0,65,0,0" NavigationUIVisibility="Hidden"/>
+
+        <!-- 로그인 -->
+        <Border x:Name="Login" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="10" Width="270" Height="200" Margin="333,10,0,0" Visibility="Hidden">
+            <Border.Background>
+                <SolidColorBrush Color="Black" Opacity="0.2"/>
+            </Border.Background>
+            <Grid>
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,40">
+                    <Label Content="ID" HorizontalAlignment="Left" Margin="7,8,0,0" Foreground="#FFDADADA" Height="26" VerticalAlignment="Top"/>
+                    <TextBox x:Name="LoginIDTextBox" HorizontalAlignment="Left" Margin="33,12,0,0" VerticalAlignment="Top" Width="130" Height="19" Background="{x:Null}" BorderThickness="0,0,0,1" Foreground="White" CaretBrush="White">
+                        <TextBox.BorderBrush>
+                            <SolidColorBrush Color="White" Opacity="0.9"/>
+                        </TextBox.BorderBrush>
+                    </TextBox>
+                    <Label Content="PW" HorizontalAlignment="Left" Margin="1,63,0,0" VerticalAlignment="Top" Foreground="White"/>
+                    <PasswordBox x:Name="LoginPasswordBox" HorizontalAlignment="Left" Margin="33,67,0,0" VerticalAlignment="Top" Width="130" Height="19" Background="{x:Null}" BorderThickness="0,0,0,1" CaretBrush="White" Foreground="White">
+                        <PasswordBox.BorderBrush>
+                            <SolidColorBrush Color="White" Opacity="0.9"/>
+                        </PasswordBox.BorderBrush>
+                    </PasswordBox>
+
+                </Grid>
+                <Button x:Name="LoginButton" Content="Login" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="82" Height="26" BorderThickness="0,0,1,2" Foreground="White" Background="#FF989898" Margin="0,149,0,0" Click="LoginButton_Click">
+                    <Button.BorderBrush>
+                        <SolidColorBrush Color="#FF979797" Opacity="0.8"/>
+                    </Button.BorderBrush>
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="{TemplateBinding BorderThickness}" 
+                    CornerRadius="7">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+        </Border>
+
     </Grid>
 </Window>

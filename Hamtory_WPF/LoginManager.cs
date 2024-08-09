@@ -11,7 +11,7 @@ public class LoginManager
 
     public void ShowLoginPage(MainWindow mainWindow)
     {
-        mainWindow.tabControl.Visibility = Visibility.Visible;
+        mainWindow.Login.Visibility = Visibility.Visible;
         mainWindow.frame.Visibility = Visibility.Hidden;
         mainWindow.real_time_button.Visibility = Visibility.Hidden;
         mainWindow.data_button.Visibility = Visibility.Hidden;
@@ -26,12 +26,12 @@ public class LoginManager
 
         if (users.TryGetValue(loginId, out var storedPassword) && storedPassword == password)
         {
-            mainWindow.tabControl.Visibility = Visibility.Hidden;
+            mainWindow.Login.Visibility = Visibility.Hidden;
             mainWindow.frame.Visibility = Visibility.Visible;
             mainWindow.real_time_button.Visibility = Visibility.Visible;
             mainWindow.data_button.Visibility = Visibility.Visible;
             mainWindow.home_button.Visibility = Visibility.Visible;
-            mainWindow.frame.Content = new Page3(); // 로그인 성공 시 Page3으로 이동
+            //mainWindow.frame.Content = new Page3(); // 로그인 성공 시 Page3으로 이동
         }
         else
         {
