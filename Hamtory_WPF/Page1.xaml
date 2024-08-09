@@ -18,100 +18,128 @@
     </Page.Resources>
 
     <Grid>
-        <Border Style="{StaticResource GaugeBorderStyle}" HorizontalAlignment="Left" Margin="450,20,0,0" VerticalAlignment="Top">
-            <Grid>
-                <Label Style="{StaticResource GaugeLabelStyle}" Margin="0,38,0,146">Melt Temp</Label>
-                <lvc:Gauge Margin="10,60,10,0" From="300" To="850" Value="{Binding CurrentTemperature}" LabelsVisibility="Collapsed" Foreground="White">
-                    <lvc:Gauge.GaugeActiveFill>
-                        <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
-                            <GradientStop Color="#FFE60000" Offset="0"/>
-                            <GradientStop Color="#FF0059FF" Offset="1"/>
-                        </LinearGradientBrush>
-                    </lvc:Gauge.GaugeActiveFill>
-                </lvc:Gauge>
-            </Grid>
-        </Border>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid Grid.Column="1" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-        <Border Style="{StaticResource GaugeBorderStyle}" HorizontalAlignment="Left" Margin="665,20,0,0" VerticalAlignment="Top">
-            <Grid>
-                <Label Style="{StaticResource GaugeLabelStyle}" Margin="0,38,0,146">Motor Speed</Label>
-                <lvc:Gauge Margin="10,60,10,0" From="0" To="1800" Value="{Binding CurrentMotorSpeed}" LabelsVisibility="Collapsed" Foreground="White">
-                    <lvc:Gauge.GaugeActiveFill>
-                        <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
-                            <GradientStop Color="#FFFF1515" Offset="0"/>
-                            <GradientStop Color="#FFFFF000" Offset="1"/>
-                        </LinearGradientBrush>
-                    </lvc:Gauge.GaugeActiveFill>
-                </lvc:Gauge>
-            </Grid>
-        </Border>
+            <Border Style="{StaticResource GaugeBorderStyle}"
+            Grid.Row="0" Grid.Column="0" Margin="3">
+                <Grid Margin="10">
+                    <Label Style="{StaticResource GaugeLabelStyle}" Margin="0,38,0,146">Melt Temp</Label>
+                    <lvc:Gauge Margin="10,60,10,0" From="300" To="850" Value="{Binding CurrentTemperature}" LabelsVisibility="Collapsed" Foreground="White">
+                        <lvc:Gauge.GaugeActiveFill>
+                            <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
+                                <GradientStop Color="#FFFF1515" Offset="0"/>
+                                <GradientStop Color="#FFD1C500" Offset="1"/>
+                            </LinearGradientBrush>
+                        </lvc:Gauge.GaugeActiveFill>
+                    </lvc:Gauge>
+                </Grid>
+            </Border>
 
-        <Border Style="{StaticResource GaugeBorderStyle}" HorizontalAlignment="Left" Margin="450,268,0,0" VerticalAlignment="Top">
-            <Grid>
-                <Label Style="{StaticResource GaugeLabelStyle}" Margin="0,38,0,146">Melt Weight</Label>
-                <lvc:Gauge Margin="10,60,10,0" From="0" To="2200" Value="{Binding CurrentMeltWeight}" LabelsVisibility="Collapsed" Foreground="White">
-                    <lvc:Gauge.GaugeActiveFill>
-                        <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
-                            <GradientStop Color="#FF177900" Offset="0"/>
-                            <GradientStop Color="#FFFFF000" Offset="1"/>
-                        </LinearGradientBrush>
-                    </lvc:Gauge.GaugeActiveFill>
-                </lvc:Gauge>
-            </Grid>
-        </Border>
+            <Border Style="{StaticResource GaugeBorderStyle}"
+            Grid.Row="0" Grid.Column="1" Margin="3">
+                <Grid Margin="10">
+                    <Label Style="{StaticResource GaugeLabelStyle}" Margin="0,38,0,146">Motor Speed</Label>
+                    <lvc:Gauge Margin="10,60,10,0" From="0" To="1800" Value="{Binding CurrentMotorSpeed}" LabelsVisibility="Collapsed" Foreground="White">
+                        <lvc:Gauge.GaugeActiveFill>
+                            <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
+                                <GradientStop Color="#FF6600B8" Offset="0"/>
+                                <GradientStop Color="#FFCB00D6" Offset="1"/>
+                            </LinearGradientBrush>
+                        </lvc:Gauge.GaugeActiveFill>
+                    </lvc:Gauge>
+                </Grid>
+            </Border>
 
-        <!--Grid HorizontalAlignment="Left" Height="240" Margin="665,268,0,0" VerticalAlignment="Top" Width="225" Background="#FF00F6FF" Opacity="0.5"/-->
-        <Border Style="{StaticResource GaugeBorderStyle}" HorizontalAlignment="Left" Margin="665,268,0,0" VerticalAlignment="Top">
-            <Grid>
-                <Label Style="{StaticResource GaugeLabelStyle}" Margin="0,38,0,146">Insp</Label>
-                <lvc:Gauge Margin="10,60,10,0" From="0" To="4" Value="{Binding CurrentMoisture}" LabelsVisibility="Collapsed" Foreground="White">
-                    <lvc:Gauge.GaugeActiveFill>
-                        <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
-                            <GradientStop Color="#FF0019FF" Offset="0"/>
-                            <GradientStop Color="#FF00FFE3" Offset="1"/>
-                        </LinearGradientBrush>
-                    </lvc:Gauge.GaugeActiveFill>
-                </lvc:Gauge>
-            </Grid>
-        </Border>
+            <Border Style="{StaticResource GaugeBorderStyle}"
+            Grid.Row="1" Grid.Column="0" Margin="3">
+                <Grid Margin="10">
+                    <Label Style="{StaticResource GaugeLabelStyle}" Margin="0,38,0,146">Melt Weight</Label>
+                    <lvc:Gauge Margin="10,60,10,0" From="0" To="2200" Value="{Binding CurrentMeltWeight}" LabelsVisibility="Collapsed" Foreground="White">
+                        <lvc:Gauge.GaugeActiveFill>
+                            <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
+                                <GradientStop Color="#FF177900" Offset="0"/>
+                                <GradientStop Color="#FFD1C500" Offset="1"/>
+                            </LinearGradientBrush>
+                        </lvc:Gauge.GaugeActiveFill>
+                    </lvc:Gauge>
+                </Grid>
+            </Border>
 
-        <!-- Grid HorizontalAlignment="Left" Height="240" Margin="10,28,0,0" VerticalAlignment="Top" Width="420" Background="#FFD9D9D9" Opacity="0.5"/-->
-        <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+            <Border Style="{StaticResource GaugeBorderStyle}"
+            Grid.Row="1" Grid.Column="1" Margin="3">
+                <Grid Margin="10">
+                    <Label Style="{StaticResource GaugeLabelStyle}" Margin="0,38,0,146">Insp</Label>
+                    <lvc:Gauge Margin="10,60,10,0" From="0" To="4" Value="{Binding CurrentMoisture}" LabelsVisibility="Collapsed" Foreground="White">
+                        <lvc:Gauge.GaugeActiveFill>
+                            <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" SpreadMethod="Pad">
+                                <GradientStop Color="#FF0019FF" Offset="0"/>
+                                <GradientStop Color="#FF00D4BD" Offset="1"/>
+                            </LinearGradientBrush>
+                        </lvc:Gauge.GaugeActiveFill>
+                    </lvc:Gauge>
+                </Grid>
+            </Border>
+        </Grid>
 
-                <!-- 온도, 모터 속도, 용해 무게를 위한 차트 -->
-                <lvc:CartesianChart Grid.Row="0"
+        <Grid Grid.Column="0" Margin="10,10,-10,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+            
+            <Grid Grid.Row="0" Margin="3">
+            <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!-- 온도, 모터 속도, 용해 무게를 위한 차트 -->
+                    <lvc:CartesianChart Grid.Row="0"
                         Series="{Binding SeriesCollectionTemperature}"
                         AxisX="{Binding AxisXCollectionTemperature}"
-                        LegendLocation="Right" MouseEnter="stopGraph" MouseLeave="startGraph" Zoom="X">
-                    <!-- Legend 추가 -->
-                    <lvc:CartesianChart.AxisY>
-                        <lvc:Axis Title="Values" />
-                    </lvc:CartesianChart.AxisY>
-                </lvc:CartesianChart>
+                        LegendLocation="None" MouseEnter="stopGraph" MouseLeave="startGraph" Zoom="X">
+                        <!-- Legend 추가 -->
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Values" />
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
 
-                <!-- 수분 함유량을 위한 차트 -->
-                <lvc:CartesianChart Grid.Row="1"
+                    <!-- 수분 함유량을 위한 차트 -->
+                    <lvc:CartesianChart Grid.Row="1"
                         Series="{Binding SeriesCollectionMoisture}"
                         AxisX="{Binding AxisXCollectionMoisture}"
-                        LegendLocation="Right" MouseEnter="stopGraph" MouseLeave="startGraph" Zoom="X">
-                    <!-- Legend 추가 -->
-                    <lvc:CartesianChart.AxisY>
-                        <lvc:Axis Title="Moisture (%)"
+                        LegendLocation="None" MouseEnter="stopGraph" MouseLeave="startGraph" Zoom="X">
+                        <!-- Legend 추가 -->
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Moisture (%)"
                       LabelFormatter="{Binding AxisYCollection2[0].LabelFormatter}" />
-                        <!-- Y축 레이블 포맷 적용 -->
-                    </lvc:CartesianChart.AxisY>
-                </lvc:CartesianChart>
+                            <!-- Y축 레이블 포맷 적용 -->
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
+                </Grid>
+            </Border>
             </Grid>
-
-        </Border>
-        <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Left" Margin="10,268,0,0" VerticalAlignment="Top">
-            <local:NGstackChart x:Name="stackedChart" HorizontalAlignment="Left" VerticalAlignment="Top" Width="410" Height="222" Margin="0,10,0,0"/>
-        </Border>
+            <Grid Grid.Row="1" Margin="3">
+                <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <local:NGstackChart x:Name="stackedChart" Margin="20,20,20,10"/>
+            </Border>
+            </Grid>
+        </Grid>
         <Label x:Name="ToDay" Content="Label" HorizontalAlignment="Left" Margin="412,20,0,0" VerticalAlignment="Top" Width="238" Foreground="White"/>
 
     </Grid>

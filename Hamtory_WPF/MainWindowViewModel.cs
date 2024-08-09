@@ -7,6 +7,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
+using System.Windows.Media;
+
 
 namespace Hamtory_WPF
 {
@@ -101,26 +103,36 @@ namespace Hamtory_WPF
             // SeriesCollection 설정
             SeriesCollectionTemperature = new SeriesCollection
             {
-                new LineSeries
-                {
-                    Title = "용해온도",
-                    Values = ChartValuesTemperature, // ChartValues를 LineSeries의 값으로 설정
-                    PointGeometrySize = 10,         // 데이터 점의 크기
-                    StrokeThickness = 4             // 선의 두께
-                },
+
                 new LineSeries
                 {
                     Title = "모터 속도",
                     Values = ChartValuesMotorSpeed, // ChartValuesMotorSpeed를 LineSeries의 값으로 설정
-                    PointGeometrySize = 10,         // 데이터 점의 크기
-                    StrokeThickness = 4             // 선의 두께
+                    PointGeometrySize = 5,         // 데이터 점의 크기
+                    StrokeThickness = 2,             // 선의 두께
+                    Stroke = new SolidColorBrush(Color.FromRgb(160, 110, 220)),
+                    Fill = new SolidColorBrush(Color.FromArgb(90, 160, 110, 220)),
+                    LineSmoothness = 0
+                },
+                new LineSeries
+                {
+                    Title = "용해온도",
+                    Values = ChartValuesTemperature, // ChartValues를 LineSeries의 값으로 설정
+                    PointGeometrySize = 5,         // 데이터 점의 크기
+                    StrokeThickness = 2,             // 선의 두께
+                    Stroke = new SolidColorBrush(Color.FromRgb(200, 50, 50)),
+                    Fill = new SolidColorBrush(Color.FromArgb(90, 190, 50, 50)),
+                    LineSmoothness = 0
                 },
                 new LineSeries
                 {
                     Title = "용해 무게",
                     Values = ChartValuesMeltWeight, // ChartValuesMeltWeight를 LineSeries의 값으로 설정
-                    PointGeometrySize = 10,         // 데이터 점의 크기
-                    StrokeThickness = 4             // 선의 두께
+                    PointGeometrySize = 5,         // 데이터 점의 크기
+                    StrokeThickness = 2,             // 선의 두께
+                    Stroke = new SolidColorBrush(Color.FromRgb(90, 180, 80)),
+                    Fill = new SolidColorBrush(Color.FromArgb(50, 90, 190, 80)),
+                    LineSmoothness = 0
                 }
             };
 
@@ -128,10 +140,13 @@ namespace Hamtory_WPF
             {
                 new LineSeries
                 {
-                    Title = "수분 함유량(%)",
+                    Title = "수분 함유량",
                     Values = ChartValuesMoisture, // ChartValuesMoisture를 LineSeries의 값으로 설정
-                    PointGeometrySize = 10,       // 데이터 점의 크기
-                    StrokeThickness = 4           // 선의 두께
+                    PointGeometrySize = 5,       // 데이터 점의 크기
+                    StrokeThickness = 2,           // 선의 두께   
+                    Stroke = new SolidColorBrush(Color.FromRgb(12, 130, 210)),
+                    //Fill = Brushes.LightBlue,     
+                    LineSmoothness = 1
                 }
             };
 
@@ -150,6 +165,7 @@ namespace Hamtory_WPF
                         }
                         return "";
                     }, // X축 레이블 포맷
+ 
                     Separator = new Separator
                     {
                         Step = 1 // X축 구분선 간격 설정
@@ -174,7 +190,7 @@ namespace Hamtory_WPF
                     Separator = new Separator
                     {
                         Step = 1 // X축 구분선 간격 설정
-                    }
+                    },
                 }
             };
             AxisYCollection2 = new AxesCollection
@@ -182,7 +198,7 @@ namespace Hamtory_WPF
                 new Axis
                 {
                     Title = "Moisture (%)",
-                    LabelFormatter = value => value.ToString("0.00") // Y축 레이블 포맷 (소수점 둘째 자리까지)
+                    LabelFormatter = value => value.ToString("0.00"), // Y축 레이블 포맷 (소수점 둘째 자리까지)
                 }
             };
 
@@ -217,6 +233,7 @@ namespace Hamtory_WPF
         public ChartValues<MeasureModel> ChartValuesMeltWeight { get; set; }
         public ChartValues<MeasureModel> ChartValuesMoisture { get; set; }
         public DispatcherTimer Timer { get; set; }
+
 
         // 축 한계 설정 메서드
         private void SetAxisLimits(int nowIndex)
