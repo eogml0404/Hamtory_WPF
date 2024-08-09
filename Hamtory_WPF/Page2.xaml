@@ -43,9 +43,7 @@
         </Border>
         <!-- 통계 차트 -->
         <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Left" Margin="620,78,0,0" VerticalAlignment="Top" Height="199" Width="251">
-            <Border.Background>
-                <SolidColorBrush Color="White" Opacity="0.1"/>
-            </Border.Background>
+            <local:BoxPlot x:Name="BoxPlot"/>
         </Border>
         <!-- OK/NG -->
         <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Left" Margin="620,282,0,0" VerticalAlignment="Top" Height="200" Width="251">
