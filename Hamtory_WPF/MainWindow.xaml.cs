@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenTK.Windowing.Desktop;
+using System;
 using System.Windows;
 
 namespace Hamtory_WPF
@@ -30,18 +31,19 @@ namespace Hamtory_WPF
         private void real_time_button_Click(object sender, RoutedEventArgs e)
         {
             frame.Content = new Page1();
+            MainLabel.Content = "Monitoring";
         }
 
         private void data_button_Click(object sender, RoutedEventArgs e)
         {
             frame.Content = new Page2();
+            MainLabel.Content = "Data Analytics";
         }
 
-        /*
         private void home_button_Click(object sender, RoutedEventArgs e)
         {
             frame.Content = new Page3();
+            MainLabel.Content = "Home";
         }
-        */
     }
 }
