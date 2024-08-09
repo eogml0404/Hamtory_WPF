@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
+
 namespace Hamtory_WPF
 {
     /// <summary>
@@ -34,6 +36,7 @@ namespace Hamtory_WPF
                     Values = new ChartValues<int> {OKCounting(4, datas),OKCounting(3, datas),OKCounting(2, datas),OKCounting(1, datas) },
                     StackMode = StackMode.Percentage,
                     DataLabels = true,
+                    Fill = new SolidColorBrush(Color.FromArgb(250, 100, 90, 190)),
                     Title = "OK"
                 },
 
@@ -42,12 +45,13 @@ namespace Hamtory_WPF
                     Values = new ChartValues<int> {NGCounting(4, datas),NGCounting(3, datas),NGCounting(2, datas),NGCounting(1, datas) },
                     StackMode = StackMode.Percentage,
                     DataLabels = true,
+                    Fill = new SolidColorBrush(Color.FromArgb(250, 190, 50, 50)),
                     Title = "NG"
                 }
             };
 
-            Labels = new[] {"4시간 전", "3시간 전", "2시간 전" , "1시간 전"};
-            Formatter = value => value + " 번";
+            Labels = new[] {"-4h", "-3h", "-2h" , "-1h"};
+            // Formatter = value => value + " 번";
 
             DataContext = this;
         }
