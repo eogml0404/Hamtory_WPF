@@ -16,6 +16,7 @@ public class LoginManager
         mainWindow.real_time_button.Visibility = Visibility.Hidden;
         mainWindow.data_button.Visibility = Visibility.Hidden;
         mainWindow.home_button.Visibility = Visibility.Hidden;
+        mainWindow.ToDay.Visibility = Visibility.Hidden;
     }
 
     public void Login(MainWindow mainWindow, string loginId, string password)
@@ -31,6 +32,7 @@ public class LoginManager
             mainWindow.real_time_button.Visibility = Visibility.Visible;
             mainWindow.data_button.Visibility = Visibility.Visible;
             mainWindow.home_button.Visibility = Visibility.Visible;
+            mainWindow.ToDay.Visibility = Visibility.Visible;
             //mainWindow.frame.Content = new Page3(); // 로그인 성공 시 Page3으로 이동
         }
         else
