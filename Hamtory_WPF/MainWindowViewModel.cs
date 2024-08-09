@@ -177,7 +177,8 @@ namespace Hamtory_WPF
  
                     Separator = new Separator
                     {
-                        Step = 1 // X축 구분선 간격 설정
+                        Step = 1, // X축 구분선 간격 설정
+                        Stroke = new SolidColorBrush(Colors.White) { Opacity = 0.1 }
                     }
                 }
             };
@@ -198,7 +199,8 @@ namespace Hamtory_WPF
                     }, // X축 레이블 포맷
                     Separator = new Separator
                     {
-                        Step = 1 // X축 구분선 간격 설정
+                        Step = 1, // X축 구분선 간격 설정
+                        Stroke = new SolidColorBrush(Colors.White) { Opacity = 0.1 }
                     },
                 }
             };
@@ -210,7 +212,7 @@ namespace Hamtory_WPF
                     DisableAnimations = true,
                     Title = "Moisture (%)",
                     LabelFormatter = value => value.ToString("0.00"), // Y축 레이블 포맷 (소수점 둘째 자리까지)
-                }
+                 }
             };
 
 
