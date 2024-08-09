@@ -20,6 +20,7 @@
                 <SolidColorBrush Color="White" Opacity="0.8"/>
             </Label.Foreground>
         </Label>
+        <Label x:Name="ToDay" Content="Label" HorizontalAlignment="Left" Margin="592,22,0,0" VerticalAlignment="Top" Width="163" Foreground="White"  FontSize="20" HorizontalContentAlignment="Right"/>
         <Button x:Name="home_button" HorizontalAlignment="Left" Height="50" Width="50" Margin="760,10,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FFFCFAFA" FontSize="35" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Click="home_button_Click">
             <TextBlock Text="🏠" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,3,0,0"/>
         </Button>
