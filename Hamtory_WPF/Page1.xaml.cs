@@ -24,47 +24,28 @@ namespace Hamtory_WPF
     {
         public bool IsReading { get; set; }
         private MainWindowViewModel viewModel;
-        ProcessData dataLoader = new ProcessData();
-        private DispatcherTimer timer;
 
         public Page1()
         {
             InitializeComponent();
-  
+
             viewModel = new MainWindowViewModel(new DateTime(2020, 4, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
-            
+
             DataContext = viewModel;
-            
-            ToDay.Content = "ToDay = " + new DateTime(2020, 4, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
 
-            UpdateDateTimeDisplay();
-            
-            // DispatcherTimer 설정
-            timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromSeconds(1) // 1초 간격으로 타이머 설정
-            };
-            timer.Tick += Timer_Tick; // Tick 이벤트 핸들러 설정
-            timer.Start(); // 타이머 시작
-        }
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            // ToDay의 Content를 현재 시간으로 업데이트
-            UpdateDateTimeDisplay();
+            stackedChart = (NGstackChart)FindName("stackedChart");
         }
 
-        private void UpdateDateTimeDisplay()
-        {
-            ToDay.Content = "ToDay : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        }
         private void stopGraph(object sender, MouseEventArgs e)
         {
              viewModel.StopTimer();
+             stackedChart.StopTimer();
         }
 
         private void startGraph(object sender, MouseEventArgs e)
         {
-            viewModel.StartTimer();
+             viewModel.StartTimer();
+             stackedChart.StartTimer();
         }
 
     }

@@ -3,9 +3,7 @@
 
 
     <Style x:Key="GaugeBorderStyle" TargetType="Border">
-        <Setter Property="Height" Value="240"/>
-        <Setter Property="Width" Value="200"/>
-        <Setter Property="CornerRadius" Value="15"/>
+        <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Background">
             <Setter.Value>
                 <SolidColorBrush Color="White" Opacity="0.1"/>
@@ -19,9 +17,7 @@
         <Setter Property="FontFamily" Value="Segoe UI Variable Small Semibold"/>
     </Style>
     <Style x:Key="ChartBorderStyle" TargetType="Border">
-        <Setter Property="Height" Value="240"/>
-        <Setter Property="Width" Value="420"/>
-        <Setter Property="CornerRadius" Value="15"/>
+        <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Background">
             <Setter.Value>
                 <SolidColorBrush Color="White" Opacity="0.1"/>

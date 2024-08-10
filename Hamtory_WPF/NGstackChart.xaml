@@ -8,9 +8,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="300">
     <Grid>
-        <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Bottom">
+        <lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="None">
             <lvc:CartesianChart.AxisX>
-                <lvc:Axis Title="Time" Labels="{Binding Labels}">
+                <lvc:Axis Title="Time" Labels="{Binding Labels}" >
                     <lvc:Axis.Separator>
                         <lvc:Separator Step="1"/>
                     </lvc:Axis.Separator>
