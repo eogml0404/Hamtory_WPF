@@ -6,7 +6,7 @@
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="Black" Opacity="0.1"/>
+                <SolidColorBrush Color="Black" Opacity="0.2"/>
             </Setter.Value>
         </Setter>
     </Style>
@@ -24,7 +24,7 @@
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="Black"  Opacity="0.1"/>
+                <SolidColorBrush Color="Black"  Opacity="0.2"/>
             </Setter.Value>
         </Setter>
     </Style>

@@ -6,12 +6,12 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:Hamtory_WPF"
         mc:Ignorable="d"
-        Title="용해 공정 관리 시스템" Height="620" Width="930">
+        Title="용해 공정 관리 시스템" Height="620" Width="930"
+        ResizeMode="NoResize">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            <GradientStop Color="Black" Offset="1"/>
-            <GradientStop Color="#FF371881" Offset="0"/>
-            <GradientStop Color="#FF1C005B" Offset="0.993"/>
+            <GradientStop Color="#FF4C2B9D" Offset="0"/>
+            <GradientStop Color="#FF2B0D6D" Offset="1"/>
         </LinearGradientBrush>
     </Window.Background>
     <Grid>
