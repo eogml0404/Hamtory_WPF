@@ -24,8 +24,6 @@ namespace Hamtory_WPF
     {
         public bool IsReading { get; set; }
         private MainWindowViewModel viewModel;
-        ProcessData dataLoader = new ProcessData();
-        private DispatcherTimer timer;
 
         public Page1()
         {
@@ -35,16 +33,19 @@ namespace Hamtory_WPF
 
             DataContext = viewModel;
 
+            stackedChart = (NGstackChart)FindName("stackedChart");
         }
 
         private void stopGraph(object sender, MouseEventArgs e)
         {
              viewModel.StopTimer();
+             stackedChart.StopTimer();
         }
 
         private void startGraph(object sender, MouseEventArgs e)
         {
-            viewModel.StartTimer();
+             viewModel.StartTimer();
+             stackedChart.StartTimer();
         }
 
     }
