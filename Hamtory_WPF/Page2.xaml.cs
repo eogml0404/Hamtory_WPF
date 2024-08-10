@@ -7,10 +7,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using LiveCharts;
-using LiveCharts.Wpf;
 using Microsoft.Win32;
 using ClosedXML.Excel;
+using LiveCharts;
+using LiveCharts.Wpf;
+using System.Windows.Media;
+using LiveCharts.Defaults;
 
 namespace Hamtory_WPF
 {
@@ -22,14 +24,18 @@ namespace Hamtory_WPF
         public Page2()
         {
             InitializeComponent();
-            LoadData();
+            LoadData();  // 페이지 초기화 시 자동으로 데이터를 로드
+            DateRangePickerControl.DateRangeChanged += DateRangePickerControl_DateRangeChanged;
+            opChart.LoadSampleData();
         }
 
         public void LoadData()
         {
+            // Debug 폴더에 있는 CSV 파일 경로 지정
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string filePath = Path.Combine(baseDirectory, "melting_tank.csv");
 
+            // 파일이 존재하는지 확인
             if (!File.Exists(filePath))
             {
                 MessageBox.Show("melting_tank.csv 파일이 존재하지 않습니다.");
@@ -48,6 +54,17 @@ namespace Hamtory_WPF
                         dataTable = dt;
                     }
                 }
+
+                // 데이터가 로드된 후 DataGrid에 표시
+                if (dataTable != null && dataTable.Rows.Count > 0)
+                {
+                    dataGrid.ItemsSource = dataTable.DefaultView;
+
+                }
+                else
+                {
+                    MessageBox.Show("CSV 파일에서 데이터를 로드하지 못했습니다.");
+                }
             }
             catch (Exception ex)
             {
@@ -55,169 +72,158 @@ namespace Hamtory_WPF
             }
         }
 
-        private async void BtnFilter_Click(object sender, RoutedEventArgs e)
+        private void DateRangePickerControl_DateRangeChanged(object sender, DateRangeChangedEventArgs e)
         {
-            if (dataTable == null)
+            StartDateText.Text = e.StartDate.HasValue ? e.StartDate.Value.ToString("yyyy-MM-dd") : string.Empty;
+            EndDateText.Text = e.EndDate.HasValue ? e.EndDate.Value.ToString("yyyy-MM-dd") : "End Date";
+        }
+
+        private void RawDataButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataTable == null || dataTable.Rows.Count == 0)
             {
-                MessageBox.Show("데이터를 먼저 로드하세요.");
+                MessageBox.Show("데이터가 로드되지 않았습니다.");
                 return;
             }
 
-            try
+            DateTime? startDate = DateRangePickerControl.StartDate;
+            DateTime? endDate = DateRangePickerControl.EndDate;
+            string startTime = txtStartTime.Text;
+            string endTime = txtEndTime.Text;
+
+            if (startDate.HasValue && endDate.HasValue)
             {
-                if (datePickerStart.SelectedDate.HasValue && datePickerEnd.SelectedDate.HasValue)
+                DateTime startDateTime = DateTime.ParseExact($"{startDate.Value:yyyy-MM-dd} {startTime}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+                DateTime endDateTime = DateTime.ParseExact($"{endDate.Value:yyyy-MM-dd} {endTime}", "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture).AddSeconds(59);
+
+                FilterData(startDateTime, endDateTime);
+
+                if (filteredDataTable != null && filteredDataTable.Rows.Count > 0)
                 {
-                    DateTime startDate = datePickerStart.SelectedDate.Value;
-                    DateTime endDate = datePickerEnd.SelectedDate.Value;
-
-                    string startTime = txtStartTime.Text;
-                    string endTime = txtEndTime.Text;
-
-                    if (DateTime.TryParseExact(startDate.ToString("yyyy-MM-dd") + " " + startTime, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime startDateTime) &&
-                        DateTime.TryParseExact(endDate.ToString("yyyy-MM-dd") + " " + endTime, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime endDateTime))
-                    {
-                        filteredDataTable = await Task.Run(() =>
+                    var meltTempData = filteredDataTable.AsEnumerable()
+                        .Select(row =>
                         {
-                            var filteredDataTable = dataTable.Clone();
-                            foreach (DataRow row in dataTable.Rows)
-                            {
-                                if (DateTime.TryParse(row["STD_DT"].ToString(), out DateTime rowDateTime))
-                                {
-                                    if (rowDateTime >= startDateTime && rowDateTime <= endDateTime)
-                                    {
-                                        filteredDataTable.ImportRow(row);
-                                    }
-                                }
-                            }
-                            return filteredDataTable;
-                        });
+                            DateTime dateTime;
+                            bool isParsed = DateTime.TryParse(row.Field<string>("STD_DT"), out dateTime);
+                            return new { Row = row, DateTime = isParsed ? dateTime : (DateTime?)null };
+                        })
+                        .Where(item => item.DateTime.HasValue && item.DateTime.Value >= startDateTime && item.DateTime.Value <= endDateTime)
+                        .GroupBy(item => new DateTime(item.DateTime.Value.Ticks - (item.DateTime.Value.Ticks % TimeSpan.FromMinutes(30).Ticks)))
+                        .Select(g => new DateTimePoint(g.Key, g.Average(item => Convert.ToDouble(item.Row["MELT_TEMP"]))))
+                        .ToList();
 
-                        Dispatcher.Invoke(() => dataGrid.ItemsSource = filteredDataTable.Rows.Count > 0 ? filteredDataTable.DefaultView : null);
-                    }
-                    else
-                    {
-                        MessageBox.Show("유효한 시간을 HH:mm 형식으로 입력하세요.");
-                    }
+                    var motorSpeedData = filteredDataTable.AsEnumerable()
+                        .Select(row =>
+                        {
+                            DateTime dateTime;
+                            bool isParsed = DateTime.TryParse(row.Field<string>("STD_DT"), out dateTime);
+                            return new { Row = row, DateTime = isParsed ? dateTime : (DateTime?)null };
+                        })
+                        .Where(item => item.DateTime.HasValue && item.DateTime.Value >= startDateTime && item.DateTime.Value <= endDateTime)
+                        .GroupBy(item => new DateTime(item.DateTime.Value.Ticks - (item.DateTime.Value.Ticks % TimeSpan.FromMinutes(30).Ticks)))
+                        .Select(g => new DateTimePoint(g.Key, g.Average(item => Convert.ToDouble(item.Row["MOTORSPEED"]))))
+                        .ToList();
+
+                    var meltWeightData = filteredDataTable.AsEnumerable()
+                        .Select(row =>
+                        {
+                            DateTime dateTime;
+                            bool isParsed = DateTime.TryParse(row.Field<string>("STD_DT"), out dateTime);
+                            return new { Row = row, DateTime = isParsed ? dateTime : (DateTime?)null };
+                        })
+                        .Where(item => item.DateTime.HasValue && item.DateTime.Value >= startDateTime && item.DateTime.Value <= endDateTime)
+                        .GroupBy(item => new DateTime(item.DateTime.Value.Ticks - (item.DateTime.Value.Ticks % TimeSpan.FromMinutes(30).Ticks)))
+                        .Select(g => new DateTimePoint(g.Key, g.Average(item => Convert.ToDouble(item.Row["MELT_WEIGHT"]))))
+                        .ToList();
+
+                    var inspData = filteredDataTable.AsEnumerable()
+                        .Select(row =>
+                        {
+                            DateTime dateTime;
+                            bool isParsed = DateTime.TryParse(row.Field<string>("STD_DT"), out dateTime);
+                            return new { Row = row, DateTime = isParsed ? dateTime : (DateTime?)null };
+                        })
+                        .Where(item => item.DateTime.HasValue && item.DateTime.Value >= startDateTime && item.DateTime.Value <= endDateTime)
+                        .GroupBy(item => new DateTime(item.DateTime.Value.Ticks - (item.DateTime.Value.Ticks % TimeSpan.FromMinutes(30).Ticks)))
+                        .Select(g => new DateTimePoint(g.Key, g.Average(item => Convert.ToDouble(item.Row["INSP"]))))
+                        .ToList();
+
+                    // 차트에 데이터 설정
+                    opChart.SetData(meltTempData, motorSpeedData, meltWeightData, inspData);
+
+                    // 원형 차트에 데이터 설정
+                    PlotNGDistribution(filteredDataTable);
+
+                    // RawData 윈도우에 데이터 표시
+                    RawData rawDataWindow = new RawData();
+                    rawDataWindow.dataGrid.ItemsSource = filteredDataTable.DefaultView;
+                    rawDataWindow.Show();
                 }
                 else
                 {
-                    MessageBox.Show("유효한 날짜를 선택하세요.");
+                    MessageBox.Show("필터링된 데이터가 없습니다.");
                 }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show($"데이터 필터링 중 오류 발생: {ex.Message}");
+                MessageBox.Show("유효한 날짜를 선택하세요.");
             }
         }
 
-        private void BtnShowStatistics_Click(object sender, RoutedEventArgs e)
+        private void FilterData(DateTime startDateTime, DateTime endDateTime)
         {
-            if (filteredDataTable != null)
+            if (dataGrid == null)
             {
-                var statisticsTable = CalculateStatistics(filteredDataTable);
-                var statisticsWindow = new StatisticsWindow(statisticsTable);
-                statisticsWindow.Show();
+                MessageBox.Show("데이터 그리드가 초기화되지 않았습니다.");
+                return;
+            }
+
+            filteredDataTable = Task.Run(() => GetFilteredData(startDateTime, endDateTime)).Result;
+
+            if (filteredDataTable != null && filteredDataTable.Rows.Count > 0)
+            {
+                dataGrid.ItemsSource = filteredDataTable.DefaultView;
             }
             else
             {
-                MessageBox.Show("먼저 데이터를 필터링하세요.");
+                dataGrid.ItemsSource = null;
+                MessageBox.Show("필터링된 데이터가 없습니다.");
             }
         }
 
-        private void BtnShowNGDistribution_Click(object sender, RoutedEventArgs e)
+        private DataTable GetFilteredData(DateTime startDateTime, DateTime endDateTime)
         {
-            if (filteredDataTable != null)
+            if (dataTable == null)
             {
-                var ngDistributionWindow = new NGDistributionWindow(filteredDataTable);
-                ngDistributionWindow.Show();
+                MessageBox.Show("데이터가 로드되지 않았습니다.");
+                return null;
             }
-            else
-            {
-                MessageBox.Show("먼저 데이터를 필터링하세요.");
-            }
-        }
 
-        private void BtnShowLineChart_Click(object sender, RoutedEventArgs e)
-        {
-            if (filteredDataTable != null)
-            {
-                var lineChartWindow = new LineChartWindow(GetHourlyIntervalData(filteredDataTable), 60); // 기본값으로 60분 사용
-                lineChartWindow.Show();
-            }
-            else
-            {
-                MessageBox.Show("먼저 데이터를 필터링하세요.");
-            }
-        }
-
-        private DataTable GetHourlyIntervalData(DataTable dataTable)
-        {
-            var resultTable = dataTable.Clone();
-            DateTime lastAddedTime = DateTime.MinValue;
+            var filteredDataTable = dataTable.Clone();
 
             foreach (DataRow row in dataTable.Rows)
             {
                 if (DateTime.TryParse(row["STD_DT"].ToString(), out DateTime rowDateTime))
                 {
-                    if (lastAddedTime == DateTime.MinValue || (rowDateTime - lastAddedTime).TotalMinutes >= 90)
+                    if (rowDateTime >= startDateTime && rowDateTime <= endDateTime)
                     {
-                        resultTable.ImportRow(row);
-                        lastAddedTime = rowDateTime;
+                        filteredDataTable.ImportRow(row);
                     }
                 }
             }
 
-            return resultTable;
+            return filteredDataTable;
         }
 
-        private async void BtnSave_Click(object sender, RoutedEventArgs e)
+        private void ShowStatistics(DataTable filteredRows)
         {
-            if (dataGrid.ItemsSource == null)
-            {
-                MessageBox.Show("저장할 데이터가 없습니다.");
-                return;
-            }
+            var statisticsTable = CalculateStatistics(filteredRows);
+            PlotStatisticsGraph(statisticsTable);
+        }
 
-            var dataView = dataGrid.ItemsSource as DataView;
-            var dataTable = dataView.ToTable();
-
-            SaveFileDialog saveFileDialog = new SaveFileDialog
-            {
-                Filter = "CSV 파일 (*.csv)|*.csv|Excel 파일 (*.xlsx)|*.xlsx",
-                Title = "데이터 저장"
-            };
-
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                string filePath = saveFileDialog.FileName;
-                string fileExtension = Path.GetExtension(filePath);
-
-                try
-                {
-                    if (fileExtension == ".csv")
-                    {
-                        using (var writer = new StreamWriter(filePath))
-                        using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-                        {
-                            csv.WriteRecords(dataTable.AsEnumerable());
-                        }
-                    }
-                    else if (fileExtension == ".xlsx")
-                    {
-                        using (var workbook = new XLWorkbook())
-                        {
-                            workbook.Worksheets.Add(dataTable, "Data");
-                            workbook.SaveAs(filePath);
-                        }
-                    }
-
-                    MessageBox.Show("데이터가 성공적으로 저장되었습니다.");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"데이터 저장 중 오류 발생: {ex.Message}");
-                }
-            }
+        private void ShowNGDistribution(DataTable filteredRows)
+        {
+            PlotNGDistribution(filteredRows);
         }
 
         private DataTable CalculateStatistics(DataTable table)
@@ -241,29 +247,88 @@ namespace Hamtory_WPF
             statisticsTable.Rows.Add("중앙값", FormatNumber(medians[0]), FormatNumber(medians[1]), FormatNumber(medians[2]), FormatNumber(medians[3]));
             statisticsTable.Rows.Add("표준편차", FormatNumber(stdDevs[0]), FormatNumber(stdDevs[1]), FormatNumber(stdDevs[2]), FormatNumber(stdDevs[3]));
             statisticsTable.Rows.Add("최대값", FormatNumber(maxValues[0]), FormatNumber(maxValues[1]), FormatNumber(maxValues[2]), FormatNumber(maxValues[3]));
-            statisticsTable.Rows.Add("최소값", FormatNumber(minValues[0]), FormatNumber(minValues[1]), FormatNumber(minValues[2]), FormatNumber(minValues[3]));
+            statisticsTable.Rows.Add("최소값", FormatNumber(minValues[0]), FormatNumber(minValues[1]), FormatNumber(minValues[2]));
 
             return statisticsTable;
+        }
+
+        private void PlotStatisticsGraph(DataTable table)
+        {
+            PlotSingleGraph(table, "Melt Temp", "MELT_TEMP", meltTempChart, Colors.Blue);
+            PlotSingleGraph(table, "Motor Speed", "MOTORSPEED", motorSpeedChart, Colors.Red);
+            PlotSingleGraph(table, "Melt Weight", "MELT_WEIGHT", meltWeightChart, Colors.Green);
+            PlotSingleGraph(table, "INSP", "INSP", inspChart, Colors.Purple);
+        }
+
+        private void PlotSingleGraph(DataTable table, string title, string columnName, CartesianChart chart, Color color)
+        {
+            var lineSeries = new LineSeries
+            {
+                Title = title,
+                Values = new ChartValues<double>(table.Rows.Cast<DataRow>().Select(row => Convert.ToDouble(row[columnName]))),
+                Stroke = new SolidColorBrush(color),
+                Fill = Brushes.Transparent,
+                PointGeometry = DefaultGeometries.Circle,
+                PointGeometrySize = 10,
+                DataLabels = true,
+                LabelPoint = point => columnName == "INSP" ? point.Y.ToString("F2") : point.Y.ToString("F0")
+            };
+
+            chart.Series.Clear();
+            chart.Series.Add(lineSeries);
+
+            chart.AxisX.Clear();
+            chart.AxisX.Add(new Axis
+            {
+                Title = title,
+                Labels = table.Rows.Cast<DataRow>().Select(row => row["Statistic"].ToString()).ToArray(),
+                FontSize = 16
+            });
+
+            chart.AxisY.Clear();
+            chart.AxisY.Add(new Axis
+            {
+                Title = "Values",
+                LabelFormatter = value => columnName == "INSP" ? value.ToString("F2") : value.ToString("F0"),
+                FontSize = 16
+            });
+        }
+
+        private void PlotNGDistribution(DataTable table)
+        {
+            int okCount = table.AsEnumerable().Count(row => row["TAG"].ToString() == "OK");
+            int ngCount = table.AsEnumerable().Count(row => row["TAG"].ToString() == "NG");
+            int totalCount = okCount + ngCount;
+
+            double okPercentage = (double)okCount / totalCount * 100;
+            double ngPercentage = (double)ngCount / totalCount * 100;
+
+            ngPieChartControl.ngPieChart.Series.Clear();
+            ngPieChartControl.ngPieChart.Series.Add(new PieSeries
+            {
+                Title = "OK",
+                Values = new ChartValues<int> { okCount },
+                DataLabels = true,
+                Fill = new SolidColorBrush(Colors.Blue),
+                LabelPoint = chartPoint => $"{chartPoint.Y} ({chartPoint.Participation:P1})"
+            });
+            ngPieChartControl.ngPieChart.Series.Add(new PieSeries
+            {
+                Title = "NG",
+                Values = new ChartValues<int> { ngCount },
+                DataLabels = true,
+                Fill = new SolidColorBrush(Colors.Red),
+                LabelPoint = chartPoint => $"{chartPoint.Y} ({chartPoint.Participation:P1})"
+            });
+
+            ngPieChartControl.txtOKCount.Text = $"OK: {okCount} ({okPercentage:F1}%)";
+            ngPieChartControl.txtNGCount.Text = $"NG: {ngCount} ({ngPercentage:F1}%)";
         }
 
         private string FormatNumber(double number)
         {
             return number % 1 == 0 ? number.ToString("F0") : number.ToString("F2");
         }
-
-        //private void BtnUpdateChart_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (int.TryParse(txtInterval.Text, out int interval))
-        //    {
-        //        var intervalDataTable = GetHourlyIntervalData(filteredDataTable); // 여기에 interval 값을 적용
-        //        var lineChartWindow = new LineChartWindow(intervalDataTable, interval);
-        //        lineChartWindow.Show();
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("유효한 분 단위를 입력하세요.");
-        //    }
-        //}
     }
 
     public static class DataTableExtensions

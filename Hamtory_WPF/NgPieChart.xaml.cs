@@ -1,28 +1,30 @@
-﻿using System.Data;
-using System.Windows;
-using LiveCharts;
+﻿using LiveCharts;
 using LiveCharts.Wpf;
+using System.Data;
 using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Hamtory_WPF
 {
-    public partial class NGDistributionWindow : Window
+    public partial class NgPieChart : UserControl
     {
-        public NGDistributionWindow(DataTable filteredRows)
+        public NgPieChart()
         {
             InitializeComponent();
-            PlotNGDistribution(filteredRows);
         }
 
-        private void PlotNGDistribution(DataTable table)
+        public void SetData(DataTable dataTable)
         {
-            int okCount = table.AsEnumerable().Count(row => row["TAG"].ToString() == "OK");
-            int ngCount = table.AsEnumerable().Count(row => row["TAG"].ToString() == "NG");
-            int totalCount = okCount + ngCount;
+            int okCount = dataTable.AsEnumerable().Count(row => row["TAG"].ToString() == "OK");
+            int ngCount = dataTable.AsEnumerable().Count(row => row["TAG"].ToString() == "NG");
 
-            double okPercentage = (double)okCount / totalCount * 100;
-            double ngPercentage = (double)ngCount / totalCount * 100;
+            if (okCount + ngCount == 0)
+            {
+                MessageBox.Show("NG/OK 데이터가 없습니다.");
+                return;
+            }
 
             ngPieChart.Series.Clear();
             ngPieChart.Series.Add(new PieSeries
@@ -31,6 +33,7 @@ namespace Hamtory_WPF
                 Values = new ChartValues<int> { okCount },
                 DataLabels = true,
                 Fill = new SolidColorBrush(Colors.Blue),
+                FontSize = 20,
                 LabelPoint = chartPoint => $"{chartPoint.Y} ({chartPoint.Participation:P1})"
             });
             ngPieChart.Series.Add(new PieSeries
@@ -39,11 +42,10 @@ namespace Hamtory_WPF
                 Values = new ChartValues<int> { ngCount },
                 DataLabels = true,
                 Fill = new SolidColorBrush(Colors.Red),
+                FontSize = 20,  
                 LabelPoint = chartPoint => $"{chartPoint.Y} ({chartPoint.Participation:P1})"
             });
-
-            txtOKCount.Text = $"OK: {okCount} ({okPercentage:F1}%)";
-            txtNGCount.Text = $"NG: {ngCount} ({ngPercentage:F1}%)";
         }
+
     }
 }

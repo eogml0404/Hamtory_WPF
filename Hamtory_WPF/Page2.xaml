@@ -1,41 +1,38 @@
 ﻿<Page x:Class="Hamtory_WPF.Page2"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:Hamtory_WPF"
       xmlns:lc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-      Title="Page2" Height="800" Width="1000">
+      mc:Ignorable="d"
+      d:DesignHeight="535" d:DesignWidth="900"
+      Title="Page2">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <Grid>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
-                <Label Content="Start Date:" VerticalAlignment="Center" Margin="5"/>
-                <DatePicker x:Name="datePickerStart" Width="120" Height="25" VerticalAlignment="Center" Margin="5"/>
-                <TextBox x:Name="txtStartTime" Width="60" Height="25" VerticalAlignment="Center" Margin="5" Text="00:00"/>
-                <Label Content="End Date:" VerticalAlignment="Center" Margin="15,0,5,0"/>
-                <DatePicker x:Name="datePickerEnd" Width="120" Height="25" VerticalAlignment="Center" Margin="5"/>
-                <TextBox x:Name="txtEndTime" Width="60" Height="25" VerticalAlignment="Center" Margin="5" Text="23:59"/>
-                <Button x:Name="BtnFilter" Content="Filter" Width="80" Height="25" VerticalAlignment="Center" Margin="5" Click="BtnFilter_Click"/>
-                <Button x:Name="BtnSave" Content="Save" Width="80" Height="25" VerticalAlignment="Center" Margin="5" Click="BtnSave_Click"/>
-            </StackPanel>
+        <Border Margin="217,4,216,471" CornerRadius="5" BorderThickness="1">
+            <Border.BorderBrush>
+                <SolidColorBrush Color="White" Opacity="0.5"/>
+            </Border.BorderBrush>
 
-            <DataGrid x:Name="dataGrid" HorizontalAlignment="Center" Margin="10" AutoGenerateColumns="False" Width="960" Height="288">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Date" Binding="{Binding STD_DT}" Width="*"/>
-                    <DataGridTextColumn Header="Num" Binding="{Binding NUM}" Width="*"/>
-                    <DataGridTextColumn Header="Melt Temp" Binding="{Binding MELT_TEMP}" Width="*"/>
-                    <DataGridTextColumn Header="Motor Speed" Binding="{Binding MOTORSPEED}" Width="*"/>
-                    <DataGridTextColumn Header="Melt Weight" Binding="{Binding MELT_WEIGHT}" Width="*"/>
-                    <DataGridTextColumn Header="INSP" Binding="{Binding INSP}" Width="*"/>
-                    <DataGridTextColumn Header="TAG" Binding="{Binding TAG}" Width="*"/>
-                </DataGrid.Columns>
-            </DataGrid>
+            <Grid>
+                <Label Content="조회 기간" HorizontalAlignment="Left" Height="34" Margin="19,3,0,0" VerticalAlignment="Center" Width="82" FontSize="15" Foreground="White"/>
+                <local:DateRangePicker x:Name="DateRangePickerControl" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="410,1,0,0" RenderTransformOrigin="1.014,-3.182" Width="32"/>
+                <TextBlock x:Name="StartDateText" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="126,-1,0,0" Width="80" FontSize="15" Foreground="White" Text="Start Date"/>
+                <TextBox x:Name="txtStartTime" HorizontalAlignment="Left" Height="28" Margin="206,5,0,0" TextWrapping="Wrap" Text="00:00" VerticalAlignment="Center" Width="47" FontSize="15" Foreground="White" Background="{x:Null}" BorderBrush="{x:Null}"/>
+                <TextBlock x:Name="EndDateText" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="264,-1,0,0" Width="80" FontSize="15" Foreground="White" Text="End Date"/>
+                <TextBox x:Name="txtEndTime" HorizontalAlignment="Left" Height="28" Margin="344,5,0,0" TextWrapping="Wrap" Text="00:00" VerticalAlignment="Center" Width="47" FontSize="15" Foreground="White" Background="{x:Null}" BorderBrush="{x:Null}"/>
+            </Grid>
+        </Border>
+        <Button x:Name="RawDataButton" Content="📜" HorizontalAlignment="Left" Height="34" Margin="10,12,0,0" VerticalAlignment="Top" Width="37" Click="RawDataButton_Click" BorderBrush="{x:Null}" Background="#FFE8E8E8"/>
 
-<<<<<<< HEAD
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
-                <Button x:Name="BtnShowStatistics" Content="Show Statistics" Width="150" Height="35" Margin="10" Click="BtnShowStatistics_Click"/>
-                <Button x:Name="BtnShowNGDistribution" Content="Show NG Distribution" Width="150" Height="35" Margin="10" Click="BtnShowNGDistribution_Click"/>
-                <Button x:Name="BtnShowLineChart" Content="Show Line Chart" Width="150" Height="35" Margin="10" Click="BtnShowLineChart_Click"/>
-            </StackPanel>
-        </StackPanel>
-=======
         <!-- 운영 데이터 -->
         <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Left" Margin="38,78,0,0" VerticalAlignment="Top" Height="404" Width="576">
             <Border.Background>
@@ -43,21 +40,26 @@
             </Border.Background>
             <local:OpChart x:Name="opChart" HorizontalAlignment="Center" VerticalAlignment="Top" Width="499" Height="280" Margin="0,90,0,0"/>
         </Border>
+
         <!-- 통계 차트 -->
         <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Left" Margin="620,78,0,0" VerticalAlignment="Top" Height="199" Width="251">
-            <local:BoxPlot x:Name="BoxPlot"/>
+            <StackPanel>
+                <lc:CartesianChart x:Name="meltTempChart" Height="150" Margin="5"/>
+                <lc:CartesianChart x:Name="motorSpeedChart" Height="150" Margin="5"/>
+                <lc:CartesianChart x:Name="meltWeightChart" Height="150" Margin="5"/>
+                <lc:CartesianChart x:Name="inspChart" Height="150" Margin="5"/>
+            </StackPanel>
         </Border>
-        <!-- OK/NG -->
-        <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Left" Margin="620,282,0,0" VerticalAlignment="Top" Height="200" Width="251">
-            <Border.Background>
-                <SolidColorBrush Color="White" Opacity="0.1"/>
-            </Border.Background>
-        </Border>
->>>>>>> 57983d14972de00f2b9c223187c3ef978bf9a4f5
 
-        <!--<StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10">
-            <TextBox x:Name="txtInterval" Width="120" Margin="5" Text=""/>
-            <Button Content="Update Chart" Width="120" Margin="5" Click="BtnUpdateChart_Click"/>
-        </StackPanel>-->
+        <!-- OK/NG PieChart -->
+        <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Left" Margin="620,282,0,0" VerticalAlignment="Top" Height="200" Width="251">
+            <StackPanel>
+                <local:NgPieChart x:Name="ngPieChartControl" Height="198" />
+            </StackPanel>
+        </Border>
+
+        <!-- 데이터 그리드 -->
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Center" Margin="0,536,0,0" VerticalAlignment="Top" AutoGenerateColumns="False" Width="880" Height="200"/>
+
     </Grid>
 </Page>

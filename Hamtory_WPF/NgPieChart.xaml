@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="Hamtory_WPF.NgPieChart"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf">
+    <Grid>
+        <TextBlock Text="NG 분포도" FontSize="18" FontWeight="Bold" Foreground="White"
+                   HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0"/>
+        <lc:PieChart x:Name="ngPieChart" Width="150" Height="150"
+                     HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,39,0,0"/>
+
+        <TextBlock x:Name="txtOKCount" Foreground="White" Margin="10,5,10,5" Text="OK Count" Visibility="Collapsed"/>
+        <TextBlock x:Name="txtNGCount" Foreground="White" Margin="10,5,10,5" Text="NG Count" Visibility="Collapsed"/>
+
+    </Grid>
+</UserControl>
