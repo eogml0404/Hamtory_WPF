@@ -246,9 +246,9 @@ namespace Hamtory_WPF
             foreach (var column in new[] { "MELT_TEMP", "MOTORSPEED", "MELT_WEIGHT" })
             {
                 var data = table.AsEnumerable().Select(row => Convert.ToDouble(row[column])).ToList();
-                meanRow[column] = data.Average();
+                meanRow[column] = data.Average().ToString("0.00");
                 medianRow[column] = data.Median();
-                stdDevRow[column] = data.StandardDeviation();
+                stdDevRow[column] = data.StandardDeviation().ToString("0.00");
                 maxRow[column] = data.Max();
                 minRow[column] = data.Min();
             }
