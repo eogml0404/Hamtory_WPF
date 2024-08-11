@@ -19,16 +19,14 @@
 ## 2. 📊 데이터 셋
 
 ### 데이터 샘플
-![Data Sample](https://prod-files-secure.s3.us-west-2.amazonaws.com/69712a5f-a9f7-4e77-b203-2e6dd919c10f/8780246a-8227-4264-be8c-ebe398a497ec/Untitled.png)
+용해탱크 AI 데이터셋 - 식품 가공 공정에서의 품질 예측을 위한 원재료 공급설비(용해탱크) 데이터
+https://www.kamp-ai.kr/aidataDetail?AI_SEARCH=&page=1&DATASET_SEQ=8&EQUIP_SEL=&GUBUN_SEL=&FILE_TYPE_SEL=&WDATE_SEL=
 
 ### 데이터 설명
 - **기간**: 2020년 3월 ~ 4월 (약 2개월)
 - **수집 주기**: 약 6초
 - **데이터 개수**: 835,200
-
-![Data Summary](https://prod-files-secure.s3.us-west-2.amazonaws.com/69712a5f-a9f7-4e77-b203-2e6dd919c10f/da22782d-ce56-40e6-bdb2-c87f2fa65e6f/Untitled.png)
-
----
+분말의 원재료를 정제수 등에 용해/혼합하는 과정에서 용해 탱크 설비운영값(용해온도, 교반속도, 수분함유량)을 기준으로 최종 품질을 예측하기위한 데이터셋
 
 ## 3. 🎯 예상 구현 기능
 
