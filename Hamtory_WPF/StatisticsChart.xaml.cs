@@ -57,6 +57,7 @@ namespace Hamtory_WPF
             StatisticsChartControl.Series = seriesCollection;
             StatisticsChartControl.AxisX[0].Labels = categories.ToList();
             StatisticsChartControl.AxisX[0].Title = "";  // "Categories" 제거
+            StatisticsChartControl.AxisY[0].LabelFormatter = value => value.ToString("F0"); // 소수점 없이 정수로 표시
         }
 
         private List<double> GetStatisticsValues(DataTable statisticsTable, int rowIndex)
@@ -65,7 +66,7 @@ namespace Hamtory_WPF
             {
                 if (double.TryParse(v?.ToString(), out double result))
                 {
-                    return result;
+                    return Math.Round(result); // 소수점 제거
                 }
                 else
                 {

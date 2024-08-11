@@ -246,11 +246,11 @@ namespace Hamtory_WPF
             foreach (var column in new[] { "MELT_TEMP", "MOTORSPEED", "MELT_WEIGHT" })
             {
                 var data = table.AsEnumerable().Select(row => Convert.ToDouble(row[column])).ToList();
-                meanRow[column] = data.Average();
-                medianRow[column] = data.Median();
-                stdDevRow[column] = data.StandardDeviation();
-                maxRow[column] = data.Max();
-                minRow[column] = data.Min();
+                meanRow[column] = Math.Round(data.Average()); // 소수점 제거
+                medianRow[column] = Math.Round(data.Median()); // 소수점 제거
+                stdDevRow[column] = Math.Round(data.StandardDeviation()); // 소수점 제거
+                maxRow[column] = Math.Round(data.Max()); // 소수점 제거
+                minRow[column] = Math.Round(data.Min()); // 소수점 제거
             }
 
             statisticsTable.Rows.Add(meanRow);
