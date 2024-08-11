@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:lc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf">
     <Grid>
-        <TextBlock Text="NG 분포도" FontSize="18" FontWeight="Bold" Foreground="White"
-                   HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0"/>
-        <lc:PieChart x:Name="ngPieChart" Width="150" Height="150"
+        <TextBlock Text="NG Distribution" FontSize="18" FontWeight="Bold" Foreground="White"
+                   HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0"/>
+        <lc:PieChart x:Name="ngPieChart" Width="200" Height="200"
                      HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,39,0,0"/>
 
         <TextBlock x:Name="txtOKCount" Foreground="White" Margin="10,5,10,5" Text="OK Count" Visibility="Collapsed"/>

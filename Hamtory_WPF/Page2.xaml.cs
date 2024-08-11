@@ -4,15 +4,12 @@ using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Win32;
-using ClosedXML.Excel;
 using LiveCharts;
 using LiveCharts.Wpf;
+using System.Collections.Generic;
 using System.Windows.Media;
-using LiveCharts.Defaults;
 
 namespace Hamtory_WPF
 {
@@ -24,18 +21,18 @@ namespace Hamtory_WPF
         public Page2()
         {
             InitializeComponent();
-            LoadData();  // 페이지 초기화 시 자동으로 데이터를 로드
+            LoadData();
             DateRangePickerControl.DateRangeChanged += DateRangePickerControl_DateRangeChanged;
-            opChart.LoadSampleData();
+            opChart.LoadSampleData();  // 초기 샘플 데이터 로드
+
+            DisplayExampleNgPieChart();
         }
 
         public void LoadData()
         {
-            // Debug 폴더에 있는 CSV 파일 경로 지정
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string filePath = Path.Combine(baseDirectory, "melting_tank.csv");
 
-            // 파일이 존재하는지 확인
             if (!File.Exists(filePath))
             {
                 MessageBox.Show("melting_tank.csv 파일이 존재하지 않습니다.");
@@ -46,22 +43,14 @@ namespace Hamtory_WPF
             {
                 using (var reader = new StreamReader(filePath))
                 using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+                using (var dr = new CsvDataReader(csv))
                 {
-                    using (var dr = new CsvDataReader(csv))
-                    {
-                        var dt = new DataTable();
-                        dt.Load(dr);
-                        dataTable = dt;
-                    }
+                    var dt = new DataTable();
+                    dt.Load(dr);
+                    dataTable = dt;
                 }
 
-                // 데이터가 로드된 후 DataGrid에 표시
-                if (dataTable != null && dataTable.Rows.Count > 0)
-                {
-                    dataGrid.ItemsSource = dataTable.DefaultView;
-
-                }
-                else
+                if (dataTable == null || dataTable.Rows.Count == 0)
                 {
                     MessageBox.Show("CSV 파일에서 데이터를 로드하지 못했습니다.");
                 }
@@ -100,64 +89,24 @@ namespace Hamtory_WPF
 
                 if (filteredDataTable != null && filteredDataTable.Rows.Count > 0)
                 {
-                    var meltTempData = filteredDataTable.AsEnumerable()
-                        .Select(row =>
-                        {
-                            DateTime dateTime;
-                            bool isParsed = DateTime.TryParse(row.Field<string>("STD_DT"), out dateTime);
-                            return new { Row = row, DateTime = isParsed ? dateTime : (DateTime?)null };
-                        })
-                        .Where(item => item.DateTime.HasValue && item.DateTime.Value >= startDateTime && item.DateTime.Value <= endDateTime)
-                        .GroupBy(item => new DateTime(item.DateTime.Value.Ticks - (item.DateTime.Value.Ticks % TimeSpan.FromMinutes(30).Ticks)))
-                        .Select(g => new DateTimePoint(g.Key, g.Average(item => Convert.ToDouble(item.Row["MELT_TEMP"]))))
-                        .ToList();
-
-                    var motorSpeedData = filteredDataTable.AsEnumerable()
-                        .Select(row =>
-                        {
-                            DateTime dateTime;
-                            bool isParsed = DateTime.TryParse(row.Field<string>("STD_DT"), out dateTime);
-                            return new { Row = row, DateTime = isParsed ? dateTime : (DateTime?)null };
-                        })
-                        .Where(item => item.DateTime.HasValue && item.DateTime.Value >= startDateTime && item.DateTime.Value <= endDateTime)
-                        .GroupBy(item => new DateTime(item.DateTime.Value.Ticks - (item.DateTime.Value.Ticks % TimeSpan.FromMinutes(30).Ticks)))
-                        .Select(g => new DateTimePoint(g.Key, g.Average(item => Convert.ToDouble(item.Row["MOTORSPEED"]))))
-                        .ToList();
-
-                    var meltWeightData = filteredDataTable.AsEnumerable()
-                        .Select(row =>
-                        {
-                            DateTime dateTime;
-                            bool isParsed = DateTime.TryParse(row.Field<string>("STD_DT"), out dateTime);
-                            return new { Row = row, DateTime = isParsed ? dateTime : (DateTime?)null };
-                        })
-                        .Where(item => item.DateTime.HasValue && item.DateTime.Value >= startDateTime && item.DateTime.Value <= endDateTime)
-                        .GroupBy(item => new DateTime(item.DateTime.Value.Ticks - (item.DateTime.Value.Ticks % TimeSpan.FromMinutes(30).Ticks)))
-                        .Select(g => new DateTimePoint(g.Key, g.Average(item => Convert.ToDouble(item.Row["MELT_WEIGHT"]))))
-                        .ToList();
-
-                    var inspData = filteredDataTable.AsEnumerable()
-                        .Select(row =>
-                        {
-                            DateTime dateTime;
-                            bool isParsed = DateTime.TryParse(row.Field<string>("STD_DT"), out dateTime);
-                            return new { Row = row, DateTime = isParsed ? dateTime : (DateTime?)null };
-                        })
-                        .Where(item => item.DateTime.HasValue && item.DateTime.Value >= startDateTime && item.DateTime.Value <= endDateTime)
-                        .GroupBy(item => new DateTime(item.DateTime.Value.Ticks - (item.DateTime.Value.Ticks % TimeSpan.FromMinutes(30).Ticks)))
-                        .Select(g => new DateTimePoint(g.Key, g.Average(item => Convert.ToDouble(item.Row["INSP"]))))
-                        .ToList();
-
-                    // 차트에 데이터 설정
-                    opChart.SetData(meltTempData, motorSpeedData, meltWeightData, inspData);
-
-                    // 원형 차트에 데이터 설정
-                    PlotNGDistribution(filteredDataTable);
-
-                    // RawData 윈도우에 데이터 표시
-                    RawData rawDataWindow = new RawData();
+                    var rawDataWindow = new RawData();
                     rawDataWindow.dataGrid.ItemsSource = filteredDataTable.DefaultView;
                     rawDataWindow.Show();
+
+                    var statisticsTable = CalculateStatistics(filteredDataTable);
+
+                    string[] categories = new[] { "MELT_TEMP", "MOTORSPEED", "MELT_WEIGHT" };
+                    statisticsChartControl.DisplayStatisticsAndChart("Statistics", statisticsTable, categories);
+
+                    PlotNGDistribution(filteredDataTable);
+
+                    var times = AggregateTimes(filteredDataTable);
+                    var meltTempData = AggregateData(filteredDataTable, "MELT_TEMP");
+                    var motorSpeedData = AggregateData(filteredDataTable, "MOTORSPEED");
+                    var meltWeightData = AggregateData(filteredDataTable, "MELT_WEIGHT");
+                    var inspData = AggregateData(filteredDataTable, "INSP");
+
+                    opChart.SetData(times, meltTempData, motorSpeedData, meltWeightData, inspData);
                 }
                 else
                 {
@@ -170,35 +119,45 @@ namespace Hamtory_WPF
             }
         }
 
+        private void DisplayExampleNgPieChart()
+        {
+            ngPieChartControl.ngPieChart.Series.Clear();
+            ngPieChartControl.ngPieChart.Series.Add(new LiveCharts.Wpf.PieSeries
+            {
+                Title = "OK (예시)",
+                Values = new ChartValues<int> { 70 },
+                DataLabels = true,
+                Fill = new SolidColorBrush(Colors.Blue),
+                LabelPoint = chartPoint => $"{chartPoint.Y} ({chartPoint.Participation:P1})"
+            });
+            ngPieChartControl.ngPieChart.Series.Add(new LiveCharts.Wpf.PieSeries
+            {
+                Title = "NG (예시)",
+                Values = new ChartValues<int> { 30 },
+                DataLabels = true,
+                Fill = new SolidColorBrush(Colors.Red),
+                LabelPoint = chartPoint => $"{chartPoint.Y} ({chartPoint.Participation:P1})"
+            });
+
+            ngPieChartControl.txtOKCount.Text = $"OK: 70 (70.0%)";
+            ngPieChartControl.txtNGCount.Text = $"NG: 30 (30.0%)";
+
+            ngPieChartControl.txtOKCount.Visibility = Visibility.Collapsed;
+            ngPieChartControl.txtNGCount.Visibility = Visibility.Collapsed;
+        }
+
         private void FilterData(DateTime startDateTime, DateTime endDateTime)
         {
-            if (dataGrid == null)
-            {
-                MessageBox.Show("데이터 그리드가 초기화되지 않았습니다.");
-                return;
-            }
+            filteredDataTable = GetFilteredData(startDateTime, endDateTime);
 
-            filteredDataTable = Task.Run(() => GetFilteredData(startDateTime, endDateTime)).Result;
-
-            if (filteredDataTable != null && filteredDataTable.Rows.Count > 0)
+            if (filteredDataTable == null || filteredDataTable.Rows.Count == 0)
             {
-                dataGrid.ItemsSource = filteredDataTable.DefaultView;
-            }
-            else
-            {
-                dataGrid.ItemsSource = null;
                 MessageBox.Show("필터링된 데이터가 없습니다.");
             }
         }
 
         private DataTable GetFilteredData(DateTime startDateTime, DateTime endDateTime)
         {
-            if (dataTable == null)
-            {
-                MessageBox.Show("데이터가 로드되지 않았습니다.");
-                return null;
-            }
-
             var filteredDataTable = dataTable.Clone();
 
             foreach (DataRow row in dataTable.Rows)
@@ -215,83 +174,92 @@ namespace Hamtory_WPF
             return filteredDataTable;
         }
 
-        private void ShowStatistics(DataTable filteredRows)
+        private List<DateTime> AggregateTimes(DataTable table)
         {
-            var statisticsTable = CalculateStatistics(filteredRows);
-            PlotStatisticsGraph(statisticsTable);
+            return table.AsEnumerable()
+                        .Select(row =>
+                        {
+                            DateTime dateTime;
+                            if (DateTime.TryParse(row.Field<string>("STD_DT"), out dateTime))
+                            {
+                                return new DateTime(dateTime.Ticks / TimeSpan.TicksPerMinute / 120 * 120 * TimeSpan.TicksPerMinute);
+                            }
+                            else
+                            {
+                                return DateTime.MinValue;
+                            }
+                        })
+                        .Distinct()
+                        .ToList();
         }
 
-        private void ShowNGDistribution(DataTable filteredRows)
+        private List<double> AggregateData(DataTable table, string columnName)
         {
-            PlotNGDistribution(filteredRows);
+            return table.AsEnumerable()
+                        .GroupBy(row =>
+                        {
+                            DateTime dateTime;
+                            if (DateTime.TryParse(row.Field<string>("STD_DT"), out dateTime))
+                            {
+                                return new DateTime(dateTime.Ticks / TimeSpan.TicksPerMinute / 120 * 120 * TimeSpan.TicksPerMinute);
+                            }
+                            else
+                            {
+                                return DateTime.MinValue;
+                            }
+                        })
+                        .Select(g => g.Average(r =>
+                        {
+                            double value;
+                            if (double.TryParse(r.Field<string>(columnName), out value))
+                            {
+                                return value;
+                            }
+                            else
+                            {
+                                return 0.0;
+                            }
+                        }))
+                        .ToList();
         }
 
         private DataTable CalculateStatistics(DataTable table)
         {
             var statisticsTable = new DataTable();
-            statisticsTable.Columns.Add("Statistic");
+            statisticsTable.Columns.Add("Metric");
             statisticsTable.Columns.Add("MELT_TEMP");
             statisticsTable.Columns.Add("MOTORSPEED");
             statisticsTable.Columns.Add("MELT_WEIGHT");
-            statisticsTable.Columns.Add("INSP");
 
-            var columns = new[] { "MELT_TEMP", "MOTORSPEED", "MELT_WEIGHT", "INSP" };
+            // 각 열의 통계 데이터를 계산하고, 행에 추가
+            var meanRow = statisticsTable.NewRow();
+            meanRow["Metric"] = "Mean";
+            var medianRow = statisticsTable.NewRow();
+            medianRow["Metric"] = "Median";
+            var stdDevRow = statisticsTable.NewRow();
+            stdDevRow["Metric"] = "Std Dev";
+            var maxRow = statisticsTable.NewRow();
+            maxRow["Metric"] = "Max";
+            var minRow = statisticsTable.NewRow();
+            minRow["Metric"] = "Min";
 
-            var averages = columns.Select(column => table.AsEnumerable().Average(row => Convert.ToDouble(row[column]))).ToArray();
-            var medians = columns.Select(column => table.AsEnumerable().Median(row => Convert.ToDouble(row[column]))).ToArray();
-            var stdDevs = columns.Select(column => table.AsEnumerable().StandardDeviation(row => Convert.ToDouble(row[column]))).ToArray();
-            var maxValues = columns.Select(column => table.AsEnumerable().Max(row => Convert.ToDouble(row[column]))).ToArray();
-            var minValues = columns.Select(column => table.AsEnumerable().Min(row => Convert.ToDouble(row[column]))).ToArray();
+            foreach (var column in new[] { "MELT_TEMP", "MOTORSPEED", "MELT_WEIGHT" })
+            {
+                var data = table.AsEnumerable().Select(row => Convert.ToDouble(row[column])).ToList();
+                meanRow[column] = data.Average();
+                medianRow[column] = data.Median();
+                stdDevRow[column] = data.StandardDeviation();
+                maxRow[column] = data.Max();
+                minRow[column] = data.Min();
+            }
 
-            statisticsTable.Rows.Add("평균", FormatNumber(averages[0]), FormatNumber(averages[1]), FormatNumber(averages[2]), FormatNumber(averages[3]));
-            statisticsTable.Rows.Add("중앙값", FormatNumber(medians[0]), FormatNumber(medians[1]), FormatNumber(medians[2]), FormatNumber(medians[3]));
-            statisticsTable.Rows.Add("표준편차", FormatNumber(stdDevs[0]), FormatNumber(stdDevs[1]), FormatNumber(stdDevs[2]), FormatNumber(stdDevs[3]));
-            statisticsTable.Rows.Add("최대값", FormatNumber(maxValues[0]), FormatNumber(maxValues[1]), FormatNumber(maxValues[2]), FormatNumber(maxValues[3]));
-            statisticsTable.Rows.Add("최소값", FormatNumber(minValues[0]), FormatNumber(minValues[1]), FormatNumber(minValues[2]));
+            statisticsTable.Rows.Add(meanRow);
+            statisticsTable.Rows.Add(medianRow);
+            statisticsTable.Rows.Add(stdDevRow);
+            statisticsTable.Rows.Add(maxRow);
+            statisticsTable.Rows.Add(minRow);
 
             return statisticsTable;
-        }
-
-        private void PlotStatisticsGraph(DataTable table)
-        {
-            PlotSingleGraph(table, "Melt Temp", "MELT_TEMP", meltTempChart, Colors.Blue);
-            PlotSingleGraph(table, "Motor Speed", "MOTORSPEED", motorSpeedChart, Colors.Red);
-            PlotSingleGraph(table, "Melt Weight", "MELT_WEIGHT", meltWeightChart, Colors.Green);
-            PlotSingleGraph(table, "INSP", "INSP", inspChart, Colors.Purple);
-        }
-
-        private void PlotSingleGraph(DataTable table, string title, string columnName, CartesianChart chart, Color color)
-        {
-            var lineSeries = new LineSeries
-            {
-                Title = title,
-                Values = new ChartValues<double>(table.Rows.Cast<DataRow>().Select(row => Convert.ToDouble(row[columnName]))),
-                Stroke = new SolidColorBrush(color),
-                Fill = Brushes.Transparent,
-                PointGeometry = DefaultGeometries.Circle,
-                PointGeometrySize = 10,
-                DataLabels = true,
-                LabelPoint = point => columnName == "INSP" ? point.Y.ToString("F2") : point.Y.ToString("F0")
-            };
-
-            chart.Series.Clear();
-            chart.Series.Add(lineSeries);
-
-            chart.AxisX.Clear();
-            chart.AxisX.Add(new Axis
-            {
-                Title = title,
-                Labels = table.Rows.Cast<DataRow>().Select(row => row["Statistic"].ToString()).ToArray(),
-                FontSize = 16
-            });
-
-            chart.AxisY.Clear();
-            chart.AxisY.Add(new Axis
-            {
-                Title = "Values",
-                LabelFormatter = value => columnName == "INSP" ? value.ToString("F2") : value.ToString("F0"),
-                FontSize = 16
-            });
         }
 
         private void PlotNGDistribution(DataTable table)
@@ -304,7 +272,7 @@ namespace Hamtory_WPF
             double ngPercentage = (double)ngCount / totalCount * 100;
 
             ngPieChartControl.ngPieChart.Series.Clear();
-            ngPieChartControl.ngPieChart.Series.Add(new PieSeries
+            ngPieChartControl.ngPieChart.Series.Add(new LiveCharts.Wpf.PieSeries
             {
                 Title = "OK",
                 Values = new ChartValues<int> { okCount },
@@ -312,7 +280,7 @@ namespace Hamtory_WPF
                 Fill = new SolidColorBrush(Colors.Blue),
                 LabelPoint = chartPoint => $"{chartPoint.Y} ({chartPoint.Participation:P1})"
             });
-            ngPieChartControl.ngPieChart.Series.Add(new PieSeries
+            ngPieChartControl.ngPieChart.Series.Add(new LiveCharts.Wpf.PieSeries
             {
                 Title = "NG",
                 Values = new ChartValues<int> { ngCount },
@@ -321,45 +289,54 @@ namespace Hamtory_WPF
                 LabelPoint = chartPoint => $"{chartPoint.Y} ({chartPoint.Participation:P1})"
             });
 
-            ngPieChartControl.txtOKCount.Text = $"OK: {okCount} ({okPercentage:F1}%)";
-            ngPieChartControl.txtNGCount.Text = $"NG: {ngCount} ({ngPercentage:F1}%)";
-        }
-
-        private string FormatNumber(double number)
-        {
-            return number % 1 == 0 ? number.ToString("F0") : number.ToString("F2");
+            ngPieChartControl.txtOKCount.Visibility = Visibility.Collapsed;
+            ngPieChartControl.txtNGCount.Visibility = Visibility.Collapsed;
         }
     }
 
     public static class DataTableExtensions
     {
-        public static double StandardDeviation(this EnumerableRowCollection<DataRow> rows, Func<DataRow, double> selector)
+        public static double StandardDeviation(this IEnumerable<double> values)
         {
-            var values = rows.Select(selector).ToArray();
-            var average = values.Average();
-            var sumOfSquaresOfDifferences = values.Select(val => (val - average) * (val - average)).Sum();
-            var sd = Math.Sqrt(sumOfSquaresOfDifferences / values.Length);
-            return sd;
+            double average = values.Average();
+            double sumOfSquaresOfDifferences = values.Select(val => (val - average) * (val - average)).Sum();
+            return Math.Sqrt(sumOfSquaresOfDifferences / values.Count());
         }
 
-        public static double Median(this EnumerableRowCollection<DataRow> rows, Func<DataRow, double> selector)
+        public static double Median(this IEnumerable<double> values)
         {
-            var orderedValues = rows.Select(selector).OrderBy(val => val).ToArray();
-            int count = orderedValues.Length;
+            var sortedValues = values.OrderBy(v => v).ToArray();
+            int count = sortedValues.Length;
             if (count == 0)
-                throw new InvalidOperationException("빈 컬렉션의 중앙값은 정의되지 않습니다.");
+                throw new InvalidOperationException("Empty collection");
 
-            double median;
-            if (count % 2 == 0)
-            {
-                median = (orderedValues[count / 2 - 1] + orderedValues[count / 2]) / 2;
-            }
-            else
-            {
-                median = orderedValues[count / 2];
-            }
+            double median = count % 2 == 0
+                ? (sortedValues[count / 2 - 1] + sortedValues[count / 2]) / 2
+                : sortedValues[count / 2];
 
             return median;
+        }
+
+        public static double LowerQuartile(this IEnumerable<double> values)
+        {
+            var sortedValues = values.OrderBy(v => v).ToArray();
+            int count = sortedValues.Length;
+            if (count == 0)
+                throw new InvalidOperationException("Empty collection");
+
+            double lowerQuartile = sortedValues[(int)(count * 0.25)];
+            return lowerQuartile;
+        }
+
+        public static double UpperQuartile(this IEnumerable<double> values)
+        {
+            var sortedValues = values.OrderBy(v => v).ToArray();
+            int count = sortedValues.Length;
+            if (count == 0)
+                throw new InvalidOperationException("Empty collection");
+
+            double upperQuartile = sortedValues[(int)(count * 0.75)];
+            return upperQuartile;
         }
     }
 }

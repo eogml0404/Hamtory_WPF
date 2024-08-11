@@ -34,7 +34,7 @@ namespace Hamtory_WPF
                 PointGeometry = DefaultGeometries.Circle,
                 PointGeometrySize = 10,
                 DataLabels = true,
-                LabelPoint = point => columnName == "INSP" ? point.Y.ToString("F2") : point.Y.ToString("F0")
+                LabelPoint = point => point.Y.ToString("F2") // 소수점 없이 정수로 표시
             };
 
             chart.Series.Clear();
@@ -52,7 +52,7 @@ namespace Hamtory_WPF
             chart.AxisY.Add(new Axis
             {
                 Title = "Values",
-                LabelFormatter = value => columnName == "INSP" ? value.ToString("F2") : value.ToString("F0"),
+                LabelFormatter = value => value.ToString("F2"), // 소수점 없이 정수로 표시
                 FontSize = 16
             });
         }
