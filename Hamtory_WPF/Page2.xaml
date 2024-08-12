@@ -4,17 +4,19 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Hamtory_WPF"
-      xmlns:lc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
       mc:Ignorable="d" 
       d:DesignHeight="535" d:DesignWidth="900"
       Title="Page2">
+
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Hamtory_WPF;component/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
+
     <Grid Margin="10">
         <Border Style="{StaticResource ChartBorderStyle}" Width="548" Height="40" CornerRadius="5" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0">
             <Border.BorderBrush>
@@ -23,10 +25,12 @@
 
             <Grid HorizontalAlignment="Center">
                 <Label Content="조회 기간" HorizontalAlignment="Left" Height="34" Margin="19,3,0,0" VerticalAlignment="Center" Width="82" FontSize="15" Foreground="White"/>
-                <local:DateRangePicker x:Name="DateRangePickerControl" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="410,1,0,0" RenderTransformOrigin="1.014,-3.182" Width="32" Foreground="{x:Null}"/>
-                <TextBlock x:Name="StartDateText" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="126,-1,0,0" Width="80" FontSize="15" Foreground="White" Text="Start Date" />
+                <local:DateRangePicker x:Name="DateRangePickerControl" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="410,1,0,0" RenderTransformOrigin="1.014,-3.182" Width="32"/>
+                <TextBlock x:Name="StartDateText" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="126,-1,0,0" Width="80" FontSize="15" Foreground="White" 
+                           Text="{Binding ElementName=DateRangePickerControl, Path=StartDate, StringFormat='yyyy-MM-dd'}"/>
                 <TextBox x:Name="txtStartTime" HorizontalAlignment="Left" Height="28" Margin="206,5,0,0" TextWrapping="Wrap" Text="00:00" VerticalAlignment="Center" Width="47" FontSize="15" Foreground="White" Background="{x:Null}" BorderBrush="{x:Null}"/>
-                <TextBlock x:Name="EndDateText" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="264,-1,0,0" Width="80" FontSize="15" Foreground="White" Text="End Date"/>
+                <TextBlock x:Name="EndDateText" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="264,-1,0,0" Width="80" FontSize="15" Foreground="White" 
+                           Text="{Binding ElementName=DateRangePickerControl, Path=EndDate, StringFormat='yyyy-MM-dd'}"/>
                 <TextBox x:Name="txtEndTime" HorizontalAlignment="Left" Height="28" Margin="344,5,0,0" TextWrapping="Wrap" Text="00:00" VerticalAlignment="Center" Width="47" FontSize="15" Foreground="White" Background="{x:Null}" BorderBrush="{x:Null}"/>
             </Grid>
         </Border>
@@ -38,52 +42,30 @@
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3">
-                <local:OpChart x:Name="opChart" HorizontalAlignment="Center" VerticalAlignment="Top" Width="499" Height="280" Margin="0,90,0,0"/>
+                <local:OpChart x:Name="opChartControl" HorizontalAlignment="Center" VerticalAlignment="Top" Width="499" Height="280" Margin="0,90,0,0"/>
             </Border>
 
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <!-- 통계 차트 -->
+
+                <!-- 통계 차트 (막대 그래프) -->
                 <Grid Grid.Row="0" Margin="3">
                     <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <local:BoxPlot x:Name="BoxPlot"/>
+                        <local:StatisticsChart x:Name="statisticsChartControl" Margin="10"/>
                     </Border>
                 </Grid>
-                <!-- OK/NG -->
+
+                <!-- OK/NG 파이 차트 -->
                 <Grid Grid.Row="1" Margin="3">
                     <Border Style="{StaticResource ChartBorderStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <local:NGdoughnutChart x:Name="DoughnutChart" Margin="10"/>
+                        <local:NgPieChart x:Name="ngPieChartControl" Margin="10"/>
                     </Border>
                 </Grid>
             </Grid>
         </Grid>
-        <Button x:Name="RawDataButton" Content="Raw Data" HorizontalAlignment="Left" Height="30" Margin="26,78,0,0" VerticalAlignment="Top" Width="65" Click="RawDataButton_Click" Foreground="#FFF1F1F1" BorderThickness="0,0,1,2" Background="#FF929292">
-            <Button.Template>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="BorderElement" 
-                    Background="{TemplateBinding Background}" 
-                    BorderBrush="{TemplateBinding BorderBrush}" 
-                    BorderThickness="{TemplateBinding BorderThickness}" 
-                    CornerRadius="7">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <!-- MouseOver Trigger -->
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="BorderElement" Property="Background" Value="#FFB0B0B0"/>
-                            <Setter TargetName="BorderElement" Property="BorderBrush" Value="#FFA0A0A0"/>
-                        </Trigger>
-                        <!-- Pressed Trigger -->
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="BorderElement" Property="Background" Value="#FF888888"/>
-                            <Setter TargetName="BorderElement" Property="BorderBrush" Value="#FF777777"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
+        <Button x:Name="RawDataButton" Content="Raw Data" HorizontalAlignment="Left" Height="30" Margin="26,78,0,0" VerticalAlignment="Top" Width="65" Click="RawDataButton_Click" Foreground="#FFF"/>
     </Grid>
 </Page>
