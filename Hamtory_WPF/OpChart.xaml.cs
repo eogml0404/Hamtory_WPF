@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Controls;
+using System.Windows.Media;
 using LiveCharts;
 using LiveCharts.Wpf;
 
@@ -30,7 +31,14 @@ namespace Hamtory_WPF
             motorSpeedSeries.LineSmoothness = 0.9;
             meltWeightSeries.LineSmoothness = 0.9;
             inspSeries.LineSmoothness = 0.9;
+
+            meltTempSeries.PointGeometrySize = 1; // 포인트 크기 설정
+            motorSpeedSeries.PointGeometrySize = 1;
+            meltWeightSeries.PointGeometrySize = 1;
+            inspSeries.PointGeometrySize = 1;
+
         }
+
 
         public void LoadDataWithInterval(List<DataValues> data, int intervalMinutes = 90)
         {

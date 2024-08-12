@@ -6,21 +6,23 @@
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="600">
+
+    <UserControl.Resources>
+        <!-- 모든 PieSeries에 공통적으로 적용할 스타일 정의 -->
+        <Style TargetType="lvc:PieSeries">
+            <Setter Property="Stroke">
+                <Setter.Value>
+                    <SolidColorBrush Color="White" Opacity="0.5"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="StrokeThickness" Value="2"/>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
-        <!-- NG 분포도 제목 -->
-        <TextBlock Text="NG 분포도"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Top"
-                   FontSize="20"
-                   Margin="10,0,0,0"
-                   Foreground="White" />
-        <!-- 진한 흰색 설정 -->
         <!-- Pie chart configuration -->
         <lvc:PieChart x:Name="ngPieChartControl"
-                      VerticalAlignment="Center"
-                      Margin="0,20,30,0"
-                      Width= "300"
-                      Height="150">
+                      LegendLocation="None" InnerRadius="30">
         </lvc:PieChart>
     </Grid>
 </UserControl>

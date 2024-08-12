@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Hamtory_WPF
 {
@@ -21,20 +22,20 @@ namespace Hamtory_WPF
             {
                 Title = "OK",
                 Values = new LiveCharts.ChartValues<double> { okPercentage },
-                Fill = System.Windows.Media.Brushes.Blue,
+                Fill = new SolidColorBrush(Color.FromArgb(250, 100, 90, 190)),
                 DataLabels = true, // 데이터 레이블 표시
-                FontSize = 20,
-                LabelPoint = chartPoint => $"{okCount} ({okPercentageFormatted}%)" // 레이블 텍스트 설정: 개수 (비율)
+                FontSize = 10,
+                LabelPoint = chartPoint => $"{okCount}" // 레이블 텍스트 설정: 개수 (비율)
             };
 
             var ngSeries = new LiveCharts.Wpf.PieSeries
             {
                 Title = "NG",
                 Values = new LiveCharts.ChartValues<double> { ngPercentage },
-                Fill = System.Windows.Media.Brushes.Red,
+                Fill = new SolidColorBrush(Color.FromArgb(250, 190, 50, 50)),
                 DataLabels = true, // 데이터 레이블 표시
-                FontSize = 20,
-                LabelPoint = chartPoint => $"{ngCount} ({ngPercentageFormatted}%)" // 레이블 텍스트 설정: 개수 (비율)
+                FontSize = 10,
+                LabelPoint = chartPoint => $"{ngCount}" // 레이블 텍스트 설정: 개수 (비율)
             };
 
             ngPieChartControl.Series.Add(okSeries);

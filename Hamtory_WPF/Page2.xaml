@@ -66,6 +66,34 @@
                 </Grid>
             </Grid>
         </Grid>
-        <Button x:Name="RawDataButton" Content="Raw Data" HorizontalAlignment="Left" Height="30" Margin="26,78,0,0" VerticalAlignment="Top" Width="65" Click="RawDataButton_Click" Foreground="#FFF"/>
+        <Button x:Name="RawDataButton" Content="Raw Data" HorizontalAlignment="Left" Height="30" Margin="26,78,0,0" VerticalAlignment="Top" Width="65" Click="RawDataButton_Click" Background="{x:Null}" Foreground="White">
+            <Button.BorderBrush>
+                <SolidColorBrush Color="White" Opacity="0.7"/>
+            </Button.BorderBrush>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="ButtonBorder" 
+    Background="{TemplateBinding Background}" 
+    BorderBrush="{TemplateBinding BorderBrush}" 
+    BorderThickness="{TemplateBinding BorderThickness}" 
+    CornerRadius="7">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- MouseOver Trigger -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="LightBlue"/>
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#FFA0A0A0"/>
+                        </Trigger>
+                        <!-- Pressed Trigger -->
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="ButtonBorder" Property="Background" Value="LightBlue"/>
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#FF777777"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        
     </Grid>
 </Page>
