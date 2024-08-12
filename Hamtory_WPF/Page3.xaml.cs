@@ -31,13 +31,13 @@ namespace Hamtory_WPF
 
         private void monitoringButton_Click(object sender, RoutedEventArgs e)
         {
-            mainWindow.frame.Content = new Page1();
+            AnimationHelper.NavigateWithFade(mainWindow.frame, new Page1());
             mainWindow.MainLabel.Content = "Monitoring";
         }
 
         private void analyticsButton_Click(object sender, RoutedEventArgs e)
         {
-            mainWindow.frame.Content = new Page2();
+            AnimationHelper.NavigateWithFade(mainWindow.frame, new Page2());
             mainWindow.MainLabel.Content = "Data Analytics";
         }
     }
