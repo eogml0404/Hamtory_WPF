@@ -66,30 +66,6 @@
                 </Grid>
             </Grid>
         </Grid>
-        <Button x:Name="RawDataButton" Content="Raw Data" HorizontalAlignment="Left" Height="30" Margin="26,78,0,0" VerticalAlignment="Top" Width="65" Click="RawDataButton_Click" Foreground="#FFF1F1F1" BorderThickness="0,0,1,2" Background="#FF929292">
-            <Button.Template>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="BorderElement" 
-                    Background="{TemplateBinding Background}" 
-                    BorderBrush="{TemplateBinding BorderBrush}" 
-                    BorderThickness="{TemplateBinding BorderThickness}" 
-                    CornerRadius="7">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <!-- MouseOver Trigger -->
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="BorderElement" Property="Background" Value="#FFB0B0B0"/>
-                            <Setter TargetName="BorderElement" Property="BorderBrush" Value="#FFA0A0A0"/>
-                        </Trigger>
-                        <!-- Pressed Trigger -->
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="BorderElement" Property="Background" Value="#FF888888"/>
-                            <Setter TargetName="BorderElement" Property="BorderBrush" Value="#FF777777"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
+        <Button x:Name="RawDataButton" Content="Raw Data" HorizontalAlignment="Left" Height="30" Margin="26,78,0,0" VerticalAlignment="Top" Width="65" Click="RawDataButton_Click" Foreground="#FFF"/>
     </Grid>
 </Page>

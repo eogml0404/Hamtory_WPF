@@ -1,14 +1,12 @@
 ﻿using CsvHelper;
 using System;
-using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Data;
 using ClosedXML.Excel;
 using Microsoft.Win32;
-using System.Windows.Controls;
 
 namespace Hamtory_WPF
 {
@@ -37,7 +35,7 @@ namespace Hamtory_WPF
                     // CSV 파일을 로드하고 DataGrid에 표시
                     DataTable dataTable = LoadCsvData(csvFilePath);
                     filteredDataTable = FilterDataByDateRange(dataTable, startDateTime, endDateTime);
-                    DisplayData(dataGrid, filteredDataTable);
+                    DisplayData(filteredDataTable);
                 }
                 else
                 {
@@ -97,11 +95,10 @@ namespace Hamtory_WPF
             return filteredDataTable;
         }
 
-        private void DisplayData(DataGrid dataGrid, DataTable dataTable)
+        private void DisplayData(DataTable dataTable)
         {
             dataGrid.ItemsSource = dataTable.DefaultView;
         }
-
         private void SaveMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (filteredDataTable != null)
