@@ -1,16 +1,16 @@
-﻿using LiveCharts;
+﻿using System.Windows.Controls;
+using LiveCharts;
 using LiveCharts.Wpf;
 using System.Data;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Hamtory_WPF
 {
-    public partial class NgPieChart : UserControl
+    public partial class NGPieChartControl : UserControl
     {
-        public NgPieChart()
+        public NGPieChartControl()
         {
             InitializeComponent();
         }
@@ -42,10 +42,9 @@ namespace Hamtory_WPF
                 Values = new ChartValues<int> { ngCount },
                 DataLabels = true,
                 Fill = new SolidColorBrush(Colors.Red),
-                FontSize = 20,  
+                FontSize = 20,
                 LabelPoint = chartPoint => $"{chartPoint.Y} ({chartPoint.Participation:P1})"
             });
         }
-
     }
 }

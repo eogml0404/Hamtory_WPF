@@ -8,9 +8,9 @@ using System.Windows.Controls;
 
 namespace Hamtory_WPF
 {
-    public partial class OpChart : UserControl
+    public partial class OperationalChartControl : UserControl
     {
-        public OpChart()
+        public OperationalChartControl()
         {
             InitializeComponent();
             InitializeChart();
