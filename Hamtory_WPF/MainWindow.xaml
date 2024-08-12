@@ -36,27 +36,27 @@
         <Frame x:Name="frame" Margin="0,65,0,0" NavigationUIVisibility="Hidden"/>
 
         <!-- 로그인 -->
-        <Border x:Name="Login" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="10" Width="270" Height="200" Margin="333,10,0,0" Visibility="Visible">
+        <Border x:Name="Login" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="10" Width="270" Height="200" Margin="333,198,0,0" Visibility="Visible">
             <Border.Background>
                 <SolidColorBrush Color="Black" Opacity="0.2"/>
             </Border.Background>
             <Grid>
-                <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,36,0,0">
+                <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="48,39,0,0">
                     <Label Content="ID" HorizontalAlignment="Left" Margin="7,8,0,0" Foreground="#FFDADADA" Height="26" VerticalAlignment="Top"/>
                     <TextBox x:Name="LoginIDTextBox" HorizontalAlignment="Left" Margin="33,12,0,0" VerticalAlignment="Top" Width="130" Height="19" Background="{x:Null}" BorderThickness="0,0,0,1" Foreground="White" CaretBrush="White">
                         <TextBox.BorderBrush>
                             <SolidColorBrush Color="White" Opacity="0.9"/>
                         </TextBox.BorderBrush>
                     </TextBox>
-                    <Label Content="PW" HorizontalAlignment="Left" Margin="1,63,0,0" VerticalAlignment="Top" Foreground="#FFDADADA"/>
-                    <PasswordBox x:Name="LoginPasswordBox" HorizontalAlignment="Left" Margin="33,67,0,0" VerticalAlignment="Top" Width="130" Height="19" Background="{x:Null}" BorderThickness="0,0,0,1" CaretBrush="White" Foreground="White">
+                    <Label Content="PW" HorizontalAlignment="Left" Margin="1,52,0,0" VerticalAlignment="Top" Foreground="#FFDADADA"/>
+                    <PasswordBox x:Name="LoginPasswordBox" HorizontalAlignment="Left" Margin="33,56,0,0" VerticalAlignment="Top" Width="130" Height="19" Background="{x:Null}" BorderThickness="0,0,0,1" CaretBrush="White" Foreground="White">
                         <PasswordBox.BorderBrush>
                             <SolidColorBrush Color="White" Opacity="0.9"/>
                         </PasswordBox.BorderBrush>
                     </PasswordBox>
 
                 </Grid>
-                <Button x:Name="LoginButton" Content="Login" HorizontalAlignment="Center" VerticalAlignment="Top" Width="82" Height="26" BorderThickness="1" Foreground="White" Background="{x:Null}" Margin="0,149,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="LoginButton_Click">
+                <Button x:Name="LoginButton" Content="Login" HorizontalAlignment="Center" VerticalAlignment="Top" Width="82" Height="26" BorderThickness="1" Foreground="White" Background="{x:Null}" Margin="0,144,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="LoginButton_Click">
                     <Button.BorderBrush>
                         <SolidColorBrush Color="White" Opacity="0.7"/>
                     </Button.BorderBrush>

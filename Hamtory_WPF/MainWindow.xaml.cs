@@ -66,7 +66,7 @@ namespace Hamtory_WPF
 
         private void home_button_Click(object sender, RoutedEventArgs e)
         {
-            frame.Content = new Page3();
+            frame.Content = new Page3(this);
             MainLabel.Content = "Home";
         }
     }

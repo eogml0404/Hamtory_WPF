@@ -33,7 +33,7 @@ public class LoginManager
             mainWindow.data_button.Visibility = Visibility.Visible;
             mainWindow.home_button.Visibility = Visibility.Visible;
             mainWindow.ToDay.Visibility = Visibility.Visible;
-            //mainWindow.frame.Content = new Page3(); // 로그인 성공 시 Page3으로 이동
+            mainWindow.frame.Content = new Page3(mainWindow); // 로그인 성공 시 Page3으로 이동
         }
         else
         {
