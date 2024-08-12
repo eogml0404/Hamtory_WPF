@@ -115,8 +115,8 @@
                         LegendLocation="None" MouseEnter="stopGraph" MouseLeave="startGraph" Zoom="X">
                         <!-- Legend 추가 -->
                         <lvc:CartesianChart.AxisY>
-                                <lvc:Axis  FontSize="10" Title="Values" LabelFormatter="{Binding AxisYMelt[0].LabelFormatter}"  MinValue="0" MaxValue="2200"/>
-                        </lvc:CartesianChart.AxisY>
+                                <lvc:Axis FontSize="10" Title="Values" LabelFormatter="{Binding AxisYMelt[0].LabelFormatter}"  MinValue="0" MaxValue="2200"/>
+                            </lvc:CartesianChart.AxisY>
                     </lvc:CartesianChart>
 
                         <!-- 수분 함유량을 위한 차트 -->

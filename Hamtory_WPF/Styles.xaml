@@ -6,12 +6,16 @@
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="White" Opacity="0.1"/>
+                <SolidColorBrush Color="Black" Opacity="0.2"/>
             </Setter.Value>
         </Setter>
     </Style>
     <Style x:Key="GaugeLabelStyle" TargetType="Label">
-        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Foreground">
+            <Setter.Value>
+                <SolidColorBrush Color="White" Opacity="0.9"/>
+            </Setter.Value>
+        </Setter>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="FontSize" Value="20"/>
         <Setter Property="FontFamily" Value="Segoe UI Variable Small Semibold"/>
@@ -20,9 +24,10 @@
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="White" Opacity="0.1"/>
+                <SolidColorBrush Color="Black"  Opacity="0.2"/>
             </Setter.Value>
         </Setter>
     </Style>
+    
 
 </ResourceDictionary>
