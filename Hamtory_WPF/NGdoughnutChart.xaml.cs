@@ -32,13 +32,15 @@ namespace Hamtory_WPF
                 {
                     Title = "Chrome",
                     Values = new ChartValues<ObservableValue> { new ObservableValue(8) },
-                    DataLabels = true
+                    DataLabels = true,
+                    Fill = new SolidColorBrush(Color.FromArgb(250, 100, 90, 190)),
                 },
                 new PieSeries
                 {
                     Title = "Mozilla",
                     Values = new ChartValues<ObservableValue> { new ObservableValue(6) },
-                    DataLabels = true
+                    DataLabels = true,
+                    Fill = new SolidColorBrush(Color.FromArgb(250, 190, 50, 50)),
                 },
             };
 

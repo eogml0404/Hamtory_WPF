@@ -36,12 +36,12 @@
         <Frame x:Name="frame" Margin="0,65,0,0" NavigationUIVisibility="Hidden"/>
 
         <!-- 로그인 -->
-        <Border x:Name="Login" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="10" Width="270" Height="200" Margin="333,10,0,0" Visibility="Hidden">
+        <Border x:Name="Login" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="10" Width="270" Height="200" Margin="333,10,0,0" Visibility="Visible">
             <Border.Background>
                 <SolidColorBrush Color="Black" Opacity="0.2"/>
             </Border.Background>
             <Grid>
-                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,40">
+                <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,36,0,0">
                     <Label Content="ID" HorizontalAlignment="Left" Margin="7,8,0,0" Foreground="#FFDADADA" Height="26" VerticalAlignment="Top"/>
                     <TextBox x:Name="LoginIDTextBox" HorizontalAlignment="Left" Margin="33,12,0,0" VerticalAlignment="Top" Width="130" Height="19" Background="{x:Null}" BorderThickness="0,0,0,1" Foreground="White" CaretBrush="White">
                         <TextBox.BorderBrush>
@@ -56,9 +56,9 @@
                     </PasswordBox>
 
                 </Grid>
-                <Button x:Name="LoginButton" Content="Login" HorizontalAlignment="Center" VerticalAlignment="Top" Width="82" Height="26" BorderThickness="0,0,1,2" Foreground="White" Background="#FF989898" Margin="0,149,0,0" Click="LoginButton_Click">
+                <Button x:Name="LoginButton" Content="Login" HorizontalAlignment="Center" VerticalAlignment="Top" Width="82" Height="26" BorderThickness="1" Foreground="White" Background="{x:Null}" Margin="0,149,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="LoginButton_Click">
                     <Button.BorderBrush>
-                        <SolidColorBrush Color="#FF979797" Opacity="0.8"/>
+                        <SolidColorBrush Color="White" Opacity="0.7"/>
                     </Button.BorderBrush>
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
@@ -72,12 +72,12 @@
                             <ControlTemplate.Triggers>
                                 <!-- MouseOver Trigger -->
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="ButtonBorder" Property="Background" Value="#FFB0B0B0"/>
+                                    <Setter TargetName="ButtonBorder" Property="Background" Value="LightBlue"/>
                                     <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#FFA0A0A0"/>
                                 </Trigger>
                                 <!-- Pressed Trigger -->
                                 <Trigger Property="IsPressed" Value="True">
-                                    <Setter TargetName="ButtonBorder" Property="Background" Value="#FF888888"/>
+                                    <Setter TargetName="ButtonBorder" Property="Background" Value="LightBlue"/>
                                     <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#FF777777"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>

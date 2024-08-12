@@ -9,7 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -27,6 +26,10 @@ namespace Hamtory_WPF
 
             // Create a new ScottPlot Plot
             Plot myPlot = WpfPlot1.Plot;
+
+            myPlot.FigureBackground.Color = Color.FromHex("#07263b");
+            myPlot.DataBackground.Color = Color.FromHex("#0b3049");
+
 
             Box box1 = new()
             {
