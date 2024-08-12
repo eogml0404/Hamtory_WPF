@@ -20,9 +20,9 @@ using LiveCharts.Wpf;
 
 namespace Hamtory_WPF
 {
-    public partial class OpChart : UserControl
+    public partial class OperationalChartControl : UserControl
     {
-        public OpChart()
+        public OperationalChartControl()
         {
             InitializeComponent();
             // Initialize the chart with default settings if needed
