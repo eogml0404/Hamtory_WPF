@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 
 public class LoginManager
 {
@@ -33,7 +34,7 @@ public class LoginManager
             mainWindow.data_button.Visibility = Visibility.Visible;
             mainWindow.home_button.Visibility = Visibility.Visible;
             mainWindow.ToDay.Visibility = Visibility.Visible;
-            //mainWindow.frame.Content = new Page3(); // 로그인 성공 시 Page3으로 이동
+            AnimationHelper.NavigateWithFade(mainWindow.frame, new Page3(mainWindow)); // 로그인 성공 시 Page3으로 이동
         }
         else
         {
