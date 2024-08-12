@@ -31,7 +31,7 @@
                 <TextBox x:Name="txtStartTime" HorizontalAlignment="Left" Height="28" Margin="206,5,0,0" TextWrapping="Wrap" Text="00:00" VerticalAlignment="Center" Width="47" FontSize="15" Foreground="White" Background="{x:Null}" BorderBrush="{x:Null}"/>
                 <TextBlock x:Name="EndDateText" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="264,-1,0,0" Width="80" FontSize="15" Foreground="White" 
                            Text="{Binding ElementName=DateRangePickerControl, Path=EndDate, StringFormat='yyyy-MM-dd'}"/>
-                <TextBox x:Name="txtEndTime" HorizontalAlignment="Left" Height="28" Margin="344,5,0,0" TextWrapping="Wrap" Text="00:00" VerticalAlignment="Center" Width="47" FontSize="15" Foreground="White" Background="{x:Null}" BorderBrush="{x:Null}"/>
+                <TextBox x:Name="txtEndTime" HorizontalAlignment="Left" Height="28" Margin="344,5,0,0" TextWrapping="Wrap" Text="23:59" VerticalAlignment="Center" Width="47" FontSize="15" Foreground="White" Background="{x:Null}" BorderBrush="{x:Null}"/>
             </Grid>
         </Border>
 

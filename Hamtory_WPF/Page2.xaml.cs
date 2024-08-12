@@ -16,6 +16,11 @@ namespace Hamtory_WPF
         {
             InitializeComponent();
 
+            DateRangePickerControl.StartDate = new DateTime(2020, 4, 13);
+            DateRangePickerControl.EndDate = new DateTime(2020, 4, 16);
+
+            UpdateChartsAndGraphs();
+
             // 이벤트 핸들러 등록
             DateRangePickerControl.EndDateChanged += OnEndDateChanged;
         }
