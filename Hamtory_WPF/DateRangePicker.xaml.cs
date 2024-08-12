@@ -57,30 +57,26 @@ namespace Hamtory_WPF
                 if (isSelectingStartDate)
                 {
                     StartDate = DatePickerControl.SelectedDate.Value;
+                    DatePickerControl.DisplayDateStart = StartDate;
                     isSelectingStartDate = false;
-                    DatePickerControl.IsDropDownOpen = true;  // Keep the calendar open to select the end date
+                    DatePickerControl.IsDropDownOpen = true;  // Keep the calendar open
                 }
                 else
                 {
                     EndDate = DatePickerControl.SelectedDate.Value;
-
                     if (EndDate < StartDate)
                     {
-                        // If the EndDate is before StartDate, swap them
+                        // Swap if EndDate is before StartDate
                         var temp = StartDate;
                         StartDate = EndDate;
                         EndDate = temp;
                     }
-
-                    // Notify that the date range has changed
-                    OnDateRangeChanged();
-
-                    // Reset to allow new selection
+                    DatePickerControl.DisplayDateEnd = EndDate;
                     isSelectingStartDate = true;
                 }
+                OnDateRangeChanged();
             }
         }
-
 
         private void DatePickerControl_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
