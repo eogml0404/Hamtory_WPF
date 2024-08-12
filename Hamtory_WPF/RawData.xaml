@@ -6,14 +6,13 @@
         xmlns:local="clr-namespace:Hamtory_WPF"
         mc:Ignorable="d"
         Title="RawData" Height="450" Width="800">
-    
+
     <Grid>
         <Menu VerticalAlignment="Top" Height="22">
             <MenuItem Header="파일">
                 <MenuItem Header="저장" Click="SaveMenuItem_Click"/>
             </MenuItem>
         </Menu>
-
 
         <DataGrid x:Name="dataGrid" HorizontalAlignment="Center" VerticalAlignment="Center" AutoGenerateColumns="False" Width="780" Height="365">
             <DataGrid.Columns>

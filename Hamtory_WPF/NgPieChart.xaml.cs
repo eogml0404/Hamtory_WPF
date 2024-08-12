@@ -1,50 +1,44 @@
 ﻿using System.Windows.Controls;
-using LiveCharts;
-using LiveCharts.Wpf;
-using System.Data;
-using System.Linq;
-using System.Windows;
-using System.Windows.Media;
 
 namespace Hamtory_WPF
 {
-    public partial class NGPieChartControl : UserControl
+    public partial class NgPieChart : UserControl
     {
-        public NGPieChartControl()
+        public NgPieChart()
         {
             InitializeComponent();
         }
 
-        public void SetData(DataTable dataTable)
+        public void UpdateChart(double okPercentage, double ngPercentage, int okCount, int ngCount)
         {
-            int okCount = dataTable.AsEnumerable().Count(row => row["TAG"].ToString() == "OK");
-            int ngCount = dataTable.AsEnumerable().Count(row => row["TAG"].ToString() == "NG");
+            ngPieChartControl.Series.Clear();
 
-            if (okCount + ngCount == 0)
-            {
-                MessageBox.Show("NG/OK 데이터가 없습니다.");
-                return;
-            }
+            // 소수점 두 번째 자리까지만 표시
+            string okPercentageFormatted = okPercentage.ToString("F2");
+            string ngPercentageFormatted = ngPercentage.ToString("F2");
 
-            ngPieChart.Series.Clear();
-            ngPieChart.Series.Add(new PieSeries
+            var okSeries = new LiveCharts.Wpf.PieSeries
             {
                 Title = "OK",
-                Values = new ChartValues<int> { okCount },
-                DataLabels = true,
-                Fill = new SolidColorBrush(Colors.Blue),
+                Values = new LiveCharts.ChartValues<double> { okPercentage },
+                Fill = System.Windows.Media.Brushes.Blue,
+                DataLabels = true, // 데이터 레이블 표시
                 FontSize = 20,
-                LabelPoint = chartPoint => $"{chartPoint.Y} ({chartPoint.Participation:P1})"
-            });
-            ngPieChart.Series.Add(new PieSeries
+                LabelPoint = chartPoint => $"{okCount} ({okPercentageFormatted}%)" // 레이블 텍스트 설정: 개수 (비율)
+            };
+
+            var ngSeries = new LiveCharts.Wpf.PieSeries
             {
                 Title = "NG",
-                Values = new ChartValues<int> { ngCount },
-                DataLabels = true,
-                Fill = new SolidColorBrush(Colors.Red),
+                Values = new LiveCharts.ChartValues<double> { ngPercentage },
+                Fill = System.Windows.Media.Brushes.Red,
+                DataLabels = true, // 데이터 레이블 표시
                 FontSize = 20,
-                LabelPoint = chartPoint => $"{chartPoint.Y} ({chartPoint.Participation:P1})"
-            });
+                LabelPoint = chartPoint => $"{ngCount} ({ngPercentageFormatted}%)" // 레이블 텍스트 설정: 개수 (비율)
+            };
+
+            ngPieChartControl.Series.Add(okSeries);
+            ngPieChartControl.Series.Add(ngSeries);
         }
     }
 }
