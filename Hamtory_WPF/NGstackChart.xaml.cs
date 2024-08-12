@@ -82,7 +82,7 @@ namespace Hamtory_WPF
             // 새로운 데이터를 가져옴
             List<OK_NG> okNgList = GetOKNGList(datas, currentIndex);
 
-            // 기존 SeriesCollection의 값을 업데이트
+            // 기존 bar의 값
             var okSeries = SeriesCollection[0] as StackedColumnSeries;
             var ngSeries = SeriesCollection[1] as StackedColumnSeries;
 

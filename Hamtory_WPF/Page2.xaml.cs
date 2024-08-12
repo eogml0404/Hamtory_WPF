@@ -26,6 +26,7 @@ namespace Hamtory_WPF
             opChart.LoadSampleData();  // 초기 샘플 데이터 로드
 
             DisplayExampleNgPieChart();
+            statisticsChartControl.DisplayExampleChart();  // 예시 차트 표시
         }
 
         public void LoadData()
@@ -231,7 +232,6 @@ namespace Hamtory_WPF
             statisticsTable.Columns.Add("MOTORSPEED");
             statisticsTable.Columns.Add("MELT_WEIGHT");
 
-            // 각 열의 통계 데이터를 계산하고, 행에 추가
             var meanRow = statisticsTable.NewRow();
             meanRow["Metric"] = "Mean";
             var medianRow = statisticsTable.NewRow();
@@ -246,11 +246,11 @@ namespace Hamtory_WPF
             foreach (var column in new[] { "MELT_TEMP", "MOTORSPEED", "MELT_WEIGHT" })
             {
                 var data = table.AsEnumerable().Select(row => Convert.ToDouble(row[column])).ToList();
-                meanRow[column] = Math.Round(data.Average()); // 소수점 제거
-                medianRow[column] = Math.Round(data.Median()); // 소수점 제거
-                stdDevRow[column] = Math.Round(data.StandardDeviation()); // 소수점 제거
-                maxRow[column] = Math.Round(data.Max()); // 소수점 제거
-                minRow[column] = Math.Round(data.Min()); // 소수점 제거
+                meanRow[column] = data.Average().ToString("0.00");
+                medianRow[column] = data.Median();
+                stdDevRow[column] = data.StandardDeviation().ToString("0.00");
+                maxRow[column] = data.Max();
+                minRow[column] = data.Min();
             }
 
             statisticsTable.Rows.Add(meanRow);
