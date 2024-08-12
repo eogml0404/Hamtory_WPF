@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+﻿using System.Windows.Controls;
+
+=======
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -14,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
+>>>>>>> 7578c49a875a400b46ce4f29c79532d8e776ad17
 
 namespace Hamtory_WPF
 {
@@ -22,6 +27,8 @@ namespace Hamtory_WPF
         public Page2()
         {
             InitializeComponent();
+<<<<<<< HEAD
+=======
             DateRangePickerControl.DateRangeChanged += DateRangePickerControl_DateRangeChanged;
             opChart.LoadSampleData();
         }
@@ -51,6 +58,7 @@ namespace Hamtory_WPF
             {
                 MessageBox.Show("유효한 날짜를 선택하세요.");
             }
+>>>>>>> 7578c49a875a400b46ce4f29c79532d8e776ad17
         }
     }
 }
