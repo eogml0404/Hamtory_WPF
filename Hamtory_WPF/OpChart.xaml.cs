@@ -1,20 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using CsvHelper;
 using LiveCharts;
 using LiveCharts.Wpf;
 
@@ -25,7 +13,6 @@ namespace Hamtory_WPF
         public OpChart()
         {
             InitializeComponent();
-            // Initialize the chart with default settings if needed
         }
 
         public void SetData(ChartValues<double> meltTempData,
@@ -37,17 +24,43 @@ namespace Hamtory_WPF
             motorSpeedSeries.Values = motorSpeedData;
             meltWeightSeries.Values = meltWeightData;
             inspSeries.Values = inspData;
+
+            // Enable smooth curves for a trend line effect
+            meltTempSeries.LineSmoothness = 0.9;
+            motorSpeedSeries.LineSmoothness = 0.9;
+            meltWeightSeries.LineSmoothness = 0.9;
+            inspSeries.LineSmoothness = 0.9;
         }
 
-        public void LoadSampleData()
+        public void LoadDataWithInterval(List<DataValues> data, int intervalMinutes = 90)
         {
-            // Example of sample data
-            var meltTempData = new ChartValues<double> { 1, 2, 3, 4, 5 };
-            var motorSpeedData = new ChartValues<double> { 5, 4, 3, 2, 1 };
-            var meltWeightData = new ChartValues<double> { 2, 3, 4, 5, 6 };
-            var inspData = new ChartValues<double> { 6, 5, 4, 3, 2 };
+            var filteredData = FilterDataByInterval(data, intervalMinutes);
+
+            var meltTempData = new ChartValues<double>(filteredData.Select(d => (double)d.melt_temperature));
+            var motorSpeedData = new ChartValues<double>(filteredData.Select(d => (double)d.motor_speed));
+            var meltWeightData = new ChartValues<double>(filteredData.Select(d => (double)d.melt_weight));
+            var inspData = new ChartValues<double>(filteredData.Select(d => d.moisture));
 
             SetData(meltTempData, motorSpeedData, meltWeightData, inspData);
+
+            xAxis.Labels = filteredData.Select(d => d.date.ToString("HH:mm")).ToArray();
+        }
+
+        private List<DataValues> FilterDataByInterval(List<DataValues> data, int intervalMinutes)
+        {
+            var result = new List<DataValues>();
+            DateTime lastAddedTime = DateTime.MinValue;
+
+            foreach (var item in data)
+            {
+                if (lastAddedTime == DateTime.MinValue || (item.date - lastAddedTime).TotalMinutes >= intervalMinutes)
+                {
+                    result.Add(item);
+                    lastAddedTime = item.date;
+                }
+            }
+
+            return result;
         }
     }
 }

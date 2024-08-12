@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Hamtory_WPF"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="450" d:DataContext="{d:DesignInstance local:NGdoughnutChart}">
+             d:DesignHeight="450" d:DesignWidth="450">
 
     <UserControl.Resources>
         <!-- 모든 PieSeries에 공통적으로 적용할 스타일 정의 -->

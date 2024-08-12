@@ -4,21 +4,19 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Data;
 using ClosedXML.Excel;
 using Microsoft.Win32;
+using System.Windows.Controls;
 
 namespace Hamtory_WPF
 {
     public partial class RawData : Window
     {
-        private readonly string csvFilePath = @"melting_tank.csv"; // CSV 파일 경로 설정
         private readonly DateTime startDateTime;
         private readonly DateTime endDateTime;
+        private DataTable filteredDataTable;
 
         public RawData(DateTime startDateTime, DateTime endDateTime)
         {
@@ -33,11 +31,12 @@ namespace Hamtory_WPF
             try
             {
                 // CSV 파일이 존재하는지 확인
+                var csvFilePath = @"melting_tank.csv";
                 if (File.Exists(csvFilePath))
                 {
                     // CSV 파일을 로드하고 DataGrid에 표시
                     DataTable dataTable = LoadCsvData(csvFilePath);
-                    DataTable filteredDataTable = FilterDataByDateRange(dataTable, startDateTime, endDateTime);
+                    filteredDataTable = FilterDataByDateRange(dataTable, startDateTime, endDateTime);
                     DisplayData(dataGrid, filteredDataTable);
                 }
                 else
@@ -105,16 +104,17 @@ namespace Hamtory_WPF
 
         private void SaveMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (dataGrid.ItemsSource != null)
+            if (filteredDataTable != null)
             {
-                SaveFileDialog saveFileDialog = new SaveFileDialog();
-                saveFileDialog.Filter = "Excel Files|*.xlsx";
-                saveFileDialog.Title = "엑셀 파일 저장";
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    Filter = "Excel Files|*.xlsx",
+                    Title = "엑셀 파일 저장"
+                };
                 if (saveFileDialog.ShowDialog() == true)
                 {
                     using (XLWorkbook wb = new XLWorkbook())
                     {
-                        var filteredDataTable = ((DataView)dataGrid.ItemsSource).ToTable();
                         wb.Worksheets.Add(filteredDataTable, "FilteredData");
                         wb.SaveAs(saveFileDialog.FileName);
                     }
