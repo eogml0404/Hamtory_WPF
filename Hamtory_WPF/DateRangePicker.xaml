@@ -10,7 +10,6 @@
         <DatePicker x:Name="DatePickerControl" 
                 SelectedDateChanged="DatePickerControl_SelectedDateChanged" 
                 PreviewMouseDown="DatePickerControl_PreviewMouseDown" 
-                SelectedDate="3/04/20"
                 DisplayDateStart="3/04/20" 
                 DisplayDateEnd="4/30/20">
             <!-- 비활성화할 날짜 범위를 설정 -->

@@ -9,18 +9,7 @@
 
     <Grid>
         <!-- Statistics Title -->
-        <TextBlock Text="Statistics"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Top"
-                   FontSize="20"
-                   Margin="0,10,0,0"
-                   Foreground="White" />
-        <!-- 진한 흰색 설정 -->
-
-        <lvc:CartesianChart x:Name="StatisticsChartControl"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            Margin="0,40,0,0">
+                <lvc:CartesianChart x:Name="StatisticsChartControl">
             <!-- Adjusted Margin to accommodate the title -->
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Value" MaxValue="2200">
