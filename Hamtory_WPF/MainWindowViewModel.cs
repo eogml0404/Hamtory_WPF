@@ -112,7 +112,6 @@ namespace Hamtory_WPF
             // SeriesCollection 설정
             SeriesCollectionTemperature = new SeriesCollection
             {
-
                 new LineSeries
                 {
                     Title = "모터 속도",
