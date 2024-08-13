@@ -117,7 +117,11 @@
                         <lvc:CartesianChart.AxisY>
                                 <lvc:Axis FontSize="10" Title="Values" LabelFormatter="{Binding AxisYMelt[0].LabelFormatter}"  MinValue="0" MaxValue="2200">
                                     <lvc:Axis.Separator>
-                                        <lvc:Separator Stroke="Red"/>
+                                        <lvc:Separator>
+                                            <lvc:Separator.Stroke>
+                                                <SolidColorBrush Color="White" Opacity="0.3"/>
+                                            </lvc:Separator.Stroke>
+                                        </lvc:Separator>
                                     </lvc:Axis.Separator>
                                 </lvc:Axis>
                             </lvc:CartesianChart.AxisY>
@@ -134,7 +138,11 @@
                                 <lvc:Axis FontSize="10.8" Title="Moisture (%)"
                       LabelFormatter="{Binding AxisYMoisture[0].LabelFormatter}"  MinValue="3.1" MaxValue="3.3">
                                     <lvc:Axis.Separator>
-                                        <lvc:Separator Stroke="Red"/>
+                                        <lvc:Separator>
+                                            <lvc:Separator.Stroke>
+                                                <SolidColorBrush Color="White" Opacity="0.3"/>
+                                            </lvc:Separator.Stroke>
+                                        </lvc:Separator>
                                     </lvc:Axis.Separator>
 
                                 </lvc:Axis>
