@@ -37,6 +37,16 @@ namespace Hamtory_WPF
             meltWeightSeries.PointGeometrySize = 1;
             inspSeries.PointGeometrySize = 1;
 
+            meltTempSeries.Stroke = new SolidColorBrush(Color.FromRgb(200, 50, 50));
+            motorSpeedSeries.Stroke = new SolidColorBrush(Color.FromRgb(200, 110, 220));
+            meltWeightSeries.Stroke = new SolidColorBrush(Color.FromArgb(180, 200, 180, 100));
+            inspSeries.Stroke = new SolidColorBrush(Color.FromRgb(12, 130, 210));
+
+            meltTempSeries.Fill = new SolidColorBrush(Color.FromArgb(50, 255, 0, 0));
+            motorSpeedSeries.Fill = new SolidColorBrush(Color.FromArgb(50, 0, 0, 255));
+            meltWeightSeries.Fill = new SolidColorBrush(Color.FromArgb(50, 0, 255, 0));
+            inspSeries.Fill = new SolidColorBrush(Color.FromArgb(50, 255, 165, 0));
+
         }
 
 
@@ -51,7 +61,10 @@ namespace Hamtory_WPF
 
             SetData(meltTempData, motorSpeedData, meltWeightData, inspData);
 
-            xAxis.Labels = filteredData.Select(d => d.date.ToString("HH:mm")).ToArray();
+            xAxis.Labels = filteredData.Select(d => d.date.ToString("yy-MM-dd HH:mm")).ToArray();
+
+            // xAxis 레이블 포맷터 설정
+            xAxis.LabelFormatter = value => DateTime.FromOADate(value).ToString("yy-MM-dd HH:mm");
         }
 
         private List<DataValues> FilterDataByInterval(List<DataValues> data, int intervalMinutes)
