@@ -61,10 +61,10 @@ namespace Hamtory_WPF
 
             SetData(meltTempData, motorSpeedData, meltWeightData, inspData);
 
-            xAxis.Labels = filteredData.Select(d => d.date.ToString("yyyy-MM-dd HH:mm")).ToArray();
+            xAxis.Labels = filteredData.Select(d => d.date.ToString("yy-MM-dd HH:mm")).ToArray();
 
             // xAxis 레이블 포맷터 설정
-            xAxis.LabelFormatter = value => DateTime.FromOADate(value).ToString("yyyy-MM-dd HH:mm");
+            xAxis.LabelFormatter = value => DateTime.FromOADate(value).ToString("yy-MM-dd HH:mm");
         }
 
         private List<DataValues> FilterDataByInterval(List<DataValues> data, int intervalMinutes)

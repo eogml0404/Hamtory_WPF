@@ -68,7 +68,7 @@
         </Grid>
         <Button x:Name="RawDataButton" Content="Raw Data" HorizontalAlignment="Left" Height="30" Margin="26,78,0,0" VerticalAlignment="Top" Width="65" Click="RawDataButton_Click" Background="{x:Null}" Foreground="White">
             <Button.BorderBrush>
-                <SolidColorBrush Color="White" Opacity="0.7"/>
+                <SolidColorBrush Color="White" Opacity="0.3"/>
             </Button.BorderBrush>
             <Button.Template>
                 <ControlTemplate TargetType="Button">
